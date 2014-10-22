@@ -1,9 +1,4 @@
 TOTO:
-
-- Link RNG to the doodle experiment
-- A user can't be 2 times in the queue
-- Get the numbers, the score and the time
-- Send the results back and save them
 - Send also the rng ID
 - Put -1 at the score if gameOver
 - Put a questionnaire at the end of the experiment
@@ -16,9 +11,13 @@ TOTO:
 - Add some security (user must be login to access some pages)
 - Add some checks in the controller to avoid fake data
 - Fix issue with queue/update and setTimeout
-- add a admin/install if there is no administrator for the site
 - add a loggin system
 - configure the application to use thin webserver as pointed out in https://github.com/erasme/guidelines
 - Disable UI while ajax and display messages
 
 DONE:
+- Link RNG to the doodle experiment
+- A user can't be 2 times in the queue
+- Get the numbers, the score and the time
+- Send the results back and save them
+- add a admin/install if there is no administrator for the site
