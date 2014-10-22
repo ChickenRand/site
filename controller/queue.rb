@@ -20,9 +20,17 @@ class QueueController < Controller
   end
 
   def add(xp_id)
-    item = Queue::add_to_queue(xp_id.to_i)
-    state = Queue::get_state()
-    {item: item, state: state}
+    if(logged_in?)
+      item = Queue::add_to_queue(xp_id.to_i, user['id'])
+      if item.nil?
+        {message: "Erreur : Utilisateur déjà dans la queue ou Xp inexistante"}
+      else
+        state = Queue::get_state()
+        {item: item, state: state}
+      end
+    else
+      {message: "Erreur : Vous devez être connecté."}
+    end
   end
 
   def remove(id)

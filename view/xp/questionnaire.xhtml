@@ -1,0 +1,33 @@
+#{js('xp/questionnaire')}
+<h1>Questionnaire</h1>
+
+<p>Afin de nous aider à mieux cerner la problématique, merci de prendre 5 secondes pour répondre à ces questions.</p>
+<p>Note : aucunes questions n'est obligatoire</p>
+<form id="results_form" method="post" role="form" >
+  <div class="form-group">
+    <label for="music">Musique</label>
+    <input type="text" class="form-control" name="music" placeholder="Nom du groupe, genre...">
+    <p class="help-block">Quelle musique écoutiez vous pendant l'expérience (laissez vide si vous n'en écoutiez pas) ?</p>
+  </div>
+  <div class="form-group">
+    <label for="drug">Drogues ou autres psychotropes</label>
+    <input type="text" class="form-control" name="drug" placeholder="Café, tabac, canabis, alcool, LSD, chocolat :)...">
+    <p class="help-block">Si vous avez consommé des substances pouvant alterer votre perception de la réalité avant l'expérience, merci de le noter ici</p>
+  </div>
+  <div class="form-group">
+  	<label for="alone">Etiez-vous seul dans la pièce ?</label>
+	<div class="radio-inline">
+	  <label>
+	    <input type="radio" name="alone" value="true" checked>
+	    Oui
+	  </label>
+	</div>
+	<div class="radio-inline">
+	  <label>
+	    <input type="radio" name="alone" value="false">
+	    Non
+	  </label>
+	</div>
+  </div>
+  <button type="submit" id="submit_results_button" class="btn btn-default">Envoyer résultats</button>
+</form>

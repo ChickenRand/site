@@ -9,8 +9,10 @@ class Users < Controller
     if request.post?
       # Form has been posted, let's try to authenticate the user
       # with the supplied credentials
-      if user_login(request.subset(:email, :pass))
+      if user_login(request.subset(:email, :password))
         redirect MainController.r(:index)
+      else
+        flash[:danger] = "Email ou mot de passe invalide."
       end
     end
   end

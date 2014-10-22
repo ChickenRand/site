@@ -84,6 +84,8 @@ $(function(){
 		var args = window.location.pathname.split("/");
 		return args[args.length - 1];
 	}
+	//Expose this function to others
+	window.getXpId = getXpId;
 		
 	function addToQueue(start_directly){
 		var xp_id = getXpId();

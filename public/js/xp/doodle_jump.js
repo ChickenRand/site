@@ -6,13 +6,16 @@ window.requestAnimFrame = (function() {
   };
 })();
 
+var requestMenuId = null,
+  requestAnimId = null;
+
 var canvas = document.getElementById('canvas'),
   ctx = canvas.getContext('2d');
 
 var width = 422,
   height = 552;
 
-var timeStart = moment();
+var timeStart = Date.now();
 
 canvas.width = width;
 canvas.height = height;
@@ -475,17 +478,25 @@ function init() {
   }
 
   function checkXpEnd(){
-    if(moment() - timeStart > 120 * 1000 && (!firstRun && score != 0)){
+    if(Date.now() - timeStart > 10 * 1000 && (!firstRun && score != 0)){
       //Send Xp results
       //Changing container content
-      window.location.replace("/xp/end_xp");
+      //window.location.replace("/xp/end_xp");
+      $.get("/xp/questionnaire", function(html){
+        window.cancelAnimationFrame(requestMenuId);
+        window.cancelAnimationFrame(requestAnimId);
+        document.onkeydown = null;
+        document.onkeyup = null;
+        exitFullscreen();
+        $("#xp_container").html(html);
+      });
     }
   }
 
   menuLoop = function(){return;};
   animloop = function() {
     update();
-    requestAnimFrame(animloop);
+    requestAnimId = requestAnimFrame(animloop);
   };
 
   animloop();
@@ -639,7 +650,36 @@ function update() {
 
 menuLoop = function() {
   update();
-  requestAnimFrame(menuLoop);
+  requestMenuId = requestAnimFrame(menuLoop);
 };
 
 menuLoop();
+
+//Set up everything for the RNG and results collecting
+//Todo : use the ip in the database
+var results = {
+  date : Date.now(),
+  trials : []
+};
+var rng = new Rng("127.0.0.1", "8080");
+rng.setNumbersCb(function(numbers){
+  var nbOnes = 0;
+  var nbZeros = 0;
+  for(var i = 0; i < numbers.length; i++){
+    for(var pos = 0; pos < 8; pos++){
+      if(rng.bitAt(numbers[i], pos)){
+        nbOnes++;
+      }
+      else{
+        nbZeros++;
+      }
+    }
+  }
+  var trialRes = {
+    numbers: numbers,
+    ms: Date.now() - results.date,
+    gameScore: score,
+    diffOnes: nbOnes - nbZeros
+  };
+  results.trials.push(trialRes);
+});

@@ -7,7 +7,8 @@ class User < Sequel::Model(:user)
 
   def self.authenticate(credentials)
     u = User.first(email: credentials['email'])
-    credentials if !u.nil? and u.password == credentials['pass']
+    credentials['id'] = u.id if !u.nil?
+    credentials if !u.nil? and u.password == credentials['password']
   end
 
   def validate

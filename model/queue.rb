@@ -29,12 +29,20 @@ class Queue
     return state
   end
 
-  def self.add_to_queue(xp_id)
-    id = @@last_id
-    item = {id: id, xp_id: xp_id, start: false, last_check: Time.now}
-    @@list.push(item)
-    @@last_id = @@last_id + 1
-    return item
+  def self.add_to_queue(xp_id, user_id)
+    if self.user_in_queue?(user_id) or Xp[xp_id].nil?
+      return nil
+    else
+      id = @@last_id
+      item = {id: id, xp_id: xp_id, user_id: user_id, start: false, last_check: Time.now}
+      @@list.push(item)
+      @@last_id = @@last_id + 1
+      return item
+    end
+  end
+
+  def self.user_in_queue?(user_id)
+    @@list.rindex{|item| item[:user_id] == user_id} != nil
   end
 
   def self.get_queue_item(item_id)
@@ -58,9 +66,7 @@ class Queue
   end
 
   def self.start_experiment(item_id)
-    puts "Item id = #{item_id} list=#{@@list}"
-    index = @@list.rindex{|item| puts "looking to =#{item} #{item[:id].class} and #{item_id.class}";item[:id] == item_id}
-    puts "index=#{index}"
+    index = @@list.rindex{|item| item[:id] == item_id}
     return nil if index.nil? or index != 0
     item = @@list[index]
     item[:start] = true
@@ -71,10 +77,8 @@ class Queue
     now = Time.now
     @@list.each do |item|
       if now - item[:last_check] > 30.0
-        puts "deleting an item"
         @@list.delete(item)
       elsif item[:time_on_top] and now - item[:time_on_top] > 30.0
-        puts "deleting an item"
         @@list.delete(item)
       end
     end
