@@ -1,0 +1,28 @@
+#{js('xp/start')}
+<div id="before_container">
+	<div class="jumbotron text-center">
+		<p>Le générateur de nombres aléatoires est libre, vous pouvez dès à présent commencer l'expérience !</p>
+		<button id="start_xp" type="button" class="btn btn-primary btn-lg">Commencer l'expérience !</button>
+	</div>
+</div>
+<div id="queue_container" class="hide">
+	<div class="jumbotron text-center">
+		<p>Des personnes sont déjà en train d'effectuer l'expérience, le temps d'attente est estimé à :</p>
+		<h4 id="estimated_time"></h4>
+		<button id="add_queue" type="button" class="btn btn-primary btn-lg">Me mettre dans la file d'attente</button>
+	</div>
+</div>
+<div id="xp_container" class="hide">
+	<div id="start_xp">
+		<div class="jumbotron text-center">
+			<h2>Attention </h2>
+
+			<p>Ceci est une expérience à caractère scientifique. Aussi, afin de récolter des résultats les plus pertinants possibles, nous vous demanderons de rester concentré tout le long et (si possible) de vous mettre dans un endroit exempt de sollicitations extérieures (nuisances sonore, personnes etc.). Vous pouvez toutefois écoutez de la musique si vous pensez que cela peut vous aider à vous concentrer.</p>
+
+			<p>Afin de maximiser votre concentration, merci de bien vouloir mettre cette page en plein écran en cliquant sur le bouton ci-dessous et de le rester tout le long de l’expérience.</p>
+			<a id="no_full_screen" href="http://getfirefox.com" class="btn btn-primary btn-lg active hide" role="button">Impossible de mettre votre navigateur en mode plein écran</a>
+			<a id="load_xp" href="#" class="btn btn-primary btn-lg active hide" role="button">Démarrer l'expérience</a>
+			<button id="full_screen" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-fullscreen"></span> Mettre en plein écran</button>
+		</div>
+	</div>
+</div>

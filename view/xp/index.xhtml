@@ -1,0 +1,7 @@
+Voici la liste des expérimentations à passer :
+
+<ul>
+	<?r @xps.each do |xp| ?>
+		<li><a href="#{Xps.r(:start, xp.id)}">#{xp.name}</a></li>
+	<?r end ?>
+</ul>

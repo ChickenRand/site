@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+
+        <title>ChickenRun - #{@title}</title>
+
+        #{css('bootstrap.min')}
+        #{js('jquery-1.11.1.min')}
+    </head>
+    <body>
+        <div class="container">
+            <?r {success: "Cool", danger: "Dommage", info: "Information", warning: "Attention"}.each do |type, name| ?>
+              <?r if flash[type] ?>
+                <div class="alert alert-block alert-#{type} fade in" role="alert">
+                  <a class="close" data-dismiss="alert" href="#">×</a>
+                  <p><strong>#{name.capitalize}!</strong> #{flash[type]}</p>
+                </div>
+              <?r end ?>
+            <?r end ?>
+            <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+                <div class="navbar-header">
+                  <button class="navbar-toggle" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a href="../" class="navbar-brand">ChickenRand</a>
+                </div>
+                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                  <ul class="nav navbar-nav">
+                    <li>
+                      <a href="#{MainController.r(:about)}">A Propos</a>
+                    </li>
+                    <li>
+                      <a href="#{Xps.r(:index)}">Expériences</a>
+                    </li>
+                    <li>
+                      <a href="#">Résultats</a>
+                    </li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                    <?r if user and logged_in? ?>
+                        <li><a href="#{Users.r(:logout)}">Déconnexion</a></li>
+                    <?r else ?>
+                        <li><a href="#{Users.r(:login)}">Connexion</a></li>
+                        <li><a href="#">Inscription</a></li>
+                    <?r end ?>
+                  </ul>
+                </nav>
+            
+            </header>
+            #{@content}
+            <footer class="bs-docs-footer">
+                <div class="footer">
+                    <p>♥ de l'équipe de ChickenRand</p>
+                </div>
+            </footer>
+        </div>
+        #{js('bootstrap.min')}
+        #{js('moment-with-locales.min')}
+        #{js('util')}
+    </body>
+</html>
