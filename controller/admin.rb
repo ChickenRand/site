@@ -3,12 +3,17 @@ require 'pony'
 class AdminController < Controller
   map '/admin'
 
-  def index
+  before_all do
     #if nobody is admin, it means we need to create one
     admin = User.first(admin: true)
     if admin.nil?
       redirect AdminController.r(:install)
+    else
+      redirect_referrer unless logged_in? and user['admin']
     end
+  end
+
+  def index
   end
 
   def install

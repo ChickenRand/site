@@ -3,6 +3,7 @@ TOTO:
 - Add some checks in the controller to avoid fake data
 - Fix issue with queue/update and setTimeout
 - configure the application to use thin webserver as pointed out in https://github.com/erasme/guidelines
+- Set up the Raspberry pi
 - Push everything to heroku
 - link the domain name
 - add a loggin system
@@ -11,6 +12,7 @@ TOTO:
 - Use database duration for DoodleJump duration
 - Test RNG viability with the ratio 1/0 and the number's repartition
 - Build a minimalistic admin panel for managing xps and RNG at least, users at best
+- Add a discalaimer if the user is on IE or on mobile
 
 DONE:
 
