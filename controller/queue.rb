@@ -11,7 +11,10 @@ class QueueController < Controller
   end
 
   def state
-    Queue::get_state()
+    #Sometime user hit F5 and recall get_state, so we need to give him his item
+    item = Queue::get_user_queue_item(user['id'].to_i)
+    state = Queue::get_state()
+    {item: item, state: state}
   end
 
   def update(id)
@@ -21,7 +24,7 @@ class QueueController < Controller
 
   def add(xp_id)
     if(logged_in?)
-      item = Queue::add_to_queue(xp_id.to_i, user['id'])
+      item = Queue::add_to_queue(xp_id.to_i, user['id'].to_i)
       if item.nil?
         {message: "Erreur : Utilisateur déjà dans la queue ou Xp inexistante"}
       else
@@ -40,7 +43,7 @@ class QueueController < Controller
   def start(id)
     item = Queue::start_experiment(id.to_i)
     if item.nil?
-      {message: "Erreur : vous ne pas commencer une expérience si vous n'êtes pas au dessus de la pile."}
+      {message: "Erreur : vous ne pas commencer une expérience si vous n'êtes pas au dessus dans la queue."}
     else
       Rng.first.values
     end

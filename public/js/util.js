@@ -21,3 +21,11 @@ function exitFullscreen(){
 	    document.msExitFullscreen();
 	}
 }
+
+function displayAlert(type, message){
+	typeMessages = {success: "Cool", danger: "Dommage", info: "Information", warning: "Attention"};
+	var html = '<div class="alert alert-block alert-' + type + ' fade in" role="alert">';
+	html += '<a class="close" data-dismiss="alert" href="#">×</a>';
+	html += '<p><strong>' + typeMessages[type] + ' ! </strong>' + message + '</p></div>';
+	$('#alert_placeholder').html(html);
+}

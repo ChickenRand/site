@@ -3,6 +3,18 @@ class Xps < Controller
 
   layout :default
   set_layout nil => [ :ajax_load, :questionnaire ]
+
+  before_all do
+    if !logged_in?
+      if request.xhr?
+        respond!({message: "Vous devez être connecté pour participer aux expériences."}.to_json, 401, 'Content-Type' => 'application/json')
+      else
+        flash[:warning] = "Vous devez être connecté pour participer aux expériences."
+        redirect Users.r(:login)
+      end
+    end
+  end
+
   def index
     @xps = Xp.all
   end

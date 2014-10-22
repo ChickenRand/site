@@ -18,7 +18,7 @@ class Queue
       else
         estimated_time += Xp[item[:xp_id]].estimated_time
       end
-      break if item_id == index
+      break if item_id - 1 == index
     end
     return estimated_time
   end
@@ -26,6 +26,7 @@ class Queue
   def self.get_state
     state = {length: @@list.length}
     state[:estimated_time] = self.get_estimated_time()
+    state[:item_on_top] = @@list.length > 0 ? @@list[0][:id] : nil
     return state
   end
 
@@ -43,6 +44,12 @@ class Queue
 
   def self.user_in_queue?(user_id)
     @@list.rindex{|item| item[:user_id] == user_id} != nil
+  end
+
+  def self.get_user_queue_item(user_id)
+    index = @@list.rindex{|item| item[:user_id] == user_id}
+    return nil if index.nil?
+    item = @@list[index]
   end
 
   def self.get_queue_item(item_id)
@@ -76,9 +83,13 @@ class Queue
   def self.check_inactive_items()
     now = Time.now
     @@list.each do |item|
-      if now - item[:last_check] > 30.0
-        @@list.delete(item)
-      elsif item[:time_on_top] and now - item[:time_on_top] > 30.0
+      if !item[:start]
+        if now - item[:last_check] > Configuration::MAX_TIME_BETWEEN_UPDATE
+          @@list.delete(item)
+        elsif item[:time_on_top] and now - item[:time_on_top] > Configuration::MAX_TIME_BETWEEN_UPDATE
+          @@list.delete(item)
+        end
+      elsif now - item[:last_check] > Configuration::MAX_XP_TIME
         @@list.delete(item)
       end
     end

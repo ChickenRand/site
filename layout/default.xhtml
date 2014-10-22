@@ -10,6 +10,7 @@
     </head>
     <body>
         <div class="container">
+          <div id="alert_placeholder"></div>
             <?r {success: "Cool", danger: "Dommage", info: "Information", warning: "Attention"}.each do |type, name| ?>
               <?r if flash[type] ?>
                 <div class="alert alert-block alert-#{type} fade in" role="alert">
@@ -37,7 +38,7 @@
                       <a href="#{Xps.r(:index)}">Expériences</a>
                     </li>
                     <li>
-                      <a href="#">Résultats</a>
+                      <a href="#{MainController.r(:results)}">Résultats</a>
                     </li>
                     <?r if user and logged_in? and user['admin'] ?>
                     <li>

@@ -1,16 +1,12 @@
 class Users < Controller
   map '/user'
 
-  def create
-
-  end
-
   def login
     if request.post?
       # Form has been posted, let's try to authenticate the user
       # with the supplied credentials
       if user_login(request.subset(:email, :password))
-        redirect MainController.r(:index)
+        redirect_referrer
       else
         flash[:danger] = "Email ou mot de passe invalide."
       end
@@ -34,6 +30,7 @@ class Users < Controller
         else
           begin
             User.create(request.subset(:email, :password, :age, :laterality, :believer, :sex))
+            redirect MainController.r(:index)
           rescue => e
             flash[:danger] = "Erreur lors de la création du compte : #{e.message}"
           end

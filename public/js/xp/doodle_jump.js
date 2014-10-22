@@ -490,6 +490,7 @@ function init() {
         document.onkeydown = null;
         document.onkeyup = null;
         exitFullscreen();
+        removeFromQueue();
         $("#xp_container").html(html);
       });
     }
