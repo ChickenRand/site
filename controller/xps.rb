@@ -2,7 +2,7 @@ class Xps < Controller
 	map '/xp'
 
 	layout :default
-	set_layout nil => [ :ajax_load ]
+	set_layout nil => [ :ajax_load, :end ]
 	def index
 		@xps = Xp.all
 	end

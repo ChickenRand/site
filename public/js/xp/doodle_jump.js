@@ -12,6 +12,8 @@ var canvas = document.getElementById('canvas'),
 var width = 422,
   height = 552;
 
+var timeStart = moment();
+
 canvas.width = width;
 canvas.height = height;
 
@@ -431,6 +433,7 @@ function init() {
   }
 
   function gameOver() {
+    firstRun = false;
     platforms.forEach(function(p, i) {
       p.y -= 12;
     });
@@ -441,16 +444,16 @@ function init() {
     } 
     else if(player.y < height / 2) flag = 1;
     else if(player.y + player.height > height) {
-      showGoMenu();
-      hideScore();
-      player.isDead = "lol";
+      reset();
+      // showGoMenu();
+      // hideScore();
+      // player.isDead = "lol";
 
-      var tweet = document.getElementById("tweetBtn");
-      tweet.href='http://twitter.com/share?url=http://is.gd/PnFFzu&text=I just scored ' +score+ ' points in the HTML5 Doodle Jump game!&count=horiztonal&via=cssdeck&related=solitarydesigns';
+      // var tweet = document.getElementById("tweetBtn");
+      // tweet.href='http://twitter.com/share?url=http://is.gd/PnFFzu&text=I just scored ' +score+ ' points in the HTML5 Doodle Jump game!&count=horiztonal&via=cssdeck&related=solitarydesigns';
     
-      var facebook = document.getElementById("fbBtn");
-      facebook.href='http://facebook.com/sharer.php?s=100&p[url]=http://cssdeck.com/labs/html5-doodle-jump/8&p[title]=I just scored ' +score+ ' points in the HTML5 Doodle Jump game!&p[summary]=Can you beat me in this awesome recreation of Doodle Jump created in HTML5?';
-
+      // var facebook = document.getElementById("fbBtn");
+      // facebook.href='http://facebook.com/sharer.php?s=100&p[url]=http://cssdeck.com/labs/html5-doodle-jump/8&p[title]=I just scored ' +score+ ' points in the HTML5 Doodle Jump game!&p[summary]=Can you beat me in this awesome recreation of Doodle Jump created in HTML5?';
     }
   }
 
@@ -468,6 +471,15 @@ function init() {
     base.draw();
 
     updateScore();
+    checkXpEnd();
+  }
+
+  function checkXpEnd(){
+    if(moment() - timeStart > 120 * 1000 && (!firstRun && score != 0)){
+      //Send Xp results
+      //Changing container content
+      window.location.replace("/xp/end_xp");
+    }
   }
 
   menuLoop = function(){return;};
