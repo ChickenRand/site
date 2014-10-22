@@ -663,25 +663,27 @@ var results = {
   date : Date.now(),
   trials : []
 };
-var rng = new Rng("127.0.0.1", "8080");
-rng.setNumbersCb(function(numbers){
-  var nbOnes = 0;
-  var nbZeros = 0;
-  for(var i = 0; i < numbers.length; i++){
-    for(var pos = 0; pos < 8; pos++){
-      if(rng.bitAt(numbers[i], pos)){
-        nbOnes++;
-      }
-      else{
-        nbZeros++;
+if(AVAILABLE_RNG != null){
+  var rng = new Rng(AVAILABLE_RNG.url);
+  rng.setNumbersCb(function(numbers){
+    var nbOnes = 0;
+    var nbZeros = 0;
+    for(var i = 0; i < numbers.length; i++){
+      for(var pos = 0; pos < 8; pos++){
+        if(rng.bitAt(numbers[i], pos)){
+          nbOnes++;
+        }
+        else{
+          nbZeros++;
+        }
       }
     }
-  }
-  var trialRes = {
-    numbers: numbers,
-    ms: Date.now() - results.date,
-    gameScore: score,
-    diffOnes: nbOnes - nbZeros
-  };
-  results.trials.push(trialRes);
-});
+    var trialRes = {
+      numbers: numbers,
+      ms: Date.now() - results.date,
+      gameScore: score,
+      diffOnes: nbOnes - nbZeros
+    };
+    results.trials.push(trialRes);
+  });  
+}

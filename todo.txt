@@ -1,9 +1,9 @@
 TOTO:
-- Send also the rng ID
-- Put a questionnaire at the end of the experiment
+- Manage whitelist on account creation
 - Use database duration for DoodleJump duration
 - Remove from the queue
 - Create a subscription form
+- Test RNG viability with the ratio 1/0 and the number's repartition
 - Build a minimalistic admin panel for managing xps and RNG at least, users at best
 - Push everything to heroku
 - link the domain name
@@ -13,11 +13,16 @@ TOTO:
 - add a loggin system
 - configure the application to use thin webserver as pointed out in https://github.com/erasme/guidelines
 - Disable UI while ajax and display messages
+- Create a new XP with a fountain
 
 DONE:
+- Url and infos in the Rng need to be not null
+- Send also the rng ID
+- Add RNG state (available, busy, not connected) in the admin panel
 - Link RNG to the doodle experiment
 - A user can't be 2 times in the queue
 - Get the numbers, the score and the time
 - Send the results back and save them
 - add a admin/install if there is no administrator for the site
 - Put -1 at the score if gameOver
+- Put a questionnaire at the end of the experiment

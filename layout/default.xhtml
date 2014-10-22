@@ -39,6 +39,11 @@
                     <li>
                       <a href="#">Résultats</a>
                     </li>
+                    <?r if user and logged_in? and user['admin'] ?>
+                    <li>
+                      <a href="#{AdminController.r(:index)}">Admin</a>
+                    </li>
+                    <?r end ?>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                     <?r if user and logged_in? ?>

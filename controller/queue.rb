@@ -42,7 +42,7 @@ class QueueController < Controller
     if item.nil?
       {message: "Erreur : vous ne pas commencer une expérience si vous n'êtes pas au dessus de la pile."}
     else
-      Rng.first
+      Rng.first.values
     end
   end
 end

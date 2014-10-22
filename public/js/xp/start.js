@@ -1,4 +1,6 @@
 $(function(){
+	//WARNING GLOBAL
+	window.AVAILABLE_RNG = null;
 	var item_id = null;
 	var update_timeout = null;
 	if(document.fullscreenEnabled){
@@ -25,7 +27,7 @@ $(function(){
 			$("#add_queue").html("Me retirer de la file d'attente");
 		}
 		else{
-			removeFromQueue(item_id);
+			removeFromQueue();
 			item_id = null;
 			$("#add_queue").html("Me mettre dans la file d'attente");
 		}
@@ -107,11 +109,14 @@ $(function(){
 		});		
 	}
 
-	function removeFromQueue(id){
-		$.post("/queue/remove/" + id + ".json", function(data){
-			console.log(data);
-		});
+	function removeFromQueue(){
+		if(item_id != null){
+			$.post("/queue/remove/" + item_id + ".json", function(data){
+			});			
+		}
 	}
+	//Need to be accessible from outside when finishing the xp
+	window.removeFromQueue = removeFromQueue;
 
 	function startExperiment(id){
 		$.post("/queue/start/" + id + ".json", function(data){
@@ -119,7 +124,7 @@ $(function(){
 				alert(data.message);
 			}
 			else{
-				console.log("Let's get Rock'n'Roll baby ! ", data);
+				AVAILABLE_RNG = data;
 				showXp();
 			}
 		});

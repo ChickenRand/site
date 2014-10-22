@@ -23,7 +23,7 @@ $(function(){
 	$(".rng-url").each(function(i, e){
 		var url = $(e).html();
 		var rngId = $(e).attr("id").split('_')[2];
-		var rng = new Rng(url, "8080", rngId, onNumbers, onErrors);
+		var rng = new Rng(url, rngId, onNumbers, onErrors);
 		rng_list.push(rng);
 	});
 
