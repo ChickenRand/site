@@ -1,21 +1,22 @@
 TOTO:
-- Manage whitelist on account creation
-- Use database duration for DoodleJump duration
-- Remove from the queue
-- Create a subscription form
-- Test RNG viability with the ratio 1/0 and the number's repartition
-- Build a minimalistic admin panel for managing xps and RNG at least, users at best
-- Push everything to heroku
-- link the domain name
 - Add some security (user must be login to access some pages)
 - Add some checks in the controller to avoid fake data
 - Fix issue with queue/update and setTimeout
-- add a loggin system
 - configure the application to use thin webserver as pointed out in https://github.com/erasme/guidelines
+- Push everything to heroku
+- link the domain name
+- add a loggin system
 - Disable UI while ajax and display messages
 - Create a new XP with a fountain
+- Use database duration for DoodleJump duration
+- Test RNG viability with the ratio 1/0 and the number's repartition
+- Build a minimalistic admin panel for managing xps and RNG at least, users at best
 
 DONE:
+
+- Create a subscription form
+- Manage whitelist on account creation
+- Remove from the queue
 - Url and infos in the Rng need to be not null
 - Send also the rng ID
 - Add RNG state (available, busy, not connected) in the admin panel

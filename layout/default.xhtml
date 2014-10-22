@@ -14,7 +14,7 @@
               <?r if flash[type] ?>
                 <div class="alert alert-block alert-#{type} fade in" role="alert">
                   <a class="close" data-dismiss="alert" href="#">×</a>
-                  <p><strong>#{name.capitalize}!</strong> #{flash[type]}</p>
+                  <p><strong>#{name.capitalize} !</strong> #{flash[type]}</p>
                 </div>
               <?r end ?>
             <?r end ?>
@@ -50,7 +50,7 @@
                         <li><a href="#{Users.r(:logout)}">Déconnexion</a></li>
                     <?r else ?>
                         <li><a href="#{Users.r(:login)}">Connexion</a></li>
-                        <li><a href="#">Inscription</a></li>
+                        <li><a href="#{Users.r(:signup)}">Inscription</a></li>
                     <?r end ?>
                   </ul>
                 </nav>

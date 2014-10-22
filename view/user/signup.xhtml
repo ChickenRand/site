@@ -1,0 +1,67 @@
+<div class="alert alert-warning" role="alert">
+<p><strong>Attention ! </strong>Le site est pour l'instant en Béta et les inscription ne sont ouverte qu'à ceux qui ont reçu une email d'invitation.</p>
+</div>
+<form method="post" action="#{Users.r(:signup)}" role="form" >
+  <div class="form-group">
+    <label for="email">Adresse email</label>
+    <input type="email" class="form-control" name="email" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label for="password">Mot de passe</label>
+    <input type="password" class="form-control" name="password" placeholder="Mot de passe">
+  </div>
+  <div class="form-group">
+    <label for="password_confirm">Confirmation du mot de passe</label>
+    <input type="password" class="form-control" name="password_confirm" placeholder="Mot de passe">
+  </div>
+  <div class="form-group">
+    <label for="age">Age</label>
+    <input type="number" class="form-control" name="age" placeholder="25">
+  </div>
+  <div class="form-group">
+  	<label for="laterality">Etes-vous gaucher ou droitier ?</label>
+  	<div class="radio-inline">
+  	  <label>
+  	    <input type="radio" name="laterality" value="left" checked>
+  	    Gaucher
+  	  </label>
+  	</div>
+  	<div class="radio-inline">
+  	  <label>
+  	    <input type="radio" name="laterality" value="right">
+  	    Droitier
+  	  </label>
+  	</div>
+  </div>
+  <div class="form-group">
+  	<label for="believer">Croyiez-vous que votre intention puisse influencer la matière de quelque manière que ce soit ?</label>
+  	<div class="radio-inline">
+  	  <label>
+  	    <input type="radio" name="believer" value="true" checked>
+  	    Oui
+  	  </label>
+  	</div>
+  	<div class="radio-inline">
+  	  <label>
+  	    <input type="radio" name="believer" value="false">
+  	    Non
+  	  </label>
+  	</div>
+  </div>
+<div class="form-group">
+  	<label for="sex">Etes-vous une femme ou un homme ?</label>
+  	<div class="radio-inline">
+  	  <label>
+  	    <input type="radio" name="sex" value="F" checked>
+  	    Femme
+  	  </label>
+  	</div>
+  	<div class="radio-inline">
+  	  <label>
+  	    <input type="radio" name="sex" value="M">
+  	    Homme
+  	  </label>
+  	</div>
+  </div> 
+  <button type="submit" class="btn btn-default">Inscription</button>
+</form>

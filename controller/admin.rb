@@ -1,3 +1,5 @@
+require 'pony'
+
 class AdminController < Controller
   map '/admin'
 
@@ -37,6 +39,31 @@ class AdminController < Controller
   end
 
   def invite_users
+    if request.post? and !request.params['emails'].nil?
+      request.params['emails'].split(';').each do |s|
+        s.strip!
+        WhiteList.create(email: s) if WhiteList.first(email: s).nil?
+        begin
+          Pony.mail(:to => s, :from => 'admin@chickenrand.com', :subject => 'Invitation', :body => 'Hello, Joe.')
+        rescue => e
+          flash[:danger] = "Une erreur est survenue pendant l'envoie des mails. #{e.message}"
+          redirect AdminController.r(:invite_users)
+        end
+      end
+    else
+      @white_list = WhiteList.all
+    end
+  end
+
+  def remove_from_white_list(id)
+    email = WhiteList[id]
+    if email.nil?
+      flash[:warning] = "Email inexistant"
+    else
+      email.delete
+      flash[:success] = "Email bien supprimé"
+    end
+    redirect AdminController.r(:invite_users)
   end
 
   def delete_user(id)
