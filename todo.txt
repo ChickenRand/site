@@ -1,6 +1,5 @@
 TOTO:
 - Send also the rng ID
-- Put -1 at the score if gameOver
 - Put a questionnaire at the end of the experiment
 - Use database duration for DoodleJump duration
 - Remove from the queue
@@ -21,3 +20,4 @@ DONE:
 - Get the numbers, the score and the time
 - Send the results back and save them
 - add a admin/install if there is no administrator for the site
+- Put -1 at the score if gameOver

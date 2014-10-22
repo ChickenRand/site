@@ -437,6 +437,8 @@ function init() {
 
   function gameOver() {
     firstRun = false;
+    //We need to know if the user is falling for the experiment
+    score = -1;
     platforms.forEach(function(p, i) {
       p.y -= 12;
     });
