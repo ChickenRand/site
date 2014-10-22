@@ -1,0 +1,34 @@
+<form class="form-inline" method="post" role="form" action="#{AdminController.r(:add_xp)}">
+	<div class="form-group">
+	  	<label class="sr-only" for="infos">Infos</label>
+    	<input type="text" class="form-control" name="infos" placeholder="Email of the person, name of the machine...">
+	</div>
+	<div class="form-group">
+	 	<label class="sr-only" for="url">URL</label>
+    	<input type="text" class="form-control" name="url" placeholder="url or ip adresse...">
+	</div>
+	<button type="submit" class="btn btn-default">Ajouter RNG</button>
+</form>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Infos</th>
+			<th>url</th>
+			<th>Etat</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?r @rngs.each do |rng| ?>
+			<tr>
+				<td>#{rng.id}</td>
+				<td>#{rng.infos}</td>
+				<td id="rng_url_#{rng.id}" class="rng-url">#{rng.url}</td>
+				<td><span id="rng_status_#{rng.id}" class="rng-status label label-default">Inconnu</span></td>
+				<td><a href="#{AdminController.r(:delete_rng)}/#{rng.id}">Supprimer</a></td>
+			</tr>
+		<?r end ?>
+	</tbody>
+</table>
