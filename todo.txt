@@ -1,7 +1,6 @@
 TOTO:
 - Add some checks in the controller to avoid fake data
 - configure the application to use thin webserver as pointed out in https://github.com/erasme/guidelines
-- Set up the Raspberry pi
 - Push everything to heroku
 - link the domain name
 - add a loggin system
@@ -13,6 +12,7 @@ TOTO:
 - Add a discalaimer if the user is on IE or on mobile
 
 DONE:
+- Set up the Raspberry pi
 - Fix issue with queue/update and setTimeout
 - Fix queue Problème if we hit F5...
 - Add some security (user must be login to access some pages)

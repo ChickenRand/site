@@ -45,7 +45,7 @@ class QueueController < Controller
     if item.nil?
       {message: "Erreur : vous ne pas commencer une expérience si vous n'êtes pas au dessus dans la queue."}
     else
-      Rng.first.values
+      Rng[status: true].values
     end
   end
 end

@@ -16,7 +16,10 @@ $(function(){
 		var span = $("#rng_status_" + id);
 		span.html(status);
 		span.removeClass('label-default');
-		span.addClass('label-' + label);		
+		span.addClass('label-' + label);
+		var ok = label === "danger" ? false : true;
+		$.post('/admin/set_rng_status/' + id + '.json', {status:ok}, function(data){
+		});
 	}
 
 	var rng_list = [];

@@ -480,7 +480,7 @@ function init() {
   }
 
   function checkXpEnd(){
-    if(Date.now() - timeStart > 10 * 1000 && (!firstRun && score != 0)){
+    if(Date.now() - timeStart > 120 * 1000 && (!firstRun && score != 0)){
       //Send Xp results
       //Changing container content
       //window.location.replace("/xp/end_xp");

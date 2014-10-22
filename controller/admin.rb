@@ -2,6 +2,8 @@ require 'pony'
 
 class AdminController < Controller
   map '/admin'
+  layout :default
+  set_layout nil => [ :set_rng_status ]
 
   before_all do
     #if nobody is admin, it means we need to create one
@@ -11,6 +13,11 @@ class AdminController < Controller
     else
       redirect_referrer unless logged_in? and user['admin']
     end
+  end
+
+  provide(:json, :type => 'application/json') do |action, value|
+    # "value" is the response body from our controller's method
+    value.to_json
   end
 
   def index
@@ -102,13 +109,30 @@ class AdminController < Controller
     if rng.nil?
       flash[:warning] = "Rng inexistant"
     else
-      rng.delete
-      flash[:success] = "Rng supprimé"
+      begin
+        rng.delete
+        flash[:success] = "Rng supprimé"
+      rescue => e
+        flash[:danger] = "Erreur lors de la suppression du Rng #{e.message}"
+      end
     end
     redirect AdminController.r(:rngs)
   end
 
   def xps
     @xps = Xp.all
+  end
+
+  def set_rng_status(rng_id)
+    rng = Rng[rng_id]
+    if !rng.nil?
+      rng.status = request.params['status']
+      begin
+        rng.save
+        {message: "OK"}
+      rescue => e
+        {message: "Erreur : #{e.message}"}
+      end
+    end
   end
 end
