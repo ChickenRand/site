@@ -15,18 +15,18 @@ class QueueController < Controller
   end
 
   def update(id)
-    Queue::update_queue_item(id)
+    Queue::update_queue_item(id.to_i)
     Queue::get_state()
   end
 
   def add(xp_id)
-    item = Queue::add_to_queue(xp_id)
+    item = Queue::add_to_queue(xp_id.to_i)
     state = Queue::get_state()
     {item: item, state: state}
   end
 
   def remove(id)
-    Queue::remove_from_queue(id)
+    Queue::remove_from_queue(id.to_i)
   end
 
   def start(id)

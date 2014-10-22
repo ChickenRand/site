@@ -1,0 +1,13 @@
+TOTO:
+
+- Link RNG to the doodle experiment
+- Get the numbers, the score and the time
+- Send the results back and save them
+- Create a subscription form
+- Build a minimalistic admin panel for managing xps and RNG at least, users at best
+- Push everything to heroku
+- link the domain name
+- Add some security (user must be login to access some pages)
+- Add some checks in the controller to avoid fake data
+
+DONE:
