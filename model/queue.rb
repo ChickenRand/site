@@ -62,7 +62,6 @@ class Queue
     index = @@list.rindex{|item| item[:id] == item_id}
     return nil if index.nil?
     @@list.delete(@@list[index])
-    @@list[0][:time_on_top] = Time.now if index == 0
   end
 
   def self.update_queue_item(item_id)
@@ -85,8 +84,6 @@ class Queue
     @@list.each do |item|
       if !item[:start]
         if now - item[:last_check] > Configuration::MAX_TIME_BETWEEN_UPDATE
-          @@list.delete(item)
-        elsif item[:time_on_top] and now - item[:time_on_top] > Configuration::MAX_TIME_BETWEEN_UPDATE
           @@list.delete(item)
         end
       elsif now - item[:last_check] > Configuration::MAX_XP_TIME
