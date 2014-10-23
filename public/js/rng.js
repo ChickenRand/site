@@ -53,7 +53,7 @@ $(function(){
 		};
 		for(var i = 0; i < trialRes.numbers.length; i++){
 			for(var pos = 0; pos < 8; pos++){
-        		rng.bitAt(trialRes.numbers[i], pos) ? trialRes.nbOnes++ : trialRes.nbZeros++;
+        		this.bitAt(trialRes.numbers[i], pos) ? trialRes.nbOnes++ : trialRes.nbZeros++;
 			}
 		}
 		if (this.numbersCb != null) {
