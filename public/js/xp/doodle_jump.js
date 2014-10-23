@@ -479,23 +479,6 @@ function init() {
     checkXpEnd();
   }
 
-  function checkXpEnd(){
-    if(Date.now() - timeStart > 120 * 1000 && (!firstRun && score != 0)){
-      //Send Xp results
-      //Changing container content
-      //window.location.replace("/xp/end_xp");
-      $.get("/xp/questionnaire", function(html){
-        window.cancelAnimationFrame(requestMenuId);
-        window.cancelAnimationFrame(requestAnimId);
-        document.onkeydown = null;
-        document.onkeyup = null;
-        exitFullscreen();
-        removeFromQueue();
-        $("#xp_container").html(html);
-      });
-    }
-  }
-
   menuLoop = function(){return;};
   animloop = function() {
     update();
@@ -658,6 +641,22 @@ menuLoop = function() {
 
 menuLoop();
 
+
+function checkXpEnd(){
+  if(Date.now() - timeStart > 10 * 1000 && (!firstRun && score != 0)){
+    //Changing container content to display questionnaire which will send xp results
+    $.get("/xp/questionnaire", function(html){
+      window.cancelAnimationFrame(requestMenuId);
+      window.cancelAnimationFrame(requestAnimId);
+      document.onkeydown = null;
+      document.onkeyup = null;
+      exitFullscreen();
+      removeFromQueue();
+      $("#xp_container").html(html);
+    });
+  }
+}
+
 //Set up everything for the RNG and results collecting
 //Todo : use the ip in the database
 var results = {
@@ -667,9 +666,12 @@ var results = {
 if(AVAILABLE_RNG != null){
   var rng = new Rng(AVAILABLE_RNG.url);
   rng.setNumbersCb(function(numbers){
+    //TypedArray doesn't serialize well, so I convert it to a simple array
+    var nonTypedArray = [];
     var nbOnes = 0;
     var nbZeros = 0;
     for(var i = 0; i < numbers.length; i++){
+      nonTypedArray.push(numbers[i]);
       for(var pos = 0; pos < 8; pos++){
         if(rng.bitAt(numbers[i], pos)){
           nbOnes++;
@@ -680,7 +682,7 @@ if(AVAILABLE_RNG != null){
       }
     }
     var trialRes = {
-      numbers: numbers,
+      numbers: nonTypedArray,
       ms: Date.now() - results.date,
       gameScore: score,
       diffOnes: nbOnes - nbZeros
