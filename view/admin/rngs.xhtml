@@ -29,7 +29,7 @@
 				<td>#{rng.infos}</td>
 				<td id="rng_url_#{rng.id}" class="rng-url">#{rng.url}</td>
 				<td><span id="rng_status_#{rng.id}" class="rng-status label label-default">Inconnu</span></td>
-				<td><a href="#{AdminController.r(:delete_rng)}/#{rng.id}">Supprimer</a></td>
+				<td><a class="btn" href="#{AdminController.r(:delete_rng)}/#{rng.id}">Supprimer</a> <a class="btn rng-test disabled" id="rng_test_#{rng.id}" href="#">Tester nombres</a></td>
 			</tr>
 		<?r end ?>
 	</tbody>

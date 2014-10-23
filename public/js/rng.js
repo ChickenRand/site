@@ -15,8 +15,21 @@ $(function(){
 		if(onErrorCb != null){
 			 this.setErrorCb(onErrorCb);	
 		}
-		this.randomNumbers = [];
+		this.reset();
 	};
+
+	Rng.prototype.reset = function(){
+		this.totalZeros = 0;
+		this.totalOnes = 0;
+		this.results = {
+			date : Date.now(),
+			trials : []
+		}
+	};
+
+	Rng.prototype.getRatio = function(){
+		return this.totalOnes/(this.totalOnes+this.totalZeros);
+	}
 
 	Rng.prototype.isConnected = function() {
 		return this.socket.readyState === 1;
@@ -31,20 +44,32 @@ $(function(){
 	};
 
 	Rng.prototype.onNumbers = function(message) {
-		var numbers;
-		numbers = new Uint8Array(message.data);
-		this.randomNumbers.push(numbers);
+		var trialRes = {
+			//Convert the TypedArray into classical Array (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays#Conversion_to_normal_arrays)
+			numbers: Array.prototype.slice.call(new Uint8Array(message.data)),
+			nbOnes: 0,
+			nbZeros: 0,
+			ms: Date.now() - this.results.date
+		};
+		for(var i = 0; i < trialRes.numbers.length; i++){
+			for(var pos = 0; pos < 8; pos++){
+        		rng.bitAt(trialRes.numbers[i], pos) ? trialRes.nbOnes++ : trialRes.nbZeros++;
+			}
+		}
 		if (this.numbersCb != null) {
 			//We need the Rng object itself for the admin panel
-			this.numbersCb(numbers, this);
+			this.numbersCb(trialRes, this);
 		}
+		this.results.trials.push(trialRes);
+		this.totalOnes += trialRes.nbOnes;
+		this.totalZeros += trialRes.nbZeros;
 	};
 
 	Rng.prototype.onError = function(message){
 		if(this.errorCb != null){
 			this.errorCb(message, this);
 		}
-	}
+	};
 
 	Rng.prototype.bitAt = function(byte, pos){
 		return ((byte & (1 << pos)) !== 0);	
@@ -52,7 +77,7 @@ $(function(){
 
 	Rng.prototype.stop = function(){
 		this.socket.close();
-	}
+	};
 
 	window.Rng = Rng;
 });

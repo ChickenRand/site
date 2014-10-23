@@ -52,4 +52,8 @@ class Xps < Controller
       end
     end
   end
+
+  def end_xp_problem
+    Ramaze::Log.error("Someone has finish the experiments but had problems with the rng")
+  end
 end

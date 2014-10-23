@@ -126,7 +126,11 @@ $(function(){
 	function removeFromQueue(){
 		if(item_id != null){
 			$.post("/queue/remove/" + item_id + ".json", function(data){
-			});			
+			});
+			//Also stop the RNG if there was one
+			if(AVAILABLE_RNG != null){
+				AVAILABLE_RNG.stop();
+			}
 		}
 	}
 	//Need to be accessible from outside when finishing the xp
@@ -144,7 +148,7 @@ $(function(){
 			else{
 				$.get("/xp/ajax_load/" + getXpId(), function(html){
 					console.log("here", html);
-					AVAILABLE_RNG = data;
+					AVAILABLE_RNG = new Rng(data.url, data.id);
 					$("#xp_container").html(html);
 				});
 			}

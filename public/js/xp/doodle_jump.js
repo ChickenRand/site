@@ -651,42 +651,14 @@ function checkXpEnd(){
       document.onkeydown = null;
       document.onkeyup = null;
       exitFullscreen();
-      removeFromQueue();
       $("#xp_container").html(html);
     });
   }
 }
 
 //Set up everything for the RNG and results collecting
-//Todo : use the ip in the database
-var results = {
-  date : Date.now(),
-  trials : []
-};
 if(AVAILABLE_RNG != null){
-  var rng = new Rng(AVAILABLE_RNG.url);
-  rng.setNumbersCb(function(numbers){
-    //TypedArray doesn't serialize well, so I convert it to a simple array
-    var nonTypedArray = [];
-    var nbOnes = 0;
-    var nbZeros = 0;
-    for(var i = 0; i < numbers.length; i++){
-      nonTypedArray.push(numbers[i]);
-      for(var pos = 0; pos < 8; pos++){
-        if(rng.bitAt(numbers[i], pos)){
-          nbOnes++;
-        }
-        else{
-          nbZeros++;
-        }
-      }
-    }
-    var trialRes = {
-      numbers: nonTypedArray,
-      ms: Date.now() - results.date,
-      gameScore: score,
-      diffOnes: nbOnes - nbZeros
-    };
-    results.trials.push(trialRes);
-  });  
+  AVAILABLE_RNG.setNumbersCb(function(trialRes){
+    trialRes.gameScore = score;
+  });
 }
