@@ -3,6 +3,7 @@ $(function(){
 	window.AVAILABLE_RNG = null;
 	var item_id = null;
 	var update_interval = null;
+	var inQueue = false;
 	if(document.fullscreenEnabled){
 		$("#no_full_screen").removeClass("hide");
 		$("#full_screen").addClass("hide");
@@ -40,6 +41,7 @@ $(function(){
 	});
 
 	function showQueue(estimated_time){
+		inQueue = true;
 		$("#queue_container").removeClass("hide");
 		$("#before_container").addClass("hide");
 		$("#xp_container").addClass("hide");
@@ -47,6 +49,7 @@ $(function(){
 	}
 
 	function showStart(){
+		inQueue = false;
 		$("#queue_container").addClass("hide");
 		$("#before_container").removeClass("hide");
 		$("#xp_container").addClass("hide");		
@@ -83,7 +86,9 @@ $(function(){
 	function update(){
 		$.post("/queue/update/" + item_id + ".json", function(data){
 			if(data.item_on_top == item_id){
-				showStart();
+				if(inQueue){
+					showStart();	
+				}
 			}
 			else{
 				updateDisplayedTime(data.estimated_time);	
@@ -138,6 +143,7 @@ $(function(){
 			}
 			else{
 				$.get("/xp/ajax_load/" + getXpId(), function(html){
+					console.log("here", html);
 					AVAILABLE_RNG = data;
 					$("#xp_container").html(html);
 				});
