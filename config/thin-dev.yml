@@ -1,0 +1,2 @@
+log: log/thin.log
+port: 7000
