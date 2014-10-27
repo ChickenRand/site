@@ -81,14 +81,22 @@ class AdminController < Controller
     redirect AdminController.r(:invite_users)
   end
 
+  def users
+    @users = User.all
+  end
+
   def delete_user(id)
     u = User[id]
     if !u.nil? and !u.admin
-      u.delete
-      redirect AdminController.r(:index)
+      begin
+        u.delete
+      rescue => e
+        flash[:error] = e.message
+      end
     else
       flash[:warning] = "Impossible de supprimer l'utilisateur  : inexistant ou admin"
     end
+    redirect AdminController.r(:users)
   end
 
   def rngs
@@ -137,5 +145,23 @@ class AdminController < Controller
         {message: "Erreur : #{e.message}"}
       end
     end
+  end
+
+  def results
+    @results = UserXp.all
+  end
+
+  def delete_result(id)
+    res = UserXp[id]
+    if res.nil?
+      flash[:warning] = "Impossible de supprimer les résultats  : id inexistant"
+    else
+      begin
+        res.delete
+      rescue => e
+        flash[:error] = e.message
+      end
+    end
+    redirect AdminController.r(:results)
   end
 end

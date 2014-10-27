@@ -4,6 +4,7 @@ require 'bcrypt'
 class User < Sequel::Model(:user)
   plugin :validation_helpers
   many_to_many :tokens, :left_key => :user_id, :right_key => :token_id, :join_table => :token_user
+  one_to_many :user_xp
 
   def self.authenticate(credentials)
     u = User.first(email: credentials['email'])

@@ -1,0 +1,18 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Email</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?r @users.each do |user| ?>
+			<tr>
+				<td>#{user.id}</td>
+				<td>#{user.email}</td>
+				<td><a href="#{AdminController.r(:delete_user)}/#{user.id}">Supprimer</a></td>
+			</tr>
+		<?r end ?>
+	</tbody>
+</table>

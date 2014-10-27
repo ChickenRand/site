@@ -3,11 +3,9 @@ TOTO:
 - Make rng and rng_server debian deamon that that automatically
 - Add some more advance number test with  3 graphs : global number of ones - zeros, instante ration ones/zeros and numbers repartition between 0 and 255
 - Add an admin/results page with possibility to see results
-- Add an admin/users page
+
 - Add some checks in the controller to avoid fake data
 - When client cut connection, server does not close the socket.
-- Push everything to heroku
-- link the domain name
 - add a loggin system
 - Disable UI while ajax and display messages
 - Set up a proper API for sending the result and display the questionnaire, practically nothing has to be done in the experiment code (ie doodle_jump.js)
@@ -21,6 +19,9 @@ TOTO:
 - Create a logo
 
 DONE:
+- Add an admin/users page
+- Push everything to heroku
+- link the domain name
 - configure the application to use thin webserver as pointed out in https://github.com/erasme/guidelines
 - Set up the Raspberry pi
 - Fix issue with queue/update and setTimeout
