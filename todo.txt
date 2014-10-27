@@ -1,6 +1,11 @@
 TOTO:
+- Add a way to remotely restart the rng
+- Make rng and rng_server debian deamon that that automatically
+- Add some more advance number test with  3 graphs : global number of ones - zeros, instante ration ones/zeros and numbers repartition between 0 and 255
+- Add an admin/results page with possibility to see results
+- Add an admin/users page
 - Add some checks in the controller to avoid fake data
-
+- When client cut connection, server does not close the socket.
 - Push everything to heroku
 - link the domain name
 - add a loggin system

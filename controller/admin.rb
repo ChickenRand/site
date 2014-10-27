@@ -8,8 +8,11 @@ class AdminController < Controller
   before_all do
     #if nobody is admin, it means we need to create one
     admin = User.first(admin: true)
+    action = request.env['REQUEST_PATH'].split('/').last
     if admin.nil?
-      redirect AdminController.r(:install)
+      if action != "install"
+        redirect AdminController.r(:install)
+      end
     else
       redirect_referrer unless logged_in? and user['admin']
     end
