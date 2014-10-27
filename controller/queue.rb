@@ -45,7 +45,12 @@ class QueueController < Controller
     if item.nil?
       {message: "Erreur : vous ne pas commencer une expérience si vous n'êtes pas au dessus dans la queue."}
     else
-      Rng[status: true].values
+      rng = Rng[status: true]
+      if rng.nil?
+        {message: "Erreur : Pas de RNG disponibles."}
+      else
+        rng.values
+      end
     end
   end
 end
