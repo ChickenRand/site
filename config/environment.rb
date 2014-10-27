@@ -12,8 +12,8 @@ Ramaze.middleware :dev do |mode|
   mode.run Ramaze::AppMap
 end
 
-Ramaze.middleware :prod do |mode|
-  puts "Middlewares for prod"
+Ramaze.middleware :live do |mode|
+  puts "Middlewares for live"
   mode.use Rack::CommonLogger, Ramaze::Log
   mode.use Rack::ShowExceptions
   mode.use Rack::ShowStatus
@@ -26,7 +26,7 @@ end
 # Default is 'spec'
 if ENV['RACK_ENV'].nil?
   Ramaze::Log.info('Environment not set; using %s mode' % Ramaze.options.mode.to_s)
-elsif !["spec", "prod", "dev"].include?(ENV["RACK_ENV"])
+elsif !["spec", "live", "dev"].include?(ENV["RACK_ENV"])
   Ramaze::Log.info("Warning : environment '%s' unknown, using %s mode" % [ ENV['RACK_ENV'], Ramaze.options.mode.to_s ])
 else
   Ramaze.options.mode = ENV["RACK_ENV"].to_sym 
