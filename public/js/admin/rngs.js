@@ -44,12 +44,21 @@ $(function(){
 	});
 
 	$(".rng-test").click(function(e, el){
-		var rngId = $(this).attr("id").split('_')[2];
-		var url = $("#rng_url_"+rngId).html();
-		if(rngTest != null){
-			rngTest.stop();
+		if($(this).html() === "Tester nombres"){
+			$(this).html("Arrêter le test")
+			var rngId = $(this).attr("id").split('_')[2];
+			var url = $("#rng_url_"+rngId).html();
+			if(rngTest != null){
+				rngTest.stop();
+			}
+			rngTest = new Rng(url, rngId, onTest);	
 		}
-		rngTest = new Rng(url, rngId, onTest);
+		else{
+			if(rngTest != null){
+				rngTest.stop();
+			}
+			$(this).html("Tester nombres");
+		}
 	});
 
 	var timeoutId = window.setTimeout(function(){
