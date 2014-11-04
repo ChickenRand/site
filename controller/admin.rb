@@ -151,6 +151,19 @@ class AdminController < Controller
     @results = UserXp.all
   end
 
+  def get_result(id)
+    if(request.xhr?)
+      res = UserXp[id]
+      if res.nil?
+        {message: "Résultat id=#{id} inexistant"}
+      else
+        res.value
+      end
+    else
+      redirect AdminController.r(:results)
+    end
+  end
+
   def delete_result(id)
     res = UserXp[id]
     if res.nil?
