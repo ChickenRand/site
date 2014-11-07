@@ -1,11 +1,14 @@
 $(function(){
 	var rng_list = [];
 	var rngTest = null;
+	var rngChart  = null;
+	var chartInterval = null;
 	function onNumbers(data, rng){
 		//If we are here, it means the rng state is available
 		rng.stop();
 		rng_list.splice(rng_list.indexOf(rng), 1);
 		$("#rng_test_"+rng.id).removeClass("disabled");
+		$("#rng_graph_"+rng.id).removeClass("disabled");
 		setRngStatus(rng.id, "Disponible", "success");
 	}
 
@@ -13,6 +16,7 @@ $(function(){
 		rng.stop();
 		rng_list.splice(rng_list.indexOf(rng), 1);
 		$("#rng_test_"+rng.id).addClass("disabled");
+		$("#rng_graph_"+rng.id).addClass("disabled");
 		setRngStatus(rng.id, "Non connecté", "danger");
 	}
 
@@ -43,11 +47,19 @@ $(function(){
 		rng_list.push(rng);
 	});
 
+	function getRngId(el){
+		return $(el).attr("id").split('_')[2];
+	}
+
+	function getUrl(rngId){
+		return $("#rng_url_"+rngId).html();
+	}
+
 	$(".rng-test").click(function(e, el){
 		if($(this).html() === "Tester nombres"){
 			$(this).html("Arrêter le test")
-			var rngId = $(this).attr("id").split('_')[2];
-			var url = $("#rng_url_"+rngId).html();
+			var rngId = getRngId(this);
+			var url = getUrl(rngId);
 			if(rngTest != null){
 				rngTest.stop();
 			}
@@ -59,6 +71,91 @@ $(function(){
 			}
 			$(this).html("Tester nombres");
 		}
+	});
+
+	function createNumChart(){
+		//Init numbers repartition tabs
+		var numbersRepartition = [];
+		var numbersLabels = [];
+		for(var i = 0; i < 256 ; i++){
+			numbersRepartition.push(0);
+			i % 8 == 0 ? numbersLabels.push(i) : numbersLabels.push("");
+		}
+
+		var data = {
+			labels: numbersLabels,
+			datasets: [
+				{
+					label: "Numbers repartition",
+					fillColor: "rgba(151,187,205,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: numbersRepartition
+				}
+			]
+		};
+		var ctx_num = $("#num_chart").get(0).getContext("2d");
+		var options = {
+			//Disable animation to limit CPU usage
+			animation: false,
+			datasetFill: false,
+			datasetStroke: false,
+			scaleShowLabels: true,
+			pointDot: false,
+			bezierCurve: false
+		};
+		var numbersChart = new Chart(ctx_num).Line(data, options);
+		rngChart.setNumbersCb(function(data, rng){
+			for(var i = 0; i < data.numbers.length; i++){
+				var num = data.numbers[i];
+				numbersRepartition[num]++;
+			}
+		});
+		//Update the graph each two seconds
+		chartInterval = window.setInterval(function(){
+			for(var i = 0 ; i < numbersRepartition.length ; i++){
+				numbersChart.datasets[0].points[i].value = numbersRepartition[i];
+			}
+			numbersChart.update();
+		}, 2000);
+	}
+
+	//Stop the RNG when the modal is closed
+	$('#graph_modal').on('hidden.bs.modal', function (e) {
+		rngChart.stop();
+		rngChart = null;
+		window.clearInterval(chartInterval);
+		chartInterval = null;
+	});
+
+	$(".rng-graph").click(function(e, el){
+		var rngId = getRngId(this);
+		var url = getUrl(rngId);
+		rngChart = new Rng(url, rngId);
+		var data = {
+			labels: ["January", "February", "March", "April", "May", "June", "July"],
+			datasets: [
+				{
+					label: "My First dataset",
+					fillColor: "rgba(220,220,220,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: [65, 59, 80, 81, 56, 55, 40]
+				}
+			]
+		};
+		createNumChart();
+		var ctx_diff_ones = $("#diff_ones_chart").get(0).getContext("2d");
+		var ctx_ratio = $("#ratio_chart").get(0).getContext("2d");
+		var myLineChart2 = new Chart(ctx_diff_ones).Line(data, {});
+		var myLineChart3 = new Chart(ctx_ratio).Line(data, {});
+
 	});
 
 	var timeoutId = window.setTimeout(function(){

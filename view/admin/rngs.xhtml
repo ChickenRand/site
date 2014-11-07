@@ -1,3 +1,4 @@
+#{js("Chart.min")}
 #{js("rng")}
 #{js("admin/rngs")}
 <form class="form-inline" method="post" role="form" action="#{AdminController.r(:add_rng)}">
@@ -29,8 +30,29 @@
 				<td>#{rng.infos}</td>
 				<td id="rng_url_#{rng.id}" class="rng-url">#{rng.url}</td>
 				<td><span id="rng_status_#{rng.id}" class="rng-status label label-default">Inconnu</span></td>
-				<td><a class="btn" href="#{AdminController.r(:delete_rng)}/#{rng.id}">Supprimer</a> <a class="btn rng-test disabled" id="rng_test_#{rng.id}" href="#">Tester nombres</a></td>
+				<td><a class="btn" href="#{AdminController.r(:delete_rng)}/#{rng.id}">Supprimer</a> <a class="btn rng-test disabled" id="rng_test_#{rng.id}" href="#">Tester nombres</a><a class="btn rng-graph disabled" id="rng_graph_#{rng.id}" data-toggle="modal" data-target="#graph_modal" href="#">Graph des nombres</a></td>
 			</tr>
 		<?r end ?>
 	</tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="graph_modal" tabindex="-1" role="dialog" aria-labelledby="graph_modal_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span></button>
+        <h4 class="modal-title" id="graph_modal_label">Graphique des nombres du RNG</h4>
+      </div>
+      <div class="modal-body">
+        <canvas id="diff_ones_chart" width="500" height="400"></canvas>
+        <canvas id="ratio_chart" width="500" height="200"></canvas>
+        <p>Graph de répartition des nombres 8bits générés (doit tendre vers l'homogénéité avec le temps) </p>
+        <canvas id="num_chart" width="500" height="200"></canvas>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
