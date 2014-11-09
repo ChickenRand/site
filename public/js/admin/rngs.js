@@ -2,7 +2,8 @@ $(function(){
 	var rng_list = [];
 	var rngTest = null;
 	var rngChart  = null;
-	var chartInterval = null;
+	var numbersChartInterval = null;
+	var ratioChartInterval = null;
 	function onNumbers(data, rng){
 		//If we are here, it means the rng state is available
 		rng.stop();
@@ -97,7 +98,6 @@ $(function(){
 				}
 			]
 		};
-		var ctx_num = $("#num_chart").get(0).getContext("2d");
 		var options = {
 			//Disable animation to limit CPU usage
 			animation: false,
@@ -107,28 +107,96 @@ $(function(){
 			pointDot: false,
 			bezierCurve: false
 		};
+		var ctx_num = $("#num_chart").get(0).getContext("2d");
 		var numbersChart = new Chart(ctx_num).Line(data, options);
-		rngChart.setNumbersCb(function(data, rng){
+
+
+		rngChart.addNumbersCb(function(data, rng){
 			for(var i = 0; i < data.numbers.length; i++){
 				var num = data.numbers[i];
 				numbersRepartition[num]++;
 			}
 		});
 		//Update the graph each two seconds
-		chartInterval = window.setInterval(function(){
+		numbersChartInterval = window.setInterval(function(){
 			for(var i = 0 ; i < numbersRepartition.length ; i++){
 				numbersChart.datasets[0].points[i].value = numbersRepartition[i];
 			}
 			numbersChart.update();
 		}, 2000);
-	}
+	};
+
+	function createRatioChart(){
+		var instantRatios = [];
+		var cumulRatios = [];
+		var label = [];
+		for(var i = 0; i < 50; i++){
+			instantRatios.push(0.5);
+			cumulRatios.push(0.5);
+			label.push("");
+		}
+		var data = {
+			labels: label,
+			datasets: [
+				{
+					label: "Ratio instantané",
+					fillColor: "rgba(151,187,205,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: instantRatios
+				},
+				{
+					label: "Ratio cumulatif",
+					fillColor: "rgba(220,220,220,0.2)",
+					strokeColor: "rgba(100,220,100,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: cumulRatios
+				}
+			]
+		};
+		var options = {
+			//Disable animation to limit CPU usage
+			animation: false,
+			datasetFill: false,
+			datasetStroke: false,
+			scaleShowLabels: true,
+			pointDot: false,
+			bezierCurve: false
+		};
+		var ctx_ratio = $("#ratio_chart").get(0).getContext("2d");
+		var ratioChart = new Chart(ctx_ratio).Line(data, options);
+
+		rngChart.addNumbersCb(function(data, rng){
+			var cumulRatio = rng.totalOnes / (rng.totalOnes + rng.totalZeros);
+			cumulRatios.shift();
+			cumulRatios.push(cumulRatio);
+			var instantRatio = data.nbOnes / (data.nbOnes + data.nbZeros);
+			instantRatios.shift();
+			instantRatios.push(instantRatio);
+		});
+		ratioChartInterval = window.setInterval(function(){
+			for(var i = 0 ; i < instantRatios.length ; i++){
+				ratioChart.datasets[0].points[i].value = instantRatios[i];
+				ratioChart.datasets[1].points[i].value = cumulRatios[i];
+			}
+			ratioChart.update();
+		}, 1000);
+	};
 
 	//Stop the RNG when the modal is closed
 	$('#graph_modal').on('hidden.bs.modal', function (e) {
 		rngChart.stop();
 		rngChart = null;
-		window.clearInterval(chartInterval);
-		chartInterval = null;
+		window.clearInterval(numbersChartInterval);
+		window.clearInterval(ratioChartInterval);
+		numbersChartInterval = null;
+		ratioChartInterval = null;
 	});
 
 	$(".rng-graph").click(function(e, el){
@@ -151,11 +219,9 @@ $(function(){
 			]
 		};
 		createNumChart();
+		createRatioChart();
 		var ctx_diff_ones = $("#diff_ones_chart").get(0).getContext("2d");
-		var ctx_ratio = $("#ratio_chart").get(0).getContext("2d");
 		var myLineChart2 = new Chart(ctx_diff_ones).Line(data, {});
-		var myLineChart3 = new Chart(ctx_ratio).Line(data, {});
-
 	});
 
 	var timeoutId = window.setTimeout(function(){

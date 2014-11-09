@@ -8,8 +8,9 @@ $(function(){
 		this.socket = new WebSocket("ws://" + this.url, 'rng-protocol');
 		this.socket.binaryType = 'arraybuffer';
 		this.socket.onmessage = this.onNumbers;
+		this.numbersCbs = [];
 		if(onNumbersCb != null){
-			this.setNumbersCb(onNumbersCb);
+			this.addNumbersCb(onNumbersCb);
 		}
 		this.socket.onerror = this.onError;
 		if(onErrorCb != null){
@@ -35,12 +36,12 @@ $(function(){
 		return this.socket.readyState === 1;
 	};
 
-	Rng.prototype.setNumbersCb = function(callback) {
-		return this.numbersCb = callback;
+	Rng.prototype.addNumbersCb = function(callback) {
+		this.numbersCbs.push(callback);
 	};
 
 	Rng.prototype.setErrorCb = function(callback) {
-		return this.errorCb = callback;
+		this.errorCb = callback;
 	};
 
 	Rng.prototype.onNumbers = function(message) {
@@ -56,13 +57,13 @@ $(function(){
         		this.bitAt(trialRes.numbers[i], pos) ? trialRes.nbOnes++ : trialRes.nbZeros++;
 			}
 		}
-		if (this.numbersCb != null) {
-			//We need the Rng object itself for the admin panel
-			this.numbersCb(trialRes, this);
-		}
-		this.results.trials.push(trialRes);
 		this.totalOnes += trialRes.nbOnes;
 		this.totalZeros += trialRes.nbZeros;
+		for(var i = 0; i < this.numbersCbs.length ; i++){
+			//We need the Rng object itself for the admin panel
+			this.numbersCbs[i](trialRes, this);
+		}
+		this.results.trials.push(trialRes);
 	};
 
 	Rng.prototype.onError = function(message){
