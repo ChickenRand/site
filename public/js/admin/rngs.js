@@ -4,6 +4,7 @@ $(function(){
 	var rngChart  = null;
 	var numbersChartInterval = null;
 	var ratioChartInterval = null;
+	var cumulChartInterval = null;
 	function onNumbers(data, rng){
 		//If we are here, it means the rng state is available
 		rng.stop();
@@ -189,39 +190,72 @@ $(function(){
 		}, 1000);
 	};
 
+	function createCumulativChart(){
+		var diffOnesTab = [];
+		var label = [];
+		for(var i = 0; i < 50; i++){
+			diffOnesTab.push(0);
+			label.push("");
+		}
+		var data = {
+			labels: label,
+			datasets: [
+				{
+					label: "Cumulative NbOnes-NbZeros",
+					fillColor: "rgba(151,187,205,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: diffOnesTab
+				}
+			]
+		};
+		var options = {
+			//Disable animation to limit CPU usage
+			animation: false,
+			datasetFill: false,
+			datasetStroke: false,
+			scaleShowLabels: true,
+			pointDot: false,
+			bezierCurve: false
+		};
+		var ctx_cumul = $("#diff_ones_chart").get(0).getContext("2d");
+		var cumulChart = new Chart(ctx_cumul).Line(data, options);
+		rngChart.addNumbersCb(function(data, rng){
+			var diffOnes = rng.totalOnes - rng.totalZeros;
+			diffOnesTab.shift();
+			diffOnesTab.push(diffOnes);
+		});
+		cumulChartInterval = window.setInterval(function(){
+			for(var i = 0; i < diffOnesTab.length; i++){
+				cumulChart.datasets[0].points[i].value = diffOnesTab[i];
+			}
+			cumulChart.update();
+		}, 2000);
+	}
+
 	//Stop the RNG when the modal is closed
 	$('#graph_modal').on('hidden.bs.modal', function (e) {
 		rngChart.stop();
 		rngChart = null;
 		window.clearInterval(numbersChartInterval);
 		window.clearInterval(ratioChartInterval);
+		window.clearInterval(cumulChartInterval);
 		numbersChartInterval = null;
 		ratioChartInterval = null;
+		cumulChartInterval = null;
 	});
 
 	$(".rng-graph").click(function(e, el){
 		var rngId = getRngId(this);
 		var url = getUrl(rngId);
 		rngChart = new Rng(url, rngId);
-		var data = {
-			labels: ["January", "February", "March", "April", "May", "June", "July"],
-			datasets: [
-				{
-					label: "My First dataset",
-					fillColor: "rgba(220,220,220,0.2)",
-					strokeColor: "rgba(220,220,220,1)",
-					pointColor: "rgba(220,220,220,1)",
-					pointStrokeColor: "#fff",
-					pointHighlightFill: "#fff",
-					pointHighlightStroke: "rgba(220,220,220,1)",
-					data: [65, 59, 80, 81, 56, 55, 40]
-				}
-			]
-		};
-		createNumChart();
+
+		createCumulativChart();
 		createRatioChart();
-		var ctx_diff_ones = $("#diff_ones_chart").get(0).getContext("2d");
-		var myLineChart2 = new Chart(ctx_diff_ones).Line(data, {});
+		createNumChart();
 	});
 
 	var timeoutId = window.setTimeout(function(){
