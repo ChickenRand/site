@@ -10,7 +10,7 @@ TOTO:
 - Add a way to generate baseline results automatically in the admin panel (it waits for the queue to be empty to start a blank experiment)
 - Add some checks in the controller to avoid fake data
 - When client cut connection, server does not close the socket.
-- add a loggin system
+- add a logging system
 - Disable UI while ajax and display messages
 - Set up a proper API for sending the result and display the questionnaire, practically nothing has to be done in the experiment code (ie doodle_jump.js)
 - Add website content

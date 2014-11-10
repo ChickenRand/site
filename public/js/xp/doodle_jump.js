@@ -639,7 +639,9 @@ menuLoop = function() {
   requestMenuId = requestAnimFrame(menuLoop);
 };
 
-menuLoop();
+//menuLoop();
+//Directly start the game
+init();
 
 
 function checkXpEnd(){
