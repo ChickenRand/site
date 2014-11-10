@@ -658,7 +658,7 @@ function checkXpEnd(){
 
 //Set up everything for the RNG and results collecting
 if(AVAILABLE_RNG != null){
-  AVAILABLE_RNG.setNumbersCb(function(trialRes){
+  AVAILABLE_RNG.addNumbersCb(function(trialRes){
     trialRes.gameScore = score;
   });
 }

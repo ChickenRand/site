@@ -1,3 +1,4 @@
+"use strict";
 $(function(){
 	$("#results_form").submit(function(e){
 		e.preventDefault();

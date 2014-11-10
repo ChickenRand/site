@@ -1,3 +1,4 @@
+"use strict";
 $(".see-result").click(function(e, el){
 	e.preventDefault();
 	var url = $(el).attr("href");

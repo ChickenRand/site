@@ -1,5 +1,6 @@
 TOTO:
-- RNG number generation is wierd !!! Why my numbers are not equaly spreaded ??????? => Need to investigate !!!!
+- RNG number generation is weird !!! Why my numbers are not equaly spreaded ??????? => Need to investigate !!!!
+	=> Von neumann method seems to work
 - Add a way to remotely restart the rng
 - Make rng and rng_server debian deamon that that automatically
 	=> Need to have a look at monit, seems very simple
@@ -22,6 +23,7 @@ TOTO:
 - Create a logo
 
 DONE:
+- Add use strict; statement in all Javascript code
 - Add some more advance number test with  3 graphs : global number of ones - zeros, instante ration ones/zeros and numbers repartition between 0 and 255
 - Add an admin/users page
 - Push everything to heroku

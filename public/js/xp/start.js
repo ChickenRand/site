@@ -1,3 +1,4 @@
+"use strict";
 $(function(){
 	//WARNING GLOBAL
 	window.AVAILABLE_RNG = null;

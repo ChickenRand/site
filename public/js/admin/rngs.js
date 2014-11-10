@@ -1,3 +1,4 @@
+"use strict";
 $(function(){
 	var rng_list = [];
 	var rngTest = null;
@@ -45,7 +46,7 @@ $(function(){
 	$(".rng-url").each(function(i, e){
 		var url = $(e).html();
 		var rngId = $(e).attr("id").split('_')[2];
-		rng = new Rng(url, rngId, onNumbers, onErrors);
+		var rng = new Rng(url, rngId, onNumbers, onErrors);
 		rng_list.push(rng);
 	});
 
