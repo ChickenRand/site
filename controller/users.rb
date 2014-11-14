@@ -30,7 +30,11 @@ class Users < Controller
         else
           begin
             User.create(request.subset(:email, :password, :age, :laterality, :believer, :sex))
-            redirect MainController.r(:index)
+            if user_login(request.subset(:email, :password))
+              redirect MainController.r(:index)
+            else
+              redirect Users.r(:signup)
+            end
           rescue => e
             flash[:danger] = "Erreur lors de la création du compte : #{e.message}"
           end
