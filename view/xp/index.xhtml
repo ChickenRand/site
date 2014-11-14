@@ -2,6 +2,11 @@ Voici la liste des expérimentations à passer :
 
 <ul>
 	<?r @xps.each do |xp| ?>
-		<li><a href="#{Xps.r(:start, xp.id)}">#{xp.name}</a></li>
+		<li>
+			<img src="#{xp.img_url}" alt="#{xp.name} image" class="img-thumbnail">
+			<h3>#{xp.name}</h3>
+			#{xp.catch_phrase}
+			<a href="#{Xps.r(:start, xp.id)}">#{xp.name}</a>
+		</li>
 	<?r end ?>
 </ul>
