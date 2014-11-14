@@ -105,14 +105,18 @@ class AdminController < Controller
 
   def add_rng
     if request.post?
-      rng = Rng.create(request.subset(:infos, :url))
-      if rng.nil?
-        flash[:danger] = "Erreur à la création du rng"
-      else
-        flash[:success] = "Rng bien créé"
+      begin
+        rng = Rng.create(request.subset(:infos, :url))
+        if rng.nil?
+          flash[:danger] = "Erreur à la création du rng"
+        else
+          flash[:success] = "Rng bien créé"
+        end
+      rescue => e
+        flash[:danger] = "Erreur lors de la création du Rng #{e.message}"
       end
-      redirect AdminController.r(:rngs)
     end
+    redirect AdminController.r(:rngs)
   end
 
   def delete_rng(id)
@@ -132,6 +136,39 @@ class AdminController < Controller
 
   def xps
     @xps = Xp.all
+  end
+
+  def add_xp
+    if request.post?
+      begin
+        if !request.params['id'].nil?
+          xp = Xp[request.params['id']]
+          xp.update(request.subset(:name, :estimated_time, :catch_phrase, :desc, :img_url))
+          flash[:success] = "Xp bien modifiée"
+        else
+          xp = Xp.create(request.subset(:name, :estimated_time, :catch_phrase, :desc, :img_url))
+          flash[:success] = "Xp bien créée"
+        end
+      rescue => e
+        flash[:danger] = "Erreur lors de la création de l'XP #{e.message}"
+      end
+    end
+    redirect AdminController.r(:xps)
+  end
+
+  def delete_xp(xp_id)
+    xp = Xp[xp_id]
+    if xp.nil?
+      flash[:warning] = "Xp inexistante"
+    else
+      begin
+        xp.delete
+        flash[:success] = "Xp supprimée"
+      rescue => e
+        flash[:danger] = "Erreur lors de la suppression de l'XP #{e.message}"
+      end
+    end
+    redirect AdminController.r(:xps)
   end
 
   def set_rng_status(rng_id)

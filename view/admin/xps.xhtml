@@ -1,33 +1,53 @@
 <form class="form-inline" method="post" role="form" action="#{AdminController.r(:add_xp)}">
 	<div class="form-group">
-	  	<label class="sr-only" for="infos">Infos</label>
-    	<input type="text" class="form-control" name="infos" placeholder="Email of the person, name of the machine...">
+		<label class="sr-only" for="id">Id</label>
+		<input type="number" class="form-control" name="id" placeholder="Laisser vide pour création">
 	</div>
 	<div class="form-group">
-	 	<label class="sr-only" for="url">URL</label>
-    	<input type="text" class="form-control" name="url" placeholder="url or ip adresse...">
+		<label class="sr-only" for="name">Nom</label>
+		<input type="text" class="form-control" name="name" placeholder="Nom de l'expérience">
 	</div>
-	<button type="submit" class="btn btn-default">Ajouter RNG</button>
+	<div class="form-group">
+		<label class="sr-only" for="estimated_time">Durée estimée</label>
+		<input type="number" class="form-control" name="estimated_time" placeholder="En secondes">
+	</div>
+	<div class="form-group">
+		<label class="sr-only" for="catch_phrase">Phrase d'accroche</label>
+		<input type="text" class="form-control" name="catch_phrase" placeholder="Une phrase choc quoi">
+	</div>
+	<div class="form-group">
+		<label class="sr-only" for="desc">Description</label>
+		<input type="text" class="form-control" name="desc" placeholder="Pas sur qu'on l'utilisera">
+	</div>
+	<div class="form-group">
+		<label class="sr-only" for="img_url">Image url</label>
+		<input type="text" class="form-control" name="img_url" placeholder="L'image qui sera affichée dans la liste">
+	</div>
+	<button type="submit" class="btn btn-default">Ajouter ou modifier une XP</button>
 </form>
 
 <table class="table">
 	<thead>
 		<tr>
 			<th>#</th>
-			<th>Infos</th>
-			<th>url</th>
-			<th>Etat</th>
-			<th>Actions</th>
+			<th>Nom</th>
+			<th>Durée</th>
+			<th>Phrase d'accroche</th>
+			<th>Description</th>
+			<th>Image</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
-		<?r @rngs.each do |rng| ?>
+		<?r @xps.each do |xp| ?>
 			<tr>
-				<td>#{rng.id}</td>
-				<td>#{rng.infos}</td>
-				<td id="rng_url_#{rng.id}" class="rng-url">#{rng.url}</td>
-				<td><span id="rng_status_#{rng.id}" class="rng-status label label-default">Inconnu</span></td>
-				<td><a href="#{AdminController.r(:delete_rng)}/#{rng.id}">Supprimer</a></td>
+				<td>#{xp.id}</td>
+				<td>#{xp.name}</td>
+				<td>#{xp.estimated_time}s</td>
+				<td>#{xp.catch_phrase}</td>
+				<td>#{xp.desc}</td>
+				<td><img url=#{xp.img_url}></img></td>
+				<td><a href="#{AdminController.r(:delete_xp)}/#{xp.id}">Supprimer</a></td>
 			</tr>
 		<?r end ?>
 	</tbody>
