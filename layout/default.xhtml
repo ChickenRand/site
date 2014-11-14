@@ -6,11 +6,13 @@
         <title>ChickenRun - #{@title}</title>
 
         #{css('bootstrap.min')}
+        #{css('chickenrand')}
         #{js('jquery-1.11.1.min')}
     </head>
     <body>
         <div class="container">
-          <div id="alert_placeholder"></div>
+          <div class="alert-container">
+            <div id="alert_placeholder"></div>
             <?r {success: "Cool", danger: "Dommage", info: "Information", warning: "Attention"}.each do |type, name| ?>
               <?r if flash[type] ?>
                 <div class="alert alert-block alert-#{type} fade in" role="alert">
@@ -19,6 +21,7 @@
                 </div>
               <?r end ?>
             <?r end ?>
+          </div>
             <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
                 <div class="navbar-header">
                   <button class="navbar-toggle" type="button">
