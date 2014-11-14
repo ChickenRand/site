@@ -1,11 +1,10 @@
 TOTO:
-- RNG number generation is weird !!! Why my numbers are not equaly spreaded ??????? => Need to investigate !!!!
-	=> Von neumann method seems to work
+- Localize time for waiting with moment.js
+- Add experimentation description and the time and that it stops automatically
 - Add a way to remotely restart the rng
 - Make rng and rng_server debian deamon that that automatically
 	=> Need to have a look at monit, seems very simple
 - Add an admin/results page with possibility to see results
-- Add a concentration column in UserXp and ask for 0 to 10 the level of concentration after an experiment
 - Add a description for ChickenRand and doodle jump
 - Add a way to generate baseline results automatically in the admin panel (it waits for the queue to be empty to start a blank experiment)
 - Add some checks in the controller to avoid fake data
@@ -15,6 +14,8 @@ TOTO:
 - Set up a proper API for sending the result and display the questionnaire, practically nothing has to be done in the experiment code (ie doodle_jump.js)
 - Add website content
 - Review design to be less... poor
+	=>The footer need to be on the bottom of the page even if there is not a lot of content
+	=>Add margin to flash messages
 - Create a new XP with a fountain
 - Use database duration for DoodleJump duration
 - Test RNG viability with the ratio 1/0 and the number's repartition
@@ -23,6 +24,9 @@ TOTO:
 - Create a logo
 
 DONE:
+- Add a concentration column in UserXp and ask for 0 to 10 the level of concentration after an experiment
+- RNG number generation is weird !!! Why my numbers are not equaly spreaded ??????? => Need to investigate !!!!
+	=> Von neumann method seems to work
 - Add use strict; statement in all Javascript code
 - Add some more advance number test with  3 graphs : global number of ones - zeros, instante ration ones/zeros and numbers repartition between 0 and 255
 - Add an admin/users page
