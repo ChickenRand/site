@@ -46,6 +46,7 @@ class Xps < Controller
         r.xp_time = Time.now
         r.music = request.params["music"]
         r.drug = request.params["drug"]
+        r.concentration_level = request.params["concentration_level"]
         r.results = results
         r.alone = request.params["alone"]
         r.rng_id = request.params["rng_id"]
