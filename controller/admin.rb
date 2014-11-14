@@ -141,7 +141,7 @@ class AdminController < Controller
   def add_xp
     if request.post?
       begin
-        if !request.params['id'].nil?
+        if !request.params['id'].nil? and request.params['id'] != ""
           xp = Xp[request.params['id']]
           xp.update(request.subset(:name, :estimated_time, :catch_phrase, :desc, :img_url))
           flash[:success] = "Xp bien modifiée"
