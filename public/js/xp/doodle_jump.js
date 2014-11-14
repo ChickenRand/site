@@ -645,7 +645,7 @@ init();
 
 
 function checkXpEnd(){
-  if(Date.now() - timeStart > 10 * 1000 && (!firstRun && score != 0)){
+  if(Date.now() - timeStart > 120 * 1000){
     //Changing container content to display questionnaire which will send xp results
     $.get("/xp/questionnaire", function(html){
       window.cancelAnimationFrame(requestMenuId);
