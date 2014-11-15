@@ -1,12 +1,16 @@
+<h1>Liste des expériences</h1>
+
+
 Voici la liste des expérimentations à passer :
 
-<ul>
-	<?r @xps.each do |xp| ?>
-		<li>
-			<img src="#{xp.img_url}" alt="#{xp.name} image" class="img-thumbnail">
-			<h3>#{xp.name}</h3>
+<?r @xps.each do |xp| ?>
+	<div class="media">
+		<a class="media-left" href="#{Xps.r(:start, xp.id)}">
+			<img src="#{xp.img_url}" alt="#{xp.name} image" class="img-thumbnail xp-thumbnail">
+		</a>
+		<div class="media-body">
+			<h3 class="media-heading">#{xp.name}</h3>
 			#{xp.catch_phrase}
-			<a href="#{Xps.r(:start, xp.id)}">#{xp.name}</a>
-		</li>
-	<?r end ?>
-</ul>
+		</div>
+	</div>
+<?r end ?>

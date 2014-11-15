@@ -1,3 +1,32 @@
+footer {
+	border-top: 1px solid #E5E5E5;
+	padding-top: 20px;
+	margin-top: 10px;
+}
+
 .alert-container {
 	margin-top: 10px;
+}
+
+.xp-thumbnail{
+	height: 64px;
+	width: 64px;
+}
+
+.jumbotron li{
+	font-size: 16px;
+}
+
+.xp-desc {
+	margin-bottom: 20px;
+}
+
+.xp-desc-text{
+	font-size: 16px;
+}
+
+.key{
+	width: 40px;
+	height: 40px;
+	margin: 10px;
 }

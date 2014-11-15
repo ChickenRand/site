@@ -16,6 +16,7 @@ class AdminController < Controller
     else
       redirect_referrer unless logged_in? and user['admin']
     end
+    @section="admin"
   end
 
   provide(:json, :type => 'application/json') do |action, value|

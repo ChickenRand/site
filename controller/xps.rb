@@ -13,10 +13,12 @@ class Xps < Controller
         redirect Users.r(:login)
       end
     end
+    @section = "xp"
   end
 
   def index
     @xps = Xp.all
+    @title = "Expériences"
   end
 
   def start(id)
@@ -24,14 +26,21 @@ class Xps < Controller
     if @xp.nil?
       flash[:warning] = 'Expérience inexistante'
       redirect MainController.r(:index)
+    else
+      @title = @xp.name
+      @xp_desc = File.read("./view/xp/" + xp_file_name() + "_desc.xhtml")
     end
+  end
+
+  def xp_file_name
+    @xp.name.gsub(/\s+/, "_").downcase
   end
 
   # Dynamically load the view for the experiment
   def ajax_load(id)
     @xp = Xp[id]
     if !@xp.nil?
-      view_sym = @xp.name.gsub(/\s+/, "_").downcase.to_sym
+      view_sym = xp_file_name().to_sym
       render_view view_sym
     end
   end

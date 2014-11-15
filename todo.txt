@@ -15,7 +15,8 @@ TOTO:
 - Add website content
 - Review design to be less... poor
 	=>The footer need to be on the bottom of the page even if there is not a lot of content
-	=>Add margin to flash messages
+	=>Add margin to flash messages : OK
+	=>Add active class to the right menu
 - Create a new XP with a fountain
 - Use database duration for DoodleJump duration
 - Test RNG viability with the ratio 1/0 and the number's repartition

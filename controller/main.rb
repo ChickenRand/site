@@ -13,4 +13,14 @@ class MainController < Controller
   def index
     @title = 'Accueil'
   end
+
+  def about
+    @section = "about"
+    @title = 'A propos'
+  end
+
+  def results
+    @section = "results"
+    @title = 'Resultats'
+  end
 end

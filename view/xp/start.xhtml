@@ -1,5 +1,8 @@
 #{js('rng')}
 #{js('xp/start')}
+<div class="xp-desc">
+	#{@xp_desc}
+</div>
 <div id="before_container">
 	<div class="jumbotron text-center">
 		<p>Le générateur de nombres aléatoires est libre, vous pouvez dès à présent commencer l'expérience !</p>
@@ -15,8 +18,8 @@
 </div>
 <div id="xp_container" class="hide">
 	<div id="start_xp">
-		<div class="jumbotron text-center">
-			<h2>Attention </h2>
+		<div class="jumbotron">
+			<h2 class="text-center">Attention </h2>
 
 			<p>Ceci est une expérience à caractère scientifique. Aussi, afin de récolter des résultats les plus pertinents possibles, nous vous demanderons de :
 			<ul>
@@ -26,8 +29,12 @@
 
 			<p>Afin de maximiser votre concentration, merci de bien vouloir mettre cette page en plein écran en cliquant sur le bouton ci-dessous et de le rester tout le long de l’expérience.</p>
 			<a id="no_full_screen" href="http://getfirefox.com" class="btn btn-primary btn-lg active hide" role="button">Impossible de mettre votre navigateur en mode plein écran</a>
-			<a id="load_xp" href="#" class="btn btn-primary btn-lg active hide" role="button">Démarrer l'expérience</a>
-			<button id="full_screen" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-fullscreen"></span> Mettre en plein écran</button>
+			<div class="text-center">
+				<a id="load_xp" href="#" class="btn btn-primary btn-lg active hide" role="button">Démarrer l'expérience</a>
+			</div>
+			<div class="text-center">
+				<button id="full_screen" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-fullscreen"></span> Mettre en plein écran</button>
+			</div>
 		</div>
 	</div>
 </div>
