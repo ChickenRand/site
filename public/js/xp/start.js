@@ -5,6 +5,9 @@ $(function(){
 	var item_id = null;
 	var update_interval = null;
 	var inQueue = false;
+	//Set moment to french
+	moment.locale('fr'); 
+
 	if(document.fullscreenEnabled){
 		$("#no_full_screen").removeClass("hide");
 		$("#full_screen").addClass("hide");
@@ -17,6 +20,8 @@ $(function(){
 	});
 
 	$("#load_xp").click(function(e){
+		$("#load_xp").addClass("hide");
+		$("#connect_rng").removeClass("hide");
 		startExperiment();
 	});
 
@@ -149,11 +154,26 @@ $(function(){
 			else{
 				$.get("/xp/ajax_load/" + getXpId(), function(html){
 					AVAILABLE_RNG = new Rng(data.url, data.id);
-					$(".xp-desc-text").hide();
-					$("#xp_container").html(html);
+					var timeoutId = window.setTimeout(function(){
+						if(!AVAILABLE_RNG.isConnected()){
+							onRngError();
+						}
+						else{
+							$(".xp-desc-text").hide();
+							$("#xp_container").html(html);
+						}
+						window.clearTimeout(timeoutId);
+					}, 2000);
 				});
 			}
 		});
 	}
+
+	function onRngError(){
+		removeFromQueue();
+		exitFullscreen();
+		window.location.replace("/xp/no_rng");
+	}
+
 	getState();
 });
