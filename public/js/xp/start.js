@@ -149,6 +149,7 @@ $(function(){
 			else{
 				$.get("/xp/ajax_load/" + getXpId(), function(html){
 					AVAILABLE_RNG = new Rng(data.url, data.id);
+					$(".xp-desc-text").hide();
 					$("#xp_container").html(html);
 				});
 			}

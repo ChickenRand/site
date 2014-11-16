@@ -516,6 +516,7 @@ function hideMenu() {
   window.record_result = true;
   var menu = document.getElementById("mainMenu");
   menu.style.zIndex = -1;
+  menu.style.display = "none";
 }
 
 //Shows the game over menu

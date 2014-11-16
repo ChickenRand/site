@@ -5,11 +5,11 @@ Voici la liste des expérimentations à passer :
 
 <?r @xps.each do |xp| ?>
 	<div class="media">
-		<a class="media-left" href="#{Xps.r(:start, xp.id)}">
+		<a class="pull-left" href="#{Xps.r(:start, xp.id)}">
 			<img src="#{xp.img_url}" alt="#{xp.name} image" class="img-thumbnail xp-thumbnail">
 		</a>
 		<div class="media-body">
-			<h3 class="media-heading">#{xp.name}</h3>
+			<a class="h3 media-heading xp-header" href="#{Xps.r(:start, xp.id)}">#{xp.name}</a>
 			#{xp.catch_phrase}
 		</div>
 	</div>

@@ -50,6 +50,8 @@ img {display: none}
   top: 0;
   left: 0;
   z-index: 2;
+  visibility: hidden;
+  display: none;
 }
 
 #gameOverMenu {

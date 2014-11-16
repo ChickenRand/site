@@ -8,12 +8,12 @@ footer {
 	margin-top: 10px;
 }
 
-.xp-thumbnail{
+.xp-thumbnail {
 	height: 64px;
 	width: 64px;
 }
 
-.jumbotron li{
+.jumbotron li {
 	font-size: 16px;
 }
 
@@ -21,12 +21,37 @@ footer {
 	margin-bottom: 20px;
 }
 
-.xp-desc-text{
+.xp-desc-text {
 	font-size: 16px;
 }
 
-.key{
+.key {
 	width: 40px;
 	height: 40px;
 	margin: 10px;
+}
+
+.space-key {
+	width: 80px;
+	height: 40px;
+	margin: 10px;
+}
+
+.xp-header {
+	display: block;
+}
+
+:fullscreen div {
+	max-width: 70% !important;
+	margin: 0 auto;
+};
+
+:-webkit-full-screen div {
+	max-width: 70% !important;
+	margin: 0 auto;
+}
+
+:-moz-full-screen div {
+	max-width: 70% !important;
+	margin: 0 auto;
 }
