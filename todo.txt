@@ -1,4 +1,6 @@
 TOTO:
+- Check when the user leaveFullScreen and re ask for it, if he doesn't authorize it, cancel the experiment.
+- Sometimes, the rng hangs when user quit the experiment
 - Localize time for waiting with moment.js
 - Add experimentation description and the time and that it stops automatically
 - Add a way to remotely restart the rng

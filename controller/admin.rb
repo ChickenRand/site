@@ -58,14 +58,13 @@ class AdminController < Controller
     if request.post? and !request.params['emails'].nil?
       request.params['emails'].split(';').each do |s|
         s.strip!
-        WhiteList.create(email: s) if WhiteList.first(email: s).nil?
         begin
-          Pony.mail(:to => s, :from => 'admin@chickenrand.com', :subject => 'Invitation', :body => 'Hello, Joe.')
+          WhiteList.create(email: s) if WhiteList.first(email: s).nil?
         rescue => e
-          flash[:danger] = "Une erreur est survenue pendant l'envoie des mails. #{e.message}"
-          redirect AdminController.r(:invite_users)
+          flash[:danger] = "Une erreur est survenue pendant l'ajout de l'email. #{e.message}"
         end
       end
+      redirect AdminController.r(:invite_users)
     else
       @white_list = WhiteList.all
     end
