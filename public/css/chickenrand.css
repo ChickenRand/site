@@ -45,6 +45,10 @@ footer {
 	display: block;
 }
 
+.navbar-nav.navbar-right:last-child {
+	margin-right: 0px;
+}
+
 :fullscreen div {
 	max-width: 70% !important;
 	margin: 0 auto;
