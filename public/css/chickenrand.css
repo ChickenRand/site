@@ -8,6 +8,10 @@ footer {
 	margin-top: 10px;
 }
 
+.container {
+	min-height: 700px;
+}
+
 .xp-thumbnail {
 	height: 64px;
 	width: 64px;
