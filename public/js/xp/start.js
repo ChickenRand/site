@@ -138,7 +138,6 @@ $(function(){
 		//Also stop the RNG if there was one
 		if(AVAILABLE_RNG != null){
 			AVAILABLE_RNG.stop();
-			AVAILABLE_RNG = null;
 		}
 		//We do not need to check if the user is leaving anymore
 		$(window).unbind('beforeunload');
