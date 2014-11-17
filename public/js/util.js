@@ -33,7 +33,7 @@ function displayAlert(type, message){
 
 $(function(){
 	//Display a disclamer if we are not under a recent firefox or webkit browser
-	if(!document.requestFullscreen) || !document.mozRequestFullScreen){
+	if(!(document.requestFullscreen || document.mozRequestFullScreen || document.webkitFullscreenEnabled)){
 		$('#disclamer_modal').modal({show: true})
 	}
 });
