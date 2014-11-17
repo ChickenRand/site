@@ -7,6 +7,7 @@ window.requestAnimFrame = (function() {
 })();
 
 $(function(){
+	$("#xp_container").addClass("fountain-container");
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 
@@ -70,6 +71,7 @@ $(function(){
 			$.get("/xp/questionnaire", function(html){
 				window.cancelAnimationFrame(requestAnimId);
 				document.onkeydown = null;
+				$("#xp_container").removeClass("fountain-container");
 				exitFullscreen();
 				$("#xp_container").html(html);
 			});
