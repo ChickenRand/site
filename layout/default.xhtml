@@ -69,8 +69,20 @@
                     <?r if user and logged_in? ?>
                         <li><a href="#{Users.r(:logout)}">Déconnexion</a></li>
                     <?r else ?>
-                        <li><a href="#{Users.r(:login)}">Connexion</a></li>
-                        <li><a href="#{Users.r(:signup)}">Inscription</a></li>
+                        <?r if @section == "connexion" ?>
+                          <li class="active">
+                        <?r else ?>
+                          <li>
+                        <?r end ?>
+                            <a href="#{Users.r(:login)}">Connexion</a>
+                          </li>
+                        <?r if @section == "inscription" ?>
+                          <li class="active">
+                        <?r else ?>
+                          <li>
+                        <?r end ?>
+                            <a href="#{Users.r(:signup)}">Inscription</a>
+                          </li>
                     <?r end ?>
                   </ul>
                 </nav>

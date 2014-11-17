@@ -10,6 +10,8 @@ class Users < Controller
       else
         flash[:danger] = "Email ou mot de passe invalide."
       end
+    else
+      @section = "connexion"
     end
   end
 
@@ -43,6 +45,8 @@ class Users < Controller
         flash[:warning] = "Password et confirmation pas egaux."
         redirect Users.r(:signup)
       end
+    else
+      @section = "inscription"
     end
   end
 end

@@ -1,11 +1,8 @@
 TOTO:
-- Localize time for waiting with moment.js
-- Add experimentation description and the time and that it stops automatically
 - Add a way to remotely restart the rng
 - Make rng and rng_server debian deamon that that automatically
 	=> Need to have a look at monit, seems very simple
 - Add an admin/results page with possibility to see results
-- Add a description for ChickenRand and doodle jump
 - Add a way to generate baseline results automatically in the admin panel (it waits for the queue to be empty to start a blank experiment)
 - Add some checks in the controller to avoid fake data
 - When client cut connection, server does not close the socket.
@@ -17,14 +14,17 @@ TOTO:
 	=>The footer need to be on the bottom of the page even if there is not a lot of content
 	=>Add margin to flash messages : OK
 	=>Add active class to the right menu
-- Create a new XP with a fountain
 - Use database duration for DoodleJump duration
-- Test RNG viability with the ratio 1/0 and the number's repartition
-- Build a minimalistic admin panel for managing xps and RNG at least, users at best
 - Add a discalaimer if the user is on IE or on mobile
 - Create a logo
 
 DONE:
+- Localize time for waiting with moment.js
+- Build a minimalistic admin panel for managing xps and RNG at least, users at best
+- Test RNG viability with the ratio 1/0 and the number's repartition
+- Create a new XP with a fountain
+- Add a description for ChickenRand and doodle jump
+- Add experimentation description and the time and that it stops automatically
 - Sometimes, the rng hangs when user quit the experiment
 	=> It shouldn't happend anymore cause rng connexion is only in fullscreen, if the user leave fullScreen, rng is stopped
 	=> Added a check on the onbeforeunload event
