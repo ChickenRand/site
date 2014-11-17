@@ -35,4 +35,8 @@ Pour cela, un <a href="http://fr.wikipedia.org/wiki/G%C3%A9n%C3%A9rateur_de_nomb
 
 Pour cela, nous avons mis au point un générateur de nombre aléatoire basé sur les <a href="http://holdenc.altervista.org/avalanche/">travaux de Giorgio Vazzana</a> qui nous ont permis de produire un générateur assez fiable et peu honéreux.</p>
 
-<p>Ce générateur est relié à un <a href="http://fr.wikipedia.org/wiki/Raspberry_Pi">Raspberry Pi</a> qui envoi les nombres aléatoires générés sur internet via des web sockets</p>
+<p>Ce générateur est relié à un <a href="http://fr.wikipedia.org/wiki/Raspberry_Pi">Raspberry Pi</a> qui envoi les nombres aléatoires générés sur internet via des web sockets.</p>
+
+<p>Ensuite nous faisons jouer à un jeu vidéo les utilisateurs tout en récupérant ces nombres. A la fin de l'expérience, nous envoyons sur un serveur les nombres aléatoires générés plus les données collectées lors du jeu comme le score ou le temps afin de tenter, par la suite, de trouver des corrélations.</p>
+
+<p>Une fois qu'un nombre suffisant de données auront été collectées, nous commencerons une phase d'analyse statistiques qui permettra de conclure si il y a eu, ou non, influence sur notre générateur.</p>
