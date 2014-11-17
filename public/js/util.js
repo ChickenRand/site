@@ -11,6 +11,7 @@ function requestFullscreen(el){
 }
 
 function exitFullscreen(){
+	$(document).unbind("webkitfullscreenchange mozfullscreenchange fullscreenchange");
 	if (document.exitFullscreen) {
 	    document.exitFullscreen();
 	} else if (document.webkitExitFullscreen) {
@@ -29,3 +30,10 @@ function displayAlert(type, message){
 	html += '<p><strong>' + typeMessages[type] + ' ! </strong>' + message + '</p></div>';
 	$('#alert_placeholder').html(html);
 }
+
+$(function(){
+	//Display a disclamer if we are not under a recent firefox or webkit browser
+	if(!document.requestFullscreen) || !document.mozRequestFullScreen){
+		$('#disclamer_modal').modal({show: true})
+	}
+});

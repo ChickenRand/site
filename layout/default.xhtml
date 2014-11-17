@@ -90,6 +90,23 @@
             </header>
             #{@content}
         </div>
+        <div class="modal fade" id="disclamer_modal" tabindex="-1" role="dialog" aria-labelledby="disclamer_modal_label" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span></button>
+                <h4 class="modal-title" id="disclamer_modal_label">Ce site ne fonctionne exclusivement que sous Firefox et Google Chrome</h4>
+              </div>
+              <div class="modal-body">
+                Nous sommes désolé mais ce site n'est actuellement compatible qu'avec des versions récentes de Firefox ou de Chrome.
+                <a href="http://www.getfirefox.com"><img src="/images/Chrome_and_Firefox_Logos.png" alt="Chrome and Firefox logo"></img></a>
+              </div>
+              <div class="modal-footer">
+                <a href="http://www.getfirefox.com" class="btn btn-default">Fermer</a>
+              </div>
+            </div>
+          </div>
+        </div>
         <footer class="bs-docs-footer">
             <div class="footer container">
                 <p>♥ de l'équipe de ChickenRand</p>

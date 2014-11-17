@@ -5,20 +5,21 @@ TOTO:
 - Add an admin/results page with possibility to see results
 - Add a way to generate baseline results automatically in the admin panel (it waits for the queue to be empty to start a blank experiment)
 - Add some checks in the controller to avoid fake data
-- When client cut connection, server does not close the socket.
 - add a logging system
 - Disable UI while ajax and display messages
 - Set up a proper API for sending the result and display the questionnaire, practically nothing has to be done in the experiment code (ie doodle_jump.js)
 - Add website content
-- Review design to be less... poor
-	=>The footer need to be on the bottom of the page even if there is not a lot of content
-	=>Add margin to flash messages : OK
-	=>Add active class to the right menu
 - Use database duration for DoodleJump duration
 - Add a discalaimer if the user is on IE or on mobile
 - Create a logo
 
 DONE:
+- When client cut connection, server does not close the socket.
+	=>Manage with the beforeunload we stop the RNG if user close the tab
+- Review design to be less... poor
+	=>The footer need to be on the bottom of the page even if there is not a lot of content
+	=>Add margin to flash messages : OK
+	=>Add active class to the right menu
 - Localize time for waiting with moment.js
 - Build a minimalistic admin panel for managing xps and RNG at least, users at best
 - Test RNG viability with the ratio 1/0 and the number's repartition
