@@ -1,6 +1,4 @@
 TOTO:
-- Check when the user leaveFullScreen and re ask for it, if he doesn't authorize it, cancel the experiment.
-- Sometimes, the rng hangs when user quit the experiment
 - Localize time for waiting with moment.js
 - Add experimentation description and the time and that it stops automatically
 - Add a way to remotely restart the rng
@@ -27,6 +25,10 @@ TOTO:
 - Create a logo
 
 DONE:
+- Sometimes, the rng hangs when user quit the experiment
+	=> It shouldn't happend anymore cause rng connexion is only in fullscreen, if the user leave fullScreen, rng is stopped
+	=> Added a check on the onbeforeunload event
+- Check when the user leaveFullScreen and re ask for it, if he doesn't authorize it, cancel the experiment.
 - Add a concentration column in UserXp and ask for 0 to 10 the level of concentration after an experiment
 - RNG number generation is weird !!! Why my numbers are not equaly spreaded ??????? => Need to investigate !!!!
 	=> Von neumann method seems to work

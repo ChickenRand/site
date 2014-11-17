@@ -5,6 +5,7 @@ $(function(){
 	var item_id = null;
 	var update_interval = null;
 	var inQueue = false;
+	var firstFullScreen = true;
 	//Set moment to french
 	moment.locale('fr'); 
 
@@ -133,11 +134,14 @@ $(function(){
 		if(item_id != null){
 			$.post("/queue/remove/" + item_id + ".json", function(data){
 			});
-			//Also stop the RNG if there was one
-			if(AVAILABLE_RNG != null){
-				AVAILABLE_RNG.stop();
-			}
 		}
+		//Also stop the RNG if there was one
+		if(AVAILABLE_RNG != null){
+			AVAILABLE_RNG.stop();
+			AVAILABLE_RNG = null;
+		}
+		//We do not need to check if the user is leaving anymore
+		$(window).unbind('beforeunload');
 	}
 	//Need to be accessible from outside when finishing the xp
 	window.removeFromQueue = removeFromQueue;
@@ -154,6 +158,11 @@ $(function(){
 			else{
 				$.get("/xp/ajax_load/" + getXpId(), function(html){
 					AVAILABLE_RNG = new Rng(data.url, data.id);
+					//Add a check if the user is leaving the page in order to properly stop the RNG
+					$(window).on('beforeunload', function(){
+						removeFromQueue();
+						return "Stopping Rng";
+					});
 					var timeoutId = window.setTimeout(function(){
 						if(!AVAILABLE_RNG.isConnected()){
 							onRngError();
@@ -174,6 +183,22 @@ $(function(){
 		exitFullscreen();
 		window.location.replace("/xp/no_rng");
 	}
+
+	//Add a check if user remove FullScreen
+	//And re-ask for fullscreen
+	function onFullscreenChange(){
+		console.log("change");
+		if(document.fullscreenElement == null){
+			if(firstFullScreen){
+				firstFullScreen = false;
+			}
+			else{
+				removeFromQueue();
+				window.location.replace("/xp/no_fullscreen");
+			}
+		}
+	}
+	$(document).on("webkitfullscreenchange mozfullscreenchange fullscreenchange", onFullscreenChange);
 
 	getState();
 });
