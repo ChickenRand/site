@@ -1,4 +1,5 @@
 TOTO:
+- Ask for localisation in signup in order to see if the distance with the rng can influence something.
 - Add a way to remotely restart the rng
 - Make rng and rng_server debian deamon that that automatically
 	=> Need to have a look at monit, seems very simple

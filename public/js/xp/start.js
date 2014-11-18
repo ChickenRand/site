@@ -127,7 +127,7 @@ $(function(){
 					showXp();
 				}
 			}
-		});		
+		});
 	}
 
 	function removeFromQueue(){
