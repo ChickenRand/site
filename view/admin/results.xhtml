@@ -5,6 +5,7 @@
 			<th>#</th>
 			<th>User</th>
 			<th>Xp</th>
+			<th>Date</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
@@ -14,7 +15,8 @@
 				<td>#{res.id}</td>
 				<td>#{res.user.email}</td>
 				<td>#{res.xp.name}</td>
-				<td><a class="see-result" href="#{AdminController.r(:get_result)}/#{res.id}">Voir les résultats</a> <a href="#{AdminController.r(:delete_result)}/#{res.id}">Supprimer</a></td>
+				<td>#{res.xp_time.strftime('%a %d %b %Y')}</td>
+				<td><a class="see-result" href="#{AdminController.r(:get_result)}/#{res.id}.json">Voir les résultats</a> <a href="#{AdminController.r(:delete_result)}/#{res.id}">Supprimer</a></td>
 			</tr>
 		<?r end ?>
 	</tbody>

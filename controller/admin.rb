@@ -190,15 +190,11 @@ class AdminController < Controller
   end
 
   def get_result(id)
-    if(request.xhr?)
-      res = UserXp[id]
-      if res.nil?
-        {message: "Résultat id=#{id} inexistant"}
-      else
-        res.value
-      end
+    res = UserXp[id]
+    if res.nil?
+      {message: "Résultat id=#{id} inexistant"}
     else
-      redirect AdminController.r(:results)
+      res.values
     end
   end
 
