@@ -25,7 +25,7 @@ $(function(){
 	var timeStart = Date.now();
 
 	//Adding keyboard controls
-	document.onkeydown = function(e) {
+	document.onkeyup = function(e) {
 		//Incrémenter la taille de la fontaine
 		var key = e.keyCode;
 		//Key up or space
