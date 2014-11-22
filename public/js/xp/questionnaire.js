@@ -8,8 +8,8 @@ $(function(){
 			formData.push({name: 'results', value: JSON.stringify(AVAILABLE_RNG.results)});
 			formData.push({name: 'rng_id', value: AVAILABLE_RNG.id});
 			$.post("/xp/send_results/" + getXpId(), formData, function(data){
-				window.location.replace("/xp/end_xp");
 			});
+			window.location.replace("/xp/end_xp");
 		}
 		else{
 			window.location.replace("/xp/end_xp_problem");
