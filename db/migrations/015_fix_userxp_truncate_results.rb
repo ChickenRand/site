@@ -2,7 +2,7 @@ Sequel.migration do
   change do
     DB[:user_xp].each do |xp|
       begin
-        JSON.parse(xp.results)
+        JSON.parse(xp[:results])
       rescue => e
         #If there is an error, it means that the results are truncate
         ind = xp[:results].rindex(",{")
