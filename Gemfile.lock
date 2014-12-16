@@ -1,23 +1,24 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    bcrypt (3.1.7)
+    bcrypt (3.1.9)
     daemons (1.1.9)
     eventmachine (1.0.3)
     innate (2013.02.21)
       rack (~> 1.5.2)
-    mail (2.6.1)
+    json (1.8.1)
+    mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
-    mysql2 (0.3.16)
+    mysql2 (0.3.17)
     pony (1.11)
       mail (>= 2.0)
     rack (1.5.2)
-    rake (10.3.2)
+    rake (10.4.2)
     ramaze (2012.12.08)
       innate (>= 2012.12)
       rake
-    sequel (4.15.0)
+    sequel (4.17.0)
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0)
@@ -28,6 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  json
   mysql2
   pony
   rake
