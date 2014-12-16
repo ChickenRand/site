@@ -8,7 +8,7 @@ Sequel.migration do
         ind = xp[:results].rindex(",{")
         if !ind.nil?
           puts "Fix result id #{xp[:id]}"
-          xp[:results] = xp[:results][0, ind]
+          xp[:results] = xp[:results][0, ind] + "]}"
           from(:user_xp).filter(id: xp[:id]).update(results: xp[:results])
         end
       end
