@@ -6,7 +6,6 @@ GEM
     eventmachine (1.0.3)
     innate (2013.02.21)
       rack (~> 1.5.2)
-    json (1.8.1)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
@@ -29,7 +28,6 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
-  json
   mysql2
   pony
   rake

@@ -198,6 +198,88 @@ class AdminController < Controller
     end
   end
 
+  def get_diff_ones_xp(xp_name = nil)
+    xp = Xp[name: xp_name]
+    if xp.nil? and xp_name
+      {message: "Xp inexistante"}
+    else
+      diff_ones = []
+      tmp = 0
+      nb_time = 0
+      if xp_name.nil?
+        results = UserXp.all
+      else
+        results = UserXp.where(xp_id: xp.id)
+      end
+      results.each do |r|
+        begin
+          parsed_results = JSON.parse(r.results)
+          parsed_results["trials"].each do |t|
+            if nb_time < 10
+              tmp += 100 - t["nbOnes"]
+              nb_time += 1
+            else
+              diff_ones.push(tmp)
+              nb_time = 0
+            end
+          end
+        rescue => e
+          puts e.message
+        end
+      end
+      diff_ones.push(tmp) if(nb_time != 0)
+      diff_ones
+    end
+  end
+
+  def get_diff_ones_doodle
+    get_diff_ones_xp("Doodle Jump")
+  end
+
+  def get_diff_ones_fountain
+    get_diff_ones_xp("The Fountain")
+  end
+
+  def get_diff_ones_total
+    get_diff_ones_xp()
+  end
+
+  # Renvoie le nombre de 1 en fonction du score dans le Jeu
+  def get_diff_ones_points_doodle
+    xp = Xp[name: "Doodle Jump"]
+    if xp.nil?
+      {message: "Xp inexistante"}
+    else
+      diff_ones = []
+      40.times do
+        diff_ones.push({total: 0, nb: 0})
+      end
+      results = UserXp.where(xp_id: xp.id)
+      results.each do |r|
+        begin
+          parsed_results = JSON.parse(r.results)
+          parsed_results["trials"].each do |t|
+            score = t["gameScore"]
+            tabInd = score / 100
+            #The score can be -1 if game over so we add one
+            diff_ones[tabInd + 1][:total] += 100 - t["nbOnes"]
+            diff_ones[tabInd + 1][:nb] += 1
+          end
+        rescue => e
+          puts e.message
+        end
+      end
+      diff_ones.each_index do |i|
+        if diff_ones[i][:nb] > 0
+          diff_ones[i] = diff_ones[i][:total] / diff_ones[i][:nb]
+        else
+          diff_ones[i] = 0
+        end
+      end
+      diff_ones
+    end
+  end
+
   def delete_result(id)
     res = UserXp[id]
     if res.nil?
