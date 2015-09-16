@@ -14,6 +14,7 @@ Nous avons un objectif que l'on pourrait qualifier d'ingénieurie et nous parton
 Nous nous basons principalement sur les recherches du [PEAR](http://www.princeton.edu/~pear/pdfs/), laboratoire américain qui a étudié le phénomène pendant plus de 30 ans.
 
 Une autre de nos inspirations est [la thèse de René Peoc'h](http://psiland.free.fr/savoirplus/theses/peoch.pdf) portant sur l'influence de l'intention humaine et [animale sur un petit robot se déplacant aléatoirement](http://www.dailymotion.com/video/xb6zgf_l-esprit-et-la-matiere_tech).
+[![Vidéo de présentation des travaux de René Peoc'h](http://s1.dmcdn.net/bfc8/220x124-Osi.jpg)](http://www.dailymotion.com/video/xb6zgf_l-esprit-et-la-matiere_tech)
 
 Sans oublier bien sûr les travaux de Dean Radin avec le [Global Consciousness Project](http://noosphere.princeton.edu/).
 
