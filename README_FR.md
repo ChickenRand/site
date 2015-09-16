@@ -18,9 +18,9 @@ Ils ont eu l'idée d'utiliser des générateurs de nombres aléatoires, sortent 
 
 En temps normal, une telle machine génère statistiquement autant de 1 que de 0, on a donc 1 chance sur 2 d'avoir un 1 et 1 chance sur 2 d'avoir un 0.
 
-Mais s'ils demandaient à une personne de se concentrer sur la machine pour qu'elle génère plus de 1, aussi bizarre que cela puisse paraitre, elle générait plus de 1 sur de très longues séries (à raison de 2 ou 3 un en plus par mille).
+Mais s'ils demandaient à une personne de se concentrer sur la machine pour qu'elle génère plus de 1, aussi bizarre que cela puisse paraitre, elle générait plus de 1 sur de très longues séries (à raison de 2 ou 3 un en plus tous les 10000).
 
-Pendant presque 30 ans le PEAR à étudié ce phénomène en fabriquant toutes sortes de machines, en s'efforcant d'éliminer tous les biais possibles de l'expérience (d'éventuelles ondes, de la chaleur ou tout autres éléments qui aurait pu perturber la génération de nombres) et d'y trouver une explication.
+Pendant presque 30 ans le PEAR à étudié ce phénomène en fabriquant toutes sortes de machines, en s'efforcant d'éliminer tous les biais possibles de l'expérience (d'éventuelles ondes, de la chaleur ou tout autres éléments qui auraient pu perturber la génération de nombres) et d'y trouver une explication.
 
 ## Conclusions du PEAR
 
@@ -48,30 +48,30 @@ Je partage cet avis et c'est justement le but du projet ChickenRand.
 ## Motivations
 
 J'ai pris le parti de croire aux résultats du PEAR (et aussi aux résultats d'autres expériences menées avec des générateurs de nombres aléatoires) même si pour l'instant, aucun modèle physique n'est compatible avec leurs conclusions.
-Et comme on dit si bien : "Si on avait attendu de comprendre la combustion pour construire des automobiles, on serait encore en train d'utiliser les chevaux."
+Et comme le dit si bien Robert Jahn : "Si on avait attendu de comprendre la combustion pour construire des automobiles, on serait encore en train d'utiliser les chevaux."
 
-Nous chercons ici à étudier le phénomène dans le but d'en trouver des usages pratiques et de développer des technologies ou des méthodes permettant d'améliorer notre quotidien.
+Nous cherchons ici à étudier le phénomène dans le but d'en trouver des usages pratiques et de développer des technologies ou des méthodes permettant d'améliorer notre quotidien.
 
 ## De la recherche ouverte
 
-ChickenRand est un projet de recherche à but non lucratif sous l'égide d'une association d'intérêt générale ce qui fait qu'il est possible de déduire vos dons de vos impôts à hauteur de 60%.
+ChickenRand est un projet de recherche à but non lucratif sous l'égide d'une association d'intérêt générale ce qui fait qu'il est possible de déduire vos dons de vos impôts à hauteur de 60% (cet aspect reste encore hypothétique).
 
 C'est aussi un projet entièrement libre et open source ce qui fait que tout le monde peut facilement reproduire les conditions d'expérimentation chez lui et étudier la manière dont sont traitées les données.
 
 ## Un site internet et une application smartphone
 
-Concrétement, il s'agit d'un site internet et d'une application smartphone sur lequel tout le monde est invité à créer un compte et à participer à des expériences similaires à celles du PEAR mais de chez eux.
+Concrétement, il s'agit d'un site internet et d'une application smartphone (pas encore développée) sur lequel tout le monde est invité à créer un compte et à participer à des expériences similaires à celles du PEAR mais de chez eux.
 Notre serveur étant relié à un ensemble de générateurs de nombres aléatoires servant aux expériences.
 
 ## Aller plus loin que le PEAR
 
-Dans bien des points, nous nous inscrivons dans la démarche du PEAR mais nous souhaitons aller plus loin. Tout d'abord en proposant à quiconque le souhaite de participer aux expériences devant son ordinateur  ou son smartphone puis en proposant des expériences à fort attachement emotionnel.
+Dans bien des points, nous nous inscrivons dans la démarche du PEAR mais nous souhaitons aller plus loin. Tout d'abord en proposant à quiconque le souhaite de participer aux expériences devant son ordinateur ou son smartphone puis en proposant des expériences à fort attachement emotionnel.
 
 ## Le jeu vidéo comme outil
 
 Là où le PEAR demandait simplement aux participants de générer plus de 1 ou plus de 0, nous proposons aux utilisateurs du site de jouer à des jeux vidéo en supposant que l'attachement émotionnel à l'expérience en sera accru.
 
-Ces jeux seront simples pour transcrire une volonté comme faire plus de 1 (par exemple, faire monter un personnage vers le haut) ou diriger un robot qui se déplace aléatoirement (jeu où l'on déplace un robot en utilisant les touches).
+Ces jeux seront simples pour retranscrire une volonté comme faire plus de 1 (par exemple, faire monter un personnage vers le haut) ou diriger un robot qui se déplace aléatoirement (jeu où l'on déplace un robot en utilisant les touches).
 
 De plus, nous comptons rendre disponible en direct les résultats des utilisateurs afin qu'ils puissent voir leur courbe d'évolution et se sentir ainsi plus impliqué dans le processus. La mise en concurrence des utilisateurs permettra aussi une émulation qui, nous l'espérons, sera bénéfique pour les résultats.
 
@@ -79,17 +79,17 @@ De plus, nous comptons rendre disponible en direct les résultats des utilisateu
 
 ### Phase 1
 
-J'ai déjà construit un premier générateur de nombres aléatoire et mis au point un site internet sur lequel plusieurs centaines d'expériences ont été menées. Les résultats semble intéressant et nécessite que l'on se penche plus dessus.
+J'ai déjà construit un premier générateur de nombres aléatoire et mis au point un site internet sur lequel plusieurs centaines d'expériences ont été menées. Les résultats semble intéressants et nécessitent une analyse plus poussée.
 
 ### Phase 2
 
-Cette première avancée est encourageante, mais j'aimerai utiliser du matériel plus fiable et plus performant, à savoir un générateur de nombres aléatoire Open Source et Open Hardware qui se branche directement par USB : le OneRNG.
+Cette première avancée est encourageante, mais j'aimerai utiliser du matériel plus fiable et plus performant, à savoir un générateur de nombres aléatoire Open Source et Open Hardware qui se branche directement par USB : le [OneRNG](http://onerng.info/).
 
 J'aimerai aussi pouvoir faire passer les expériences à un nombre beaucoup plus important de personnes pour avoir des statistiques aussi vastes que possible. Pour cela, il faut plus de générateur de nombres aléatoires car il ne peut y avoir qu'une expérience en simultané pour l'instant, faute de moyens.
 
 L'aspect graphique du site, de l'application et des jeux nécessite un soin constant et de vraies compétences dont seul un graphiste professionnel peut s'occuper.
 
-Enfin, j'ai beaucoup d'idée de jeux vidéo, d'analyse statistiques et cela prend du temps, temps que je ne peux consacré au projet s'il n'est pas financé.
+Enfin, j'ai beaucoup d'idée de jeux vidéo, d'analyse statistiques et cela prend du temps, temps que je pourrai consacrer au projet s'il est financé.
 
 C'est pourquoi nous avons besoin de vous pour financer le projet et le faire aller encore plus loin.
 
