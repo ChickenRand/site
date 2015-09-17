@@ -33,7 +33,7 @@ Mais le phénomène comportent plusieurs caractéristiques atypiques :
 
 ## Fermeture du laboratoire
 
-Malgré le sérieu des recherches et l'intégrité de leurs auteurs, les travaux scientifiques du PEAR n'ont pu paraitre dans aucunes grandes revues scientifiques à commité de lecture, pour la simple et bonne raison que l'objet même de leur recherche était rejeté *a priori*.
+Malgré le sérieux des recherches et l'intégrité de leurs auteurs, les travaux scientifiques du PEAR n'ont pu paraitre dans aucunes grandes revues scientifiques à commité de lecture, pour la simple et bonne raison que l'objet même de leur recherche était rejeté *a priori*.
 Leurs confrères ne voulant pas considérer comme scientifique une telle question.
 La [page wikipédia anglaise](https://en.wikipedia.org/wiki/Princeton_Engineering_Anomalies_Research_Lab) du laboratoire est toujours très critique à son égard...
 Pourtant, la physique quantique a démontrée depuis presque un siècle le rôle primordiale de la conscience sur le façonnement de notre réalité.
@@ -47,7 +47,7 @@ Je partage cet avis et c'est justement le but du projet ChickenRand.
 
 ## Motivations
 
-J'ai pris le parti de croire aux résultats du PEAR (et aussi aux résultats d'autres expériences menées avec des générateurs de nombres aléatoires) même si pour l'instant, aucun modèle physique n'est compatible avec leurs conclusions.
+J'ai pris le parti d'accepter l'objectivité des résultats du PEAR (et aussi aux résultats d'autres expériences menées avec des générateurs de nombres aléatoires) même si pour l'instant, aucun modèle physique n'est compatible avec leurs conclusions.
 Et comme le dit si bien Robert Jahn : "Si on avait attendu de comprendre la combustion pour construire des automobiles, on serait encore en train d'utiliser les chevaux."
 
 Nous cherchons ici à étudier le phénomène dans le but d'en trouver des usages pratiques et de développer des technologies ou des méthodes permettant d'améliorer notre quotidien.
