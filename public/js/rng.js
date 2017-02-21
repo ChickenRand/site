@@ -6,7 +6,7 @@ $(function(){
 		this.onNumbers = __bind(this.onNumbers, this);
 		this.onError = __bind(this.onError, this);
 		this.url = url;
-		this.socket = new WebSocket("ws://" + this.url, 'rng-protocol');
+		this.socket = new WebSocket("ws://" + this.url);
 		this.socket.binaryType = 'arraybuffer';
 		this.socket.onmessage = this.onNumbers;
 		this.numbersCbs = [];
@@ -47,8 +47,7 @@ $(function(){
 
 	Rng.prototype.onNumbers = function(message) {
 		var trialRes = {
-			//Convert the TypedArray into classical Array (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays#Conversion_to_normal_arrays)
-			numbers: Array.prototype.slice.call(new Uint8Array(message.data)),
+			numbers: Array.from(new Uint8Array(message.data)),
 			nbOnes: 0,
 			nbZeros: 0,
 			ms: Date.now() - this.results.date

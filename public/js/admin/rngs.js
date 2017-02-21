@@ -6,6 +6,8 @@ $(function(){
 	var numbersChartInterval = null;
 	var ratioChartInterval = null;
 	var cumulChartInterval = null;
+	var graphStartTime = null;
+
 	function onNumbers(data, rng){
 		//If we are here, it means the rng state is available
 		rng.stop();
@@ -129,6 +131,7 @@ $(function(){
 	};
 
 	function createRatioChart(){
+		var bitRate = 0;
 		var instantRatios = [];
 		var cumulRatios = [];
 		var label = [];
@@ -141,7 +144,7 @@ $(function(){
 			labels: label,
 			datasets: [
 				{
-					label: "Ratio instantané",
+					label: "Ratio instantané ",
 					fillColor: "rgba(151,187,205,0.2)",
 					strokeColor: "rgba(220,220,220,1)",
 					pointColor: "rgba(220,220,220,1)",
@@ -175,6 +178,10 @@ $(function(){
 		var ratioChart = new Chart(ctx_ratio).Line(data, options);
 
 		rngChart.addNumbersCb(function(data, rng){
+			var elapsedTime = (Date.now() - graphStartTime) / 1000;
+			bitRate = (rng.totalOnes + rng.totalZeros) / elapsedTime;
+			$('#bit_rate').html('Bitrate : ' + bitRate + 'kbits/s');
+
 			var cumulRatio = rng.totalOnes / (rng.totalOnes + rng.totalZeros);
 			cumulRatios.shift();
 			cumulRatios.push(cumulRatio);
@@ -247,6 +254,7 @@ $(function(){
 		numbersChartInterval = null;
 		ratioChartInterval = null;
 		cumulChartInterval = null;
+		graphStartTime = null;
 	});
 
 	$(".rng-graph").click(function(e, el){
@@ -254,9 +262,13 @@ $(function(){
 		var url = getUrl(rngId);
 		rngChart = new Rng(url, rngId);
 
+		graphStartTime = Date.now();
+
 		createCumulativChart();
 		createRatioChart();
 		createNumChart();
+
+
 	});
 
 	var timeoutId = window.setTimeout(function(){

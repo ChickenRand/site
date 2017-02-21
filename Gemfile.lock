@@ -2,8 +2,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     bcrypt (3.1.9)
+    bindata (2.3.5)
     daemons (1.1.9)
-    eventmachine (1.0.3)
+    eventmachine (1.0.4)
     innate (2013.02.21)
       rack (~> 1.5.2)
     mail (2.6.3)
@@ -28,9 +29,13 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  bindata
   mysql2
   pony
   rake
   ramaze (>= 2.0.0)
   sequel
   thin
+
+BUNDLED WITH
+   1.14.4

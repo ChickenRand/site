@@ -1,10 +1,7 @@
-# Ramaze Application
+# ChickenRand Ramaze website
 
-Welcome to your new Ramaze application. This README serves as a starting point
-for writing an application using the code you just generated.
-
-Once you've started working on your application you'll probably want to update
-this README so that its contents reflect your application's state and purpose.
+Yes I know Ramaze is no longer developed, but I create this website in like 20 hours and needed a tool that I know perfectly.
+Ramaze was that tool... it still fullfill my needs but I want to change for Laravel in the future.
 
 ## Requirements
 
@@ -12,24 +9,16 @@ In order to run this application you'll need to have Ramaze 2.0.0 or newer and
 Rake. Optionally you can install Bundler and use it for Gem management, this
 can be done as following:
 
+If there is a problem during EventMachine compilation, edit Gemfile.lock and use 1.0.4 instead of 1.0.3
+
     $ gem install bundler
     $ bundle install
+    $ sequel -m db/migrations/ mysql2://user:password@server_addr/psi_rng
+    $ rake server:start
 
-## Rake Tasks
+Then you need to manually add an admin. I recommand using sequel repl since it use Model and password hash method :
 
-This application comes with a few predefined Rake tasks that make it easy to
-get started. You can list these tasks by running `rake -T` or `rake -D` (this
-shows longer descriptions for tasks if there are any).
-
-For example, to start a Ramaze console using Pry you'd run the following
-command:
-
-    $ rake ramaze:pry
-
-## Resources
-
-In case you need help you can refer to the following resources:
-
-* Ramaze website: <http://ramaze.net/>
-* Github repository: <https://github.com/ramaze/ramaze>
-* IRC channel: \#ramaze on Freenode
+	$ cd site_dir
+	$ sequel mysql2://user:password@server_addr/psi_rng
+	$ > require './model/user'
+	$ > User.create(:email => 'your@email.com', :password => 'YourPassWordInClear', :admin => true)
