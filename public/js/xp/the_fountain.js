@@ -7,6 +7,10 @@ window.requestAnimFrame = (function() {
 })();
 
 $(function(){
+	const XP_DURATION = 30; // In seconds
+
+	let running = true;
+
 	$("#xp_container").addClass("fountain-container");
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
@@ -60,21 +64,33 @@ $(function(){
 	};
 
 	function animloop() {
-		update();
-		checkXpEnd();
-		requestAnimId = requestAnimFrame(animloop);
+		if(running) {
+			update();
+			checkXpEnd();
+			requestAnimId = requestAnimFrame(animloop);
+		}
 	};
 
-	function checkXpEnd(){
-		if(Date.now() - timeStart > 60 * 1000){
-			//Changing container content to display questionnaire which will send xp results
-			$.get("/xp/questionnaire", function(html){
-				window.cancelAnimationFrame(requestAnimId);
-				document.onkeydown = null;
-				$("#xp_container").removeClass("fountain-container");
-				exitFullscreen();
+	function endXp() {
+		window.cancelAnimationFrame(requestAnimId);
+		document.onkeydown = null;
+		ctx.fillText("FIN DE L'EXPERIENCE", 50, 200);
+		//Changing container content to display questionnaire which will send xp results
+		$.get("/xp/questionnaire", function(html){
+			$("#xp_container").removeClass("fountain-container");
+			exitFullscreen();
+			$("#xp_container").fadeToggle(1000, function () {
 				$("#xp_container").html(html);
+				$("#xp_container").fadeToggle(2000);
 			});
+		});
+	}
+
+	function checkXpEnd(){
+		if(running && Date.now() - timeStart > XP_DURATION * 1000){
+			// Even if we cancelAnimationFrame, it is still called a couple of times after
+			running = false;
+			endXp();
 		}
 	}
 
