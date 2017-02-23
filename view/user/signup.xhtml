@@ -1,10 +1,7 @@
-<div class="alert alert-warning" role="alert">
-<p><strong>Attention ! </strong>Le site est pour l'instant en Béta et les inscription ne sont ouverte qu'à ceux qui ont reçu une email d'invitation.</p>
-</div>
 <form method="post" action="#{Users.r(:signup)}" role="form" >
   <div class="form-group">
-    <label for="email">Adresse email</label>
-    <input type="email" class="form-control" name="email" placeholder="Email">
+    <label for="email">Identifiant</label>
+    <input type="text" class="form-control" name="email" placeholder="Nom, pseudo, adresse mail, ce que vous voulez">
   </div>
   <div class="form-group">
     <label for="password">Mot de passe</label>
@@ -22,7 +19,7 @@
   	<label for="laterality">Etes-vous gaucher ou droitier ?</label>
   	<div class="radio-inline">
   	  <label>
-  	    <input type="radio" name="laterality" value="left" checked>
+        <input type="radio" name="laterality" value="left">
   	    Gaucher
   	  </label>
   	</div>
@@ -37,7 +34,7 @@
   	<label for="believer">Croyiez-vous que votre intention puisse influencer la matière de quelque manière que ce soit ?</label>
   	<div class="radio-inline">
   	  <label>
-  	    <input type="radio" name="believer" value="true" checked>
+        <input type="radio" name="believer" value="true">
   	    Oui
   	  </label>
   	</div>
@@ -52,7 +49,7 @@
   	<label for="sex">Etes-vous une femme ou un homme ?</label>
   	<div class="radio-inline">
   	  <label>
-  	    <input type="radio" name="sex" value="F" checked>
+        <input type="radio" name="sex" value="F">
   	    Femme
   	  </label>
   	</div>
