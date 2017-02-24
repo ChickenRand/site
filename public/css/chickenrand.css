@@ -5,6 +5,7 @@ footer {
 }
 
 .fountain-container {
+	margin-top: 50px;
 	width: 362px;
 	height: 600px;
 }
@@ -56,15 +57,35 @@ footer {
 
 :fullscreen div {
 	max-width: 70% !important;
-	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
 };
 
 :-webkit-full-screen div {
 	max-width: 70% !important;
-	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 :-moz-full-screen div {
 	max-width: 70% !important;
-	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.outer {
+	display: table;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.middle {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.innner {
+	margin-left: auto;
+	margin-right: auto;
 }

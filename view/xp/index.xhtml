@@ -1,16 +1,93 @@
-<h1>Liste des expériences</h1>
-
-
-Voici la liste des expérimentations à passer :
-
-<?r @xps.each do |xp| ?>
-	<div class="media">
-		<a class="pull-left" href="#{Xps.r(:start, xp.id)}">
-			<img src="#{xp.img_url}" alt="#{xp.name} image" class="img-thumbnail xp-thumbnail">
-		</a>
-		<div class="media-body">
-			<a class="h3 media-heading xp-header" href="#{Xps.r(:start, xp.id)}">#{xp.name}</a>
-			#{xp.catch_phrase}
-		</div>
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/dP18QNsTzOE" frameborder="0"></iframe></center>
+<?r if user and logged_in? ?>
+	<br>
+	<br>
+	<center><a class="btn btn-lg btn-success" href="#{Xps.r(:start, '2')}">Démarrer l'experience !</a></center>
+<?r else ?>
+<div class="row">
+	<div class="col-md-5">
+		<center><h2>Inscrivez-vous</h2></center>
+		<form method="post" action="#{Users.r(:signup)}" role="form" >
+		  <div class="form-group">
+			<label for="email">Identifiant</label>
+			<input type="text" class="form-control" name="email" placeholder="Nom, pseudo, adresse mail, ce que vous voulez">
+		  </div>
+		  <div class="form-group">
+			<label for="password">Mot de passe</label>
+			<input type="password" class="form-control" name="password" placeholder="Mot de passe">
+		  </div>
+		  <div class="form-group">
+			<label for="password_confirm">Confirmation du mot de passe</label>
+			<input type="password" class="form-control" name="password_confirm" placeholder="Mot de passe">
+		  </div>
+		  <div class="form-group">
+			<label for="age">Age</label>
+			<input type="number" class="form-control" name="age" placeholder="25">
+		  </div>
+		  <div class="form-group">
+			<label for="laterality">Etes-vous gaucher ou droitier ?</label>
+			<div class="radio-inline">
+			  <label>
+				<input type="radio" name="laterality" value="left">
+				Gaucher
+			  </label>
+			</div>
+			<div class="radio-inline">
+			  <label>
+				<input type="radio" name="laterality" value="right">
+				Droitier
+			  </label>
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="believer">Croyiez-vous que votre intention puisse influencer la matière de quelque manière que ce soit ?</label>
+			<div class="radio-inline">
+			  <label>
+				<input type="radio" name="believer" value="true">
+				Oui
+			  </label>
+			</div>
+			<div class="radio-inline">
+			  <label>
+				<input type="radio" name="believer" value="false">
+				Non
+			  </label>
+			</div>
+		  </div>
+		<div class="form-group">
+			<label for="sex">Etes-vous une femme ou un homme ?</label>
+			<div class="radio-inline">
+				<label>
+					<input type="radio" name="sex" value="F">
+					Femme
+				</label>
+			</div>
+			<div class="radio-inline">
+			  <label>
+				<input type="radio" name="sex" value="M">
+				Homme
+			  </label>
+			</div>
+		  </div>
+		  <button type="submit" class="btn btn-default">Inscription</button>
+		</form>
 	</div>
+	<div class="col-md-1">
+		<center><h2>OU</h2></center>
+	</div>
+	<div class="col-md-5">
+		<center><h2>Connectez-vous</h2></center>
+		<form method="post" action="#{Users.r(:login)}" role="form" >
+		  <div class="form-group">
+			<label for="email">Identifiant</label>
+			<input type="email" class="form-control" name="email" placeholder="Votre identifiant utilisé lors de votre inscription">
+		  </div>
+		  <div class="form-group">
+			<label for="password">Mot de passe</label>
+			<input type="password" class="form-control" name="password" placeholder="Mot de passe">
+		  </div>
+		  <button type="submit" class="btn btn-default">Connexion</button>
+		</form>
+	</div>
+</div>
 <?r end ?>

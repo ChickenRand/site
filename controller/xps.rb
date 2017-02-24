@@ -4,13 +4,13 @@ class Xps < Controller
   layout :default
   set_layout nil => [ :ajax_load, :questionnaire ]
 
-  before_all do
+  before :start do
     if !logged_in?
       if request.xhr?
         respond!({message: "Vous devez être connecté pour participer aux expériences."}.to_json, 401, 'Content-Type' => 'application/json')
       else
         flash[:warning] = "Vous devez être connecté pour participer aux expériences."
-        redirect Users.r(:login)
+        redirect Xps.r(:index)
       end
     end
     @section = "xp"
@@ -18,7 +18,7 @@ class Xps < Controller
 
   def index
     @xps = Xp.all
-    @title = "Expériences"
+    @title = "Expérience"
   end
 
   def start(id)

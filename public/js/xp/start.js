@@ -18,6 +18,9 @@ $(function(){
 		requestFullscreen($("#xp_container").get(0));
 		$("#full_screen").addClass("hide");
 		$("#load_xp").removeClass("hide");
+		$('#xp_container').addClass('outer');
+		$('#xp_middle').addClass('middle');
+		$('#xp_text').addClass('inner');
 	});
 
 	$("#load_xp").click(function(e){
@@ -186,7 +189,6 @@ $(function(){
 	//Add a check if user remove FullScreen
 	//And re-ask for fullscreen
 	function onFullscreenChange(){
-		console.log("change");
 		if(document.fullscreenElement == null){
 			if(firstFullScreen){
 				firstFullScreen = false;
