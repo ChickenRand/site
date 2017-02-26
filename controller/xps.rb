@@ -1,3 +1,5 @@
+require 'net/http'
+
 class Xps < Controller
   map '/xp'
 
@@ -45,12 +47,16 @@ class Xps < Controller
     end
   end
 
-  #Save experiments results
+  # Save experiments results
   def send_results(id)
     results = request.params["results"]
     if logged_in? and !results.nil? and !Xp[id].nil?
-      res = UserXp.create do |r|
-        r.user_id = user['id']
+      # RNG Control post data with the user who've done the active XP, this way we can have control for each user
+      # Though, I don't know if it will be usefull :)
+      rng_control = request.params["rng_control_user_id"]
+      user_id = if !rng_control.nil? then rng_control else user['id'] end
+      ux = UserXp.create do |r|
+        r.user_id = user_id
         r.xp_id = id
         r.xp_time = Time.now
         r.music = request.params["music"]
@@ -59,6 +65,11 @@ class Xps < Controller
         r.results = results
         r.alone = request.params["alone"]
         r.rng_id = request.params["rng_id"]
+      end
+      # Immediatly generate control results based on the same amount of time and linked to the same user and xp
+      uri = URI('http://localhost:1337/rng-control')
+      if rng_control.nil? then
+        response = Net::HTTP.post_form(uri, user_id: ux.user_id, xp_id: ux.xp_id)
       end
     end
   end
