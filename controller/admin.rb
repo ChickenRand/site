@@ -205,7 +205,7 @@ class AdminController < Controller
     else
       graph_data = {diff_ones_active: [], diff_ones_control: []}
       current_key = :diff_ones_active
-      tmp = 0
+      total_diffs = {diff_ones_active: 0, diff_ones_control: 0}
       nb_time = 0
       results_count = 0
       if xp_name.nil?
@@ -223,10 +223,10 @@ class AdminController < Controller
           current_key = parsed_results['rng_control'] ? :diff_ones_control : :diff_ones_active
           parsed_results["trials"].each do |t|
             if nb_time < nb_trials_per_graph_data then
-              tmp += ((t["nbOnes"] + t["nbZeros"]) / 2) - t["nbZeros"]
+              total_diffs[current_key] += ((t["nbOnes"] + t["nbZeros"]) / 2) - t["nbZeros"]
               nb_time += 1
             else
-              graph_data[current_key].push(tmp)
+              graph_data[current_key].push(total_diffs[current_key])
               nb_time = 0
             end
           end
@@ -234,7 +234,7 @@ class AdminController < Controller
           puts e.message
         end
       end
-      graph_data[current_key].push(tmp) if(nb_time != 0)
+      graph_data[current_key].push(total_diffs[current_key]) if(nb_time != 0)
       graph_data
     end
   end
