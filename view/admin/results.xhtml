@@ -1,14 +1,8 @@
 #{js("Chart.min")}
 #{js("admin/results")}
 
-<p>Total de la différence du nombre de 1 par rapport au nombre de zéro sur Doodle Jump(doit tendre vers 0 normalement) </p>
-<canvas id="diff_ones_doodle" width="1000" height="400"></canvas>
 <p>Total de la différence du nombre de 1 par rapport au nombre de zéro sur The fountain(doit tendre vers 0 normalement) </p>
 <canvas id="diff_ones_fountain" width="1000" height="400"></canvas>
-<p>Total de la différence du nombre de 1 par rapport au nombre de zéro sur les deux jeux(doit tendre vers 0 normalement) </p>
-<canvas id="diff_ones_total" width="1000" height="400"></canvas>
-<p>Nombre de 1 en fonction des points sous Doodle Jump</p>
-<canvas id="diff_ones_points_doodle" width="1000" height="400"></canvas>
 <p>Nombre de 1 en fonction des points sous The Fountain</p>
 <canvas id="diff_ones_points_fountain" width="500" height="200"></canvas>
 
@@ -34,3 +28,4 @@
 		<?r end ?>
 	</tbody>
 </table>
+<a id="delete_all_results" href="#{AdminController.r(:delete_all_results)}" onclick="alert('Are you really sure to delete all results ? ');">SUPPRIMER TOUS LES RESULTATS</a>

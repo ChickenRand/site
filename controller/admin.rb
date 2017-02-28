@@ -203,23 +203,30 @@ class AdminController < Controller
     if xp.nil? and xp_name
       {message: "Xp inexistante"}
     else
-      diff_ones = []
+      graph_data = {diff_ones_active: [], diff_ones_control: []}
+      current_key = :diff_ones_active
       tmp = 0
       nb_time = 0
+      results_count = 0
       if xp_name.nil?
         results = UserXp.all
+        results_count = UserXp.all.count
       else
         results = UserXp.where(xp_id: xp.id)
+        results_count = UserXp.where(xp_id: xp.id).count
       end
+      total_trials = (xp.estimated_time * 10) * (results_count / 2) # /2 because there is control and active xp
+      nb_trials_per_graph_data = total_trials / 100 # We only want the graph line to have 100 points for readability
       results.each do |r|
         begin
           parsed_results = JSON.parse(r.results)
+          current_key = parsed_results['rng_control'] ? :diff_ones_control : :diff_ones_active
           parsed_results["trials"].each do |t|
-            if nb_time < 10
-              tmp += 100 - t["nbOnes"]
+            if nb_time < nb_trials_per_graph_data then
+              tmp += ((t["nbOnes"] + t["nbZeros"]) / 2) - t["nbZeros"]
               nb_time += 1
             else
-              diff_ones.push(tmp)
+              graph_data[current_key].push(tmp)
               nb_time = 0
             end
           end
@@ -227,8 +234,8 @@ class AdminController < Controller
           puts e.message
         end
       end
-      diff_ones.push(tmp) if(nb_time != 0)
-      diff_ones
+      graph_data[current_key].push(tmp) if(nb_time != 0)
+      graph_data
     end
   end
 
@@ -291,6 +298,11 @@ class AdminController < Controller
         flash[:error] = e.message
       end
     end
+    redirect AdminController.r(:results)
+  end
+
+  def delete_all_results
+    DB[:user_xp].truncate
     redirect AdminController.r(:results)
   end
 end

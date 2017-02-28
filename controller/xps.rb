@@ -67,9 +67,11 @@ class Xps < Controller
         r.rng_id = request.params["rng_id"]
       end
       # Immediatly generate control results based on the same amount of time and linked to the same user and xp
-      uri = URI('http://localhost:1337/rng-control')
+      # TODO : Manage errors and manage to use a POST request instead of a GET !
+      rng_control_url = ENV['RNG_CONTROL_URL'].nil? ? 'localhost:1337' : ENV['RNG_CONTROL_URL']
+      uri = URI("http://#{rng_control_url}/rng-control?user_id=#{ux.user_id}&xp_id=#{ux.xp_id}")
       if rng_control.nil? then
-        response = Net::HTTP.post_form(uri, user_id: ux.user_id, xp_id: ux.xp_id)
+        response = Net::HTTP.get(uri)
       end
     end
   end

@@ -2,7 +2,7 @@
 $(function(){
 	$("#results_form").submit(function(e){
 		e.preventDefault();
-		//Doesn't the datas if there was no AVAILABLE_RNG
+		//Doesn't send the datas if there was no AVAILABLE_RNG
 		if(AVAILABLE_RNG != null){
 			var formData = $("#results_form").serializeArray();
 			formData.push({name: 'results', value: JSON.stringify(AVAILABLE_RNG.results)});
