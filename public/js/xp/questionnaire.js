@@ -15,6 +15,4 @@ $(function(){
 			window.location.replace("/xp/end_xp_problem");
 		}
 	});
-	//If we are here, we can remove ourself from the queue and stop the Rng
-	removeFromQueue();
 });

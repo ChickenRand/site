@@ -37,7 +37,12 @@ class QueueController < Controller
   end
 
   def remove(id)
-    Queue::remove_from_queue(id.to_i)
+    begin
+      Queue::remove_from_queue(id.to_i)
+      {result: true}
+    rescue => e
+      {result: false, message: e.message}
+    end
   end
 
   def start(id)

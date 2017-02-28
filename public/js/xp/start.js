@@ -133,9 +133,12 @@ $(function(){
 		});
 	}
 
-	function removeFromQueue(){
+	function removeFromQueue(callback){
 		if(item_id != null){
 			$.post("/queue/remove/" + item_id + ".json", function(data){
+				if(callback) {
+					callback();
+				}
 			});
 		}
 		//Also stop the RNG if there was one
