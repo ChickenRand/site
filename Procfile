@@ -1,1 +1,0 @@
-web: sequel -m db/migrations/ $DATABASE_URL
