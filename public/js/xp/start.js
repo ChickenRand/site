@@ -189,6 +189,11 @@ $(function(){
 		window.location.replace("/xp/no_rng");
 	}
 
+	function onLeaveDuringXp() {
+		removeFromQueue();
+		window.location.replace("/xp/no_fullscreen");
+	}
+
 	//Add a check if user remove FullScreen
 	//And re-ask for fullscreen
 	function onFullscreenChange(){
@@ -197,12 +202,17 @@ $(function(){
 				firstFullScreen = false;
 			}
 			else{
-				removeFromQueue();
-				window.location.replace("/xp/no_fullscreen");
+				onLeaveDuringXp();
 			}
 		}
 	}
-	$(document).on("webkitfullscreenchange mozfullscreenchange fullscreenchange", onFullscreenChange);
+
+	$(document).on('fullscreenchange mozfullscreenchange fullscreenchange msfullscreenchange', onFullscreenChange);
+	$(document).on('blur', function (){
+		if(!firstFullScreen) {
+			onLeaveDuringXp();
+		}
+	});
 
 	getState();
 });
