@@ -12,6 +12,7 @@ function requestFullscreen(el){
 
 function exitFullscreen(){
 	$(document).unbind("webkitfullscreenchange mozfullscreenchange fullscreenchange");
+	$(document).unbind('blur');
 	if (document.exitFullscreen) {
 	    document.exitFullscreen();
 	} else if (document.webkitExitFullscreen) {

@@ -183,15 +183,21 @@ $(function(){
 		});
 	}
 
-	function onRngError(){
-		removeFromQueue();
-		exitFullscreen();
+	function displayNoRng() {
 		window.location.replace("/xp/no_rng");
 	}
 
-	function onLeaveDuringXp() {
-		removeFromQueue();
+	function displayNoFullscreen() {
 		window.location.replace("/xp/no_fullscreen");
+	}
+
+	function onRngError(){
+		removeFromQueue(displayNoRng);
+		exitFullscreen();
+	}
+
+	function onLeaveDuringXp() {
+		removeFromQueue(displayNoFullscreen);
 	}
 
 	//Add a check if user remove FullScreen

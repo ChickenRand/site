@@ -22,3 +22,7 @@ Then you need to manually add an admin. I recommand using sequel repl since it u
 	$ sequel mysql2://user:password@server_addr/psi_rng
 	$ > require './model/user'
 	$ > User.create(:email => 'your@email.com', :password => 'YourPassWordInClear', :admin => true)
+
+You must also create a control user
+
+	$ > User.create(:email => 'control@chickenrand.org', :password => 'ControlPassword')

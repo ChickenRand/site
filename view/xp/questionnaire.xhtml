@@ -5,12 +5,36 @@
 <p>Note : aucune question n'est obligatoire</p>
 <form id="results_form" method="post" role="form" >
   <div class="form-group">
-    <label for="music">Avez-vous écoutez de la musique pendant l'expérience ? Si oui, laquelle ? (laissez vide si vous n'en écoutiez pas)</label>
-    <input type="text" class="form-control" name="music" placeholder="Nom du groupe, genre...">
+    <label for="music">Avez-vous écoutez de la musique pendant l'expérience ? Si oui, laquelle ?</label>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="music-radio" value="true">
+        Oui
+      </label>
+    </div>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="music-radio" value="false">
+        Non
+      </label>
+    </div>
+    <input type="text" class="form-control hide" name="music" placeholder="Nom du groupe, genre...">
   </div>
   <div class="form-group">
     <label for="drug">Aviez-vous consommé des drogues ou autres psychotropes avant l'expérience ? Si oui laquelle/lesquelles ?</label>
-    <input type="text" class="form-control" name="drug" placeholder="Café, tabac, canabis, alcool, LSD, chocolat :)...">
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="drug-radio" value="true">
+        Oui
+      </label>
+    </div>
+    <div class="radio-inline">
+      <label>
+        <input type="radio" name="drug-radio" value="false">
+        Non
+      </label>
+    </div>
+    <input type="text" class="form-control hide" name="drug" placeholder="Café, tabac, canabis, alcool, LSD, chocolat :)...">
   </div>
   <div class="form-group">
   	<label for="alone">Etiez-vous seul dans la pièce ?</label>

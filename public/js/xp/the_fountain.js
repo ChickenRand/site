@@ -106,6 +106,13 @@ $(function(){
 				exitFullscreen();
 				$("#xp_container").fadeToggle(1000, function () {
 					$("#xp_container").html(html);
+					// Manage text input display
+					$('input[type=radio][name=drug-radio]').change(function() {
+						$('input[type=text][name=drug]').toggleClass('hide');
+					});
+					$('input[type=radio][name=music-radio]').change(function() {
+					  $('input[type=text][name=music]').toggleClass('hide');
+					});
 					$("#xp_container").fadeToggle(2000);
 				});
 			});
