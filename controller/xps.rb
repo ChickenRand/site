@@ -73,6 +73,9 @@ class Xps < Controller
       if rng_control.nil? then
         response = Net::HTTP.get(uri)
       end
+    else
+      msg = if !logged_in? then "Erreur : Vous devez être connecté." else "Erreur pas de résultat." end
+      respond!({message: msg}.to_json, 401, 'Content-Type' => 'application/json')   
     end
   end
 

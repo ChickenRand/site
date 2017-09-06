@@ -26,7 +26,7 @@ class QueueController < Controller
     if(logged_in?)
       item = Queue::add_to_queue(xp_id.to_i, user['id'].to_i)
       if item.nil?
-        {message: "Erreur : Utilisateur déjà dans la queue ou Xp inexistante"}
+        {message: "Erreur : Utilisateur (#{user['email']}) déjà dans la queue ou Xp inexistante (#{xp_id})"}
       else
         state = Queue::get_state()
         {item: item, state: state}

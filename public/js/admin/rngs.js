@@ -180,7 +180,7 @@ $(function(){
 		rngChart.addNumbersCb(function(data, rng){
 			var elapsedTime = (Date.now() - graphStartTime) / 1000;
 			bitRate = (rng.totalOnes + rng.totalZeros) / elapsedTime;
-			$('#bit_rate').html('Bitrate : ' + bitRate + 'kbits/s');
+			$('#bit_rate').html('Bitrate : ' + Math.floor(bitRate / 1000) + 'kbits/s');
 
 			var cumulRatio = rng.totalOnes / (rng.totalOnes + rng.totalZeros);
 			cumulRatios.shift();
