@@ -71,7 +71,11 @@ class Xps < Controller
       rng_control_url = ENV['RNG_CONTROL_URL'].nil? ? 'localhost:1337' : ENV['RNG_CONTROL_URL']
       uri = URI("http://#{rng_control_url}/rng-control?user_id=#{ux.user_id}&xp_id=#{ux.xp_id}")
       if rng_control.nil? then
-        response = Net::HTTP.get(uri)
+        begin
+          response = Net::HTTP.get(uri)
+        rescue StandardError => e
+          Ramaze::Log.error("Problem calling rng-control")
+        end
       end
     else
       msg = if !logged_in? then "Erreur : Vous devez être connecté." else "Erreur pas de résultat." end
