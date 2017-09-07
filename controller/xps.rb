@@ -55,16 +55,20 @@ class Xps < Controller
       # Though, I don't know if it will be usefull :)
       rng_control = request.params["rng_control_user_id"]
       user_id = if !rng_control.nil? then rng_control else user['id'] end
-      ux = UserXp.create do |r|
-        r.user_id = user_id
-        r.xp_id = id
-        r.xp_time = Time.now
-        r.music = request.params["music"]
-        r.drug = request.params["drug"]
-        r.concentration_level = request.params["concentration_level"]
-        r.results = results
-        r.alone = request.params["alone"]
-        r.rng_id = request.params["rng_id"]
+      begin
+        ux = UserXp.create do |r|
+          r.user_id = user_id
+          r.xp_id = id
+          r.xp_time = Time.now
+          r.music = request.params["music"]
+          r.drug = request.params["drug"]
+          r.concentration_level = request.params["concentration_level"]
+          r.results = results
+          r.alone = request.params["alone"]
+          r.rng_id = request.params["rng_id"]
+        end
+      rescue Mysql2::Error => e
+        Ramaze::Log.error(e.message)
       end
       # Immediatly generate control results based on the same amount of time and linked to the same user and xp
       # TODO : Manage errors and manage to use a POST request instead of a GET !
