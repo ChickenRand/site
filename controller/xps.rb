@@ -4,7 +4,7 @@ class Xps < Controller
   map '/xp'
 
   layout :default
-  set_layout nil => [ :ajax_load, :questionnaire ]
+  set_layout nil => [ :ajax_load, :questionnaire, :end_xp, :end_xp_problem ]
 
   before :start do
     if !logged_in?
