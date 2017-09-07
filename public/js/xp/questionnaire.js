@@ -1,5 +1,5 @@
 "use strict";
-$(function(){
+$(window).on('questionnaire', function(){
 	$("#results_form").submit(function(e){
 		e.preventDefault();
 		//Doesn't send the datas if there was no AVAILABLE_RNG

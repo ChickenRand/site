@@ -32,6 +32,14 @@ function displayAlert(type, message){
 	$('#alert_placeholder').html(html);
 }
 
+// RequestAnimFrame: a browser API for getting smooth animations
+window.requestAnimFrame = (function() {
+  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+  function(callback) {
+	window.setTimeout(callback, 1000 / 60);
+  };
+})();
+
 $(function(){
 	//Display a disclamer if we are not under a recent firefox or webkit browser
 	var body = document.getElementsByTagName("body")[0];

@@ -175,6 +175,8 @@ $(function(){
 						else{
 							$(".xp-desc-text").hide();
 							$("#xp_container").html(html);
+							//TEMP : use hardcoded name
+							$(window).trigger('the_fountain');
 						}
 						window.clearTimeout(timeoutId);
 					}, 2000);

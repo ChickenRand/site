@@ -1,12 +1,4 @@
-// RequestAnimFrame: a browser API for getting smooth animations
-window.requestAnimFrame = (function() {
-  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
-  function(callback) {
-	window.setTimeout(callback, 1000 / 60);
-  };
-})();
-
-$(function(){
+$(window).on('the_fountain', function(){
 	var XP_DURATION = 10; // In seconds
 	var running = true;
 	var xpStarted = false;
@@ -106,12 +98,13 @@ $(function(){
 				exitFullscreen();
 				$("#xp_container").fadeToggle(1000, function () {
 					$("#xp_container").html(html);
+					$(window).trigger('questionnaire');
 					// Manage text input display
 					$('input[type=radio][name=drug-radio]').change(function() {
 						$('input[type=text][name=drug]').toggleClass('hide');
 					});
 					$('input[type=radio][name=music-radio]').change(function() {
-					  $('input[type=text][name=music]').toggleClass('hide');
+						$('input[type=text][name=music]').toggleClass('hide');
 					});
 					$("#xp_container").fadeToggle(2000);
 				});
