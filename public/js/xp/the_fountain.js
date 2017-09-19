@@ -1,4 +1,4 @@
-$(window).on('the_fountain', function(){
+$(window).on('the_fountain', function(){ $('#fountain_container').imagesLoaded( function () {
 	var XP_DURATION = 10; // In seconds
 	var running = true;
 	var xpStarted = false;
@@ -132,4 +132,4 @@ $(window).on('the_fountain', function(){
 	}
 
 	animloop();
-});
+})});
