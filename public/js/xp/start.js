@@ -222,5 +222,9 @@ $(function(){
 		}
 	});
 
+	$(window).on('rng-error', function () {
+		onRngError();
+	});
+
 	getState();
 });

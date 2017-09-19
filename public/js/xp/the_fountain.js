@@ -1,5 +1,6 @@
 $(window).on('the_fountain', function(){ $('#fountain_container').imagesLoaded( function () {
 	var XP_DURATION = 10; // In seconds
+	var MAX_TIME_BETWEEN_NUMBERS = 1000; // In ms
 	var running = true;
 	var xpStarted = false;
 
@@ -19,6 +20,7 @@ $(window).on('the_fountain', function(){ $('#fountain_container').imagesLoaded( 
 	var heightToAdd = 30;
 
 	var previousTime = Date.now();
+	var lastNumberTime = Date.now();
 	var timeStart = null;
 
 	var trialCount = 0;
@@ -47,7 +49,14 @@ $(window).on('the_fountain', function(){ $('#fountain_container').imagesLoaded( 
 	function update(){
 		var currentTime = Date.now();
 		var deltaTime = currentTime - previousTime;
+		var deltaNumberTime = currentTime - lastNumberTime;
 		var totalTime = currentTime - timeStart;
+
+		// If no number are recieved for a long time, then stop the xp
+		if(deltaNumberTime > MAX_TIME_BETWEEN_NUMBERS) {
+			running = false;
+			$(window).trigger('rng-error');
+		}
 
 		ctx.clearRect(0, 0, width, height);
 		ctx.font = '16pt Arial Black, Gadget, sans-serif';
@@ -113,6 +122,7 @@ $(window).on('the_fountain', function(){ $('#fountain_container').imagesLoaded( 
 	}
 
 	function onNumbers(trialRes) {
+		lastNumberTime = Date.now();
 		if(xpStarted) {
 			trialRes.gameScore = fountainHeight;
 			trialRes.level = level;
