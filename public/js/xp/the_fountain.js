@@ -122,7 +122,7 @@ $(window).on('the_fountain', function(){
 
 			trialCount++;
 			// We recieve the numbers each 100ms
-			if(trialCount > XP_DURATION * 10) {
+			if(trialCount >= XP_DURATION * 10) {
 				console.log('End XP, total trials : ', trialCount, 'total bit recieved : ', AVAILABLE_RNG.totalOnes + AVAILABLE_RNG.totalZeros)
 				endXp();
 			}
