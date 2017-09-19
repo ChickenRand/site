@@ -46,15 +46,16 @@ $(function(){
 	};
 
 	Rng.prototype.onNumbers = function(message) {
+		// TEMP : do not store numbers it takes too much space and cpu and we don't need them for now
+		var numbers = Array.from(new Uint8Array(message.data));
 		var trialRes = {
-			numbers: Array.from(new Uint8Array(message.data)),
 			nbOnes: 0,
 			nbZeros: 0,
 			ms: Date.now() - this.results.date
 		};
-		for(var i = 0; i < trialRes.numbers.length; i++){
+		for(var i = 0; i < numbers.length; i++){
 			for(var pos = 0; pos < 8; pos++){
-        		this.bitAt(trialRes.numbers[i], pos) ? trialRes.nbOnes++ : trialRes.nbZeros++;
+				this.bitAt(numbers[i], pos) ? trialRes.nbOnes++ : trialRes.nbZeros++;
 			}
 		}
 		this.totalOnes += trialRes.nbOnes;

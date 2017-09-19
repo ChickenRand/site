@@ -1,11 +1,6 @@
 #{js("Chart.min")}
 #{js("admin/results")}
 
-<p>Total de la différence du nombre de 1 par rapport au nombre de zéro sur The fountain(doit tendre vers 0 normalement) </p>
-<canvas id="diff_ones_fountain" width="1000" height="400"></canvas>
-<p>Nombre de 1 en fonction des points sous The Fountain</p>
-<canvas id="diff_ones_points_fountain" width="500" height="200"></canvas>
-
 <table class="table">
 	<thead>
 		<tr>
@@ -23,9 +18,16 @@
 				<td>#{res.user.email}</td>
 				<td>#{res.xp.name}</td>
 				<td>#{res.xp_time.strftime('%a %d %b %Y à %Hh%M')}</td>
-				<td><a class="see-result" href="#{AdminController.r(:get_result)}/#{res.id}.json">Voir les résultats</a> <a href="#{AdminController.r(:delete_result)}/#{res.id}">Supprimer</a></td>
+				<td><a class="see-result" href="#{AdminController.r(:get_result)}/#{res.id}.json">Résultats XP</a> 
+				<?r if not res.control_user_xp.nil? ?>
+				<a class="see-result" href="#{AdminController.r(:get_result)}/#{res.control_user_xp.id}.json">Résultats contrôle</a> 
+				<?r end ?>
+				<a href="#{AdminController.r(:delete_result)}/#{res.id}">Supprimer</a></td>
 			</tr>
 		<?r end ?>
 	</tbody>
 </table>
-<a id="delete_all_results" href="#{AdminController.r(:delete_all_results)}" onclick="alert('Are you really sure to delete all results ? ');">SUPPRIMER TOUS LES RESULTATS</a>
+<!-- <a id="delete_all_results" href="#{AdminController.r(:delete_all_results)}">SUPPRIMER TOUS LES RESULTATS</a> -->
+
+<p>Total de la différence du nombre de 1 par rapport au nombre de zéro sur The fountain(doit tendre vers 0 normalement) </p>
+<canvas id="diff_ones_fountain" width="1000" height="400"></canvas>

@@ -186,7 +186,8 @@ class AdminController < Controller
   end
 
   def results
-    @results = UserXp.all
+    # We want to have one row per couple xp and control xp
+    @results = UserXp.exclude(Sequel.like(:results, '%rng_control%'))
   end
 
   def get_result(id)
@@ -196,6 +197,19 @@ class AdminController < Controller
     else
       res.values
     end
+  end
+
+  def get_raw_results(xp_name = nil)
+    xp = Xp[name: xp_name]
+    if xp.nil? and xp_name
+      {message: "Xp inexistante"}
+    else
+      results = UserXp.where(xp_id: xp.id).naked.all
+    end
+  end
+
+  def get_raw_results_fountain()
+    get_raw_results("The Fountain")
   end
 
   def get_diff_ones_xp(xp_name = nil)
@@ -293,6 +307,10 @@ class AdminController < Controller
       flash[:warning] = "Impossible de supprimer les résultats  : id inexistant"
     else
       begin
+        # Also delete control data linked to this result
+        if not res.control_user_xp.nil?
+          res.control_user_xp.delete
+        end
         res.delete
       rescue => e
         flash[:error] = e.message
