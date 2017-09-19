@@ -74,8 +74,8 @@ $(window).on('the_fountain', function(){ $('#fountain_container').imagesLoaded( 
 		}
 
 		if(xpStarted) {
-			ctx.fillText("Level : " + level, 60, 50);
-			ctx.fillText('Temps restant : ' + parseInt(XP_DURATION - (totalTime / 1000) ) + 's', 240, 50);
+			ctx.fillText("Niveau : " + level, 60, 50);
+			ctx.fillText('Nb. restants : ' + parseInt(XP_DURATION * 10 - trialCount ), 240, 50);
 		}
 
 		if(deltaTime >= 50){
