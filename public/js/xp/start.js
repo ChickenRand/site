@@ -176,7 +176,16 @@ $(function(){
 							$(".xp-desc-text").hide();
 							$("#xp_container").html(html);
 							//TEMP : use hardcoded name
-							$(window).trigger('the_fountain');
+							$('#fountain_container').ready( function () {
+								$('#fountain_container').imagesLoaded()
+									.done(function () {
+										$('#load_img').addClass('hide');
+										$(window).trigger('the_fountain');
+									})
+									.fail(function () {
+										onRngError();
+									});
+							});
 						}
 						window.clearTimeout(timeoutId);
 					}, 2000);

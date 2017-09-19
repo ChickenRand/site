@@ -1,4 +1,4 @@
-$(window).on('the_fountain', function(){ $('#fountain_container').imagesLoaded( function () {
+$(window).on('the_fountain', function(){
 	var XP_DURATION = 10; // In seconds
 	var MAX_TIME_BETWEEN_NUMBERS = 1000; // In ms
 	var running = true;
@@ -142,4 +142,4 @@ $(window).on('the_fountain', function(){ $('#fountain_container').imagesLoaded( 
 	}
 
 	animloop();
-})});
+});
