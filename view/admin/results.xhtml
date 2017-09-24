@@ -1,6 +1,8 @@
 #{js("Chart.min")}
 #{js("admin/results")}
 
+<canvas id="diff_ones_fountain" width="1000" height="400"></canvas>
+
 <table class="table">
 	<thead>
 		<tr>
@@ -18,14 +20,13 @@
 				<td>#{res.user.email}</td>
 				<td>#{res.xp.name}</td>
 				<td>#{res.xp_time.strftime('%a %d %b %Y à %Hh%M')}</td>
-				<td><a class="see-result" href="#{AdminController.r(:get_result)}/#{res.id}.json">Résultats XP</a> 
+				<td><a class="see-result" href="#{AdminController.r(:get_result)}/#{res.id}.json">Résultats XP | </a> 
 				<?r if not res.control_user_xp.nil? ?>
-				<a class="see-result" href="#{AdminController.r(:get_result)}/#{res.control_user_xp.id}.json">Résultats contrôle</a> 
+				<a class="see-result" href="#{AdminController.r(:get_result)}/#{res.control_user_xp.id}.json">Résultats contrôle | </a> 
 				<?r end ?>
 				<a href="#{AdminController.r(:delete_result)}/#{res.id}">Supprimer</a></td>
 			</tr>
 		<?r end ?>
 	</tbody>
 </table>
-<!-- <a id="delete_all_results" href="#{AdminController.r(:delete_all_results)}">SUPPRIMER TOUS LES RESULTATS</a> -->
-<canvas id="diff_ones_fountain" width="1000" height="400"></canvas>
+<a id="delete_all_results" href="#{AdminController.r(:delete_all_results)}">SUPPRIMER TOUS LES RESULTATS</a>
