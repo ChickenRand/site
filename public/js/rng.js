@@ -94,7 +94,6 @@ $(function(){
 
 	Rng.prototype.sendStartMessage = function() {
 		if(this.isConnected) {
-			console.log('send start message');
 			this.socket.send('start');
 		}
 	}

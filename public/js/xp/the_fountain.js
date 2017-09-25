@@ -140,10 +140,13 @@ $(window).on('the_fountain', function(){
 		}
 
 		const score = xpScores.shift();
-		trialRes.gameScore = score.gameScore;
-		trialRes.level = score.level;
+		if(score) {
+			trialRes.gameScore = score.gameScore;
+			trialRes.level = score.level;
+		}
 
 		trialCount++;
+
 		// We recieve the numbers each 100ms
 		if(trialCount === XP_TOTAL_TRIALS) {
 			console.log('End XP, total trials : ', trialCount, 'total bit recieved : ', AVAILABLE_RNG.totalOnes + AVAILABLE_RNG.totalZeros);
