@@ -181,5 +181,4 @@ $(function() {
 			$('#loader').html('No results.');
 		}
 	});
-
 });

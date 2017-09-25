@@ -170,9 +170,10 @@ $(function(){
 					});
 					var timeoutId = window.setTimeout(function(){
 						if(!AVAILABLE_RNG.isConnected()){
+							console.error('RNG not connected');
 							onRngError();
 						}
-						else{
+						else {
 							$(".xp-desc-text").hide();
 							$("#xp_container").html(html);
 							//TEMP : use hardcoded name
@@ -183,6 +184,7 @@ $(function(){
 										$(window).trigger('the_fountain');
 									})
 									.fail(function () {
+										console.log('Unable to load images');
 										onRngError();
 									});
 							});

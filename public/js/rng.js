@@ -81,5 +81,12 @@ $(function(){
 		this.socket.close();
 	};
 
+	Rng.prototype.sendStartMessage = function() {
+		if(this.isConnected) {
+			console.log('send start message');
+			this.socket.send('start');
+		}
+	}
+
 	window.Rng = Rng;
 });

@@ -1,6 +1,8 @@
 $(window).on('the_fountain', function(){
-	var XP_DURATION = 10; // In seconds
-	var MAX_TIME_BETWEEN_NUMBERS = 1000; // In ms
+	var XP_TOTAL_TRIALS = 100;
+	var MAX_XP_DURATION = 25; // In seconds
+	var MAX_NUMBER_RECIEVE_DURATION = 5000; // In ms
+	const AVERAGE_TIME_BETWEEN_TRAILS = 150; // In ms
 	var running = true;
 	var xpStarted = false;
 
@@ -20,10 +22,11 @@ $(window).on('the_fountain', function(){
 	var heightToAdd = 30;
 
 	var previousTime = Date.now();
-	var lastNumberTime = Date.now();
+	var previousScoreTime = Date.now();
 	var timeStart = null;
 
 	var trialCount = 0;
+	const xpScores = [];
 
 	//Adding keyboard controls
 	document.onkeyup = function(e) {
@@ -32,6 +35,7 @@ $(window).on('the_fountain', function(){
 			AVAILABLE_RNG.reset();
 			xpStarted = true;
 			timeStart = Date.now();
+			AVAILABLE_RNG.sendStartMessage();
 		}
 		//Incrémenter la taille de la fontaine
 		var key = e.keyCode;
@@ -49,11 +53,12 @@ $(window).on('the_fountain', function(){
 	function update(){
 		var currentTime = Date.now();
 		var deltaTime = currentTime - previousTime;
-		var deltaNumberTime = currentTime - lastNumberTime;
+		var deltaScoreTime = currentTime - previousScoreTime;
 		var totalTime = currentTime - timeStart;
 
-		// If no number are recieved for a long time, then stop the xp
-		if(deltaNumberTime > MAX_TIME_BETWEEN_NUMBERS) {
+		// Stop xp if no number are recieved at the end
+		if(xpStarted && totalTime > MAX_XP_DURATION * 1000) {
+			console.log('totalTime', totalTime, )
 			running = false;
 			$(window).trigger('rng-error');
 		}
@@ -75,16 +80,21 @@ $(window).on('the_fountain', function(){
 
 		if(xpStarted) {
 			ctx.fillText("Niveau : " + level, 60, 50);
-			ctx.fillText('Nb. restants : ' + parseInt(XP_DURATION * 10 - trialCount ), 240, 50);
+			ctx.fillText('Temps : ' + parseInt(totalTime / 1000) + 's', 240, 50);
 		}
 
-		if(deltaTime >= 50){
+		if(deltaTime >= 50) {
 			var decrease = Math.ceil(deltaTime / 10.0);
 			if(fountainHeight > 0){
 				fountainHeight -= decrease;
 				fountainHeight = Math.max(fountainHeight, 0);
 			}
 			previousTime = currentTime;	
+		}
+
+		if(deltaScoreTime >= AVERAGE_TIME_BETWEEN_TRAILS) {
+			previousScoreTime = currentTime;
+			xpScores.push({level: level, gameScore: fountainHeight});
 		}
 	};
 
@@ -100,6 +110,10 @@ $(window).on('the_fountain', function(){
 		window.cancelAnimationFrame(requestAnimId);
 		document.onkeydown = null;
 		ctx.fillText("FIN DE L'EXPERIENCE", width / 2, height / 2);
+		ctx.fillText("VEUILLEZ PATIENTEZ...", width / 2, (height / 2) + 50);
+	}
+
+	function stopRngAndDisplayQuestionnaire() {
 		removeFromQueue(function () {
 			//Changing container content to display questionnaire which will send xp results
 			$.get("/xp/questionnaire", function(html){
@@ -115,17 +129,25 @@ $(window).on('the_fountain', function(){
 	}
 
 	function onNumbers(trialRes) {
-		lastNumberTime = Date.now();
-		if(xpStarted) {
-			trialRes.gameScore = fountainHeight;
-			trialRes.level = level;
+		if (trialCount === 0) {
+			endXp();
+			// Stop XP if not enough number recieved
+			window.setTimeout(() => {
+				if (trialCount < XP_TOTAL_TRIALS) {
+					$(window).trigger('rng-error');
+				}
+			}, MAX_NUMBER_RECIEVE_DURATION);
+		}
 
-			trialCount++;
-			// We recieve the numbers each 100ms
-			if(trialCount >= XP_DURATION * 10) {
-				console.log('End XP, total trials : ', trialCount, 'total bit recieved : ', AVAILABLE_RNG.totalOnes + AVAILABLE_RNG.totalZeros)
-				endXp();
-			}
+		const score = xpScores.shift();
+		trialRes.gameScore = score.gameScore;
+		trialRes.level = score.level;
+
+		trialCount++;
+		// We recieve the numbers each 100ms
+		if(trialCount === XP_TOTAL_TRIALS) {
+			console.log('End XP, total trials : ', trialCount, 'total bit recieved : ', AVAILABLE_RNG.totalOnes + AVAILABLE_RNG.totalZeros);
+			stopRngAndDisplayQuestionnaire();
 		}
 	}
 
