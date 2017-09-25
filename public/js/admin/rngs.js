@@ -8,13 +8,17 @@ $(function(){
 	var cumulChartInterval = null;
 	var graphStartTime = null;
 
-	function onNumbers(data, rng){
+	function onOpen(rng) {
 		//If we are here, it means the rng state is available
 		rng.stop();
 		rng_list.splice(rng_list.indexOf(rng), 1);
 		$("#rng_test_"+rng.id).removeClass("disabled");
 		$("#rng_graph_"+rng.id).removeClass("disabled");
 		setRngStatus(rng.id, "Disponible", "success");
+	}
+
+	function onNumbers(data, rng){
+		// Numbers are not sended automatically anymore
 	}
 
 	function onErrors(message, rng){
@@ -48,7 +52,7 @@ $(function(){
 	$(".rng-url").each(function(i, e){
 		var url = $(e).html();
 		var rngId = $(e).attr("id").split('_')[2];
-		var rng = new Rng(url, rngId, onNumbers, onErrors);
+		var rng = new Rng(url, rngId, onNumbers, onErrors, onOpen);
 		rng_list.push(rng);
 	});
 

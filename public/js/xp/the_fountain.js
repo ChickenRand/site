@@ -2,7 +2,7 @@ $(window).on('the_fountain', function(){
 	var XP_TOTAL_TRIALS = 100;
 	var MAX_XP_DURATION = 25; // In seconds
 	var MAX_NUMBER_RECIEVE_DURATION = 5000; // In ms
-	const AVERAGE_TIME_BETWEEN_TRAILS = 150; // In ms
+	const AVERAGE_TIME_BETWEEN_TRAILS = (20 / 100) * 1000; // In ms (Xp duration is generally 19~20s)
 	var running = true;
 	var xpStarted = false;
 

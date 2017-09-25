@@ -1,13 +1,18 @@
 "use strict";
 $(function(){
 	var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-	function Rng(url, id, onNumbersCb, onErrorCb) {
+	function Rng(url, id, onNumbersCb, onErrorCb, onOpenCb) {
 		this.id = id;
 		this.onNumbers = __bind(this.onNumbers, this);
 		this.onError = __bind(this.onError, this);
+		this.onOpen = __bind(this.onOpen, this);
 		this.url = url;
 		this.socket = new WebSocket("ws://" + this.url);
 		this.socket.binaryType = 'arraybuffer';
+		this.socket.onopen = this.onOpen;
+		if(onOpenCb) {
+			this.openCb = onOpenCb;
+		}
 		this.socket.onmessage = this.onNumbers;
 		this.numbersCbs = [];
 		if(onNumbersCb != null){
@@ -44,6 +49,12 @@ $(function(){
 	Rng.prototype.setErrorCb = function(callback) {
 		this.errorCb = callback;
 	};
+
+	Rng.prototype.onOpen = function() {
+		if(this.openCb) {
+			this.openCb(this);
+		}
+	}
 
 	Rng.prototype.onNumbers = function(message) {
 		// TEMP : do not store numbers it takes too much space and cpu and we don't need them for now
