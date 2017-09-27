@@ -1,6 +1,7 @@
 "use strict";
 
 $(function() {
+	const LIMIT_Z_SCORE = 1.645; // Correspond to p=0.05
 	// TEMP : I am ashamed of this function. I created it because I couldn't solve a simple
 	// equation...
 	function findSpecificNumberForChiSquare(wantedChiSquareValue, nbSamples) {
@@ -16,18 +17,28 @@ $(function() {
 		return nbSamplesFitChiSquare;
 	}
 
+	function findXValueGivenZScore(z, nbSamples) {
+		const mean = nbSamples / 2;
+		const sd = Math.sqrt(nbSamples / 4);
+
+		return z * sd + mean;
+	}
+
+	function roundFloat(f) {
+		return Math.round(f * 1000) / 1000
+	}
+
 	function calculateChiSquare(nbSamples, cumulativeDiff) {
 		const hypothesis = nbSamples / 2.0;
 		return Math.pow(cumulativeDiff, 2.0) / hypothesis + Math.pow(-cumulativeDiff, 2.0) / hypothesis;
 	}
 
-	function findBinomialLimit(n, wantedProba) {
-		let x = n / 2;
-		//console.log('findBinomialLimit', findBinomialLimit(x, n, 0.5));
-		//while(jStat.binomial.cdf( x, n, 0.5 ) > wantedProba) {
-			x--;
-		//}
-		return x;
+	function calculateZScore(nbSamples, cumulativeDiff, proba) {
+		const mean = nbSamples / 2;
+		const sd = Math.sqrt(nbSamples / 4);
+		const x = mean + cumulativeDiff;
+
+		return proba ? jStat.ztest( x, mean, sd, 1) : jStat.zscore(x, mean, sd);
 	}
 
 	function createCumulativeGraph(chartId, resultData) {
@@ -35,8 +46,6 @@ $(function() {
 		const graphDataControl = [0];
 		const highMaxChance = [0];
 		const lowMaxChance = [0];
-		const highMaxChanceBin = [0];
-		const lowMaxChanceBin = [0];
 
 		let totalSamples = 0;
 		let bitsPerTrial = 0;
@@ -53,12 +62,10 @@ $(function() {
 				// We just need to generate high and low limit once
 				if(res.rng_control) {
 					totalSamples += trial.nbOnes + trial.nbZeros;
-					const limitNbSample = findSpecificNumberForChiSquare(jStat.chisquare.inv(0.95, 1), totalSamples) - totalSamples / 2;
+					//const limitNbSample = findSpecificNumberForChiSquare(jStat.chisquare.inv(0.95, 1), totalSamples) - totalSamples / 2;
+					const limitNbSample = findXValueGivenZScore(LIMIT_Z_SCORE, totalSamples) - totalSamples / 2;
 					highMaxChance.push(limitNbSample);
 					lowMaxChance.push(-limitNbSample);
-					/*const limit = findBinomialLimit(totalSamples, 0.05);
-					highMaxChanceBin.push(limit);
-					lowMaxChanceBin.push(-limit);*/
 				}
 			});
 		});
@@ -86,26 +93,14 @@ $(function() {
 					pointRadius: 0,
 					lineTension: 0
 				}, {
-					label: "High limit limit - ChiSquare (p < 0.5)",
+					label: "High limit limit (p < 0.5)",
 					data: highMaxChance,
 					backgroundColor: 'rgb(125, 125, 125)',
 					borderColor: 'rgb(125, 125, 125)',
 					pointRadius: 0
 				}, {
-					label: "Low limit - ChiSquare(p < 0.5)",
+					label: "Low limit (p < 0.5)",
 					data: lowMaxChance,
-					backgroundColor: 'rgb(125, 125, 125)',
-					borderColor: 'rgb(125, 125, 125)',
-					pointRadius: 0
-				}, {
-					label: "High limit limit - Binomiale (p < 0.5)",
-					data: highMaxChanceBin,
-					backgroundColor: 'rgb(125, 125, 125)',
-					borderColor: 'rgb(125, 125, 125)',
-					pointRadius: 0
-				}, {
-					label: "Low limit - Binomiale(p < 0.5)",
-					data: lowMaxChanceBin,
 					backgroundColor: 'rgb(125, 125, 125)',
 					borderColor: 'rgb(125, 125, 125)',
 					pointRadius: 0
@@ -137,8 +132,10 @@ $(function() {
 						label: function (tooltipItem, data) {
 							const cumulativeDiff = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 							const totalSamples = tooltipItem.index * 32000;
-							const p = 1 - jStat.chisquare.cdf(calculateChiSquare(totalSamples, cumulativeDiff), 1 )
-							return cumulativeDiff + ' (p=' + Math.round(p * 1000) / 1000 + ')';
+							// const p = 1 - jStat.chisquare.cdf(calculateChiSquare(totalSamples, cumulativeDiff), 1 );
+							const z = calculateZScore(totalSamples, cumulativeDiff);
+							const pz = calculateZScore(totalSamples, cumulativeDiff, true);
+							return cumulativeDiff + ' (z=' + roundFloat(z) + ' and p=' + roundFloat(pz) + ')';
 						}
 					}
 				},
