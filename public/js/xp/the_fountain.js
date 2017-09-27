@@ -119,11 +119,10 @@ $(window).on('the_fountain', function(){
 			$.get("/xp/questionnaire", function(html){
 				$("#xp_container").removeClass("fountain-container");
 				exitFullscreen();
-				$("#xp_container").fadeToggle(1000, function () {
-					$("#xp_container").html(html);
-					$(window).trigger('questionnaire');
-					$("#xp_container").fadeToggle(2000);
-				});
+				$("#xp_container").hide();
+				$("#xp_container").html(html);
+				$(window).trigger('questionnaire');
+				$("#xp_container").fadeToggle(2000);
 			});
 		})
 	}

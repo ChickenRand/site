@@ -4,7 +4,7 @@ class Xps < Controller
   map '/xp'
 
   layout :default
-  set_layout nil => [ :ajax_load, :questionnaire, :end_xp, :end_xp_problem ]
+  set_layout nil => [ :ajax_load, :questionnaire, :send_results, :send_questionnaire_results, :end_xp, :end_xp_problem ]
 
   before :start do
     if !logged_in?
@@ -47,6 +47,28 @@ class Xps < Controller
     end
   end
 
+  def generate_control_xp(user_id, xp_id)
+      rng_control_url = ENV['RNG_CONTROL_URL'].nil? ? 'localhost:1337' : ENV['RNG_CONTROL_URL']
+      uri = URI("http://#{rng_control_url}/rng-control?user_id=#{user_id}&xp_id=#{xp_id}")
+      begin
+        response = Net::HTTP.get(uri)
+      rescue StandardError => e
+        Ramaze::Log.error("Problem calling rng-control")
+      end
+  end
+
+  def send_questionnaire_results(user_xp_id)
+    ux = UserXp[user_xp_id]
+    if !user_xp_id.nil?
+      ux.update_fields({
+          music: request.params["music"],
+          drug: request.params["drug"],
+          concentration_level: request.params["concentration_level"],
+          alone: request.params["alone"]
+        }, [:music, :drug, :concentration_level, :alone])
+    end
+  end
+
   # Save experiments results
   def send_results(id)
     results = request.params["results"]
@@ -60,27 +82,18 @@ class Xps < Controller
           r.user_id = user_id
           r.xp_id = id
           r.xp_time = Time.now
-          r.music = request.params["music"]
-          r.drug = request.params["drug"]
-          r.concentration_level = request.params["concentration_level"]
           r.results = results
-          r.alone = request.params["alone"]
           r.rng_id = request.params["rng_id"]
         end
       rescue Mysql2::Error => e
         Ramaze::Log.error(e.message)
       end
-      # Immediatly generate control results based on the same amount of time and linked to the same user and xp
-      # TODO : Manage errors and manage to use a POST request instead of a GET !
-      rng_control_url = ENV['RNG_CONTROL_URL'].nil? ? 'localhost:1337' : ENV['RNG_CONTROL_URL']
-      uri = URI("http://#{rng_control_url}/rng-control?user_id=#{ux.user_id}&xp_id=#{ux.xp_id}")
-      if rng_control.nil? then
-        begin
-          response = Net::HTTP.get(uri)
-        rescue StandardError => e
-          Ramaze::Log.error("Problem calling rng-control")
-        end
+      if rng_control.nil?
+        # Immediatly generate control results based on the same amount of time and linked to the same user and xp
+        generate_control_xp(ux.user_id, ux.xp_id)
       end
+      # return user_xp.id which will be usefull
+      ux.id
     else
       msg = if !logged_in? then "Erreur : Vous devez être connecté." else "Erreur pas de résultat." end
       respond!({message: msg}.to_json, 401, 'Content-Type' => 'application/json')   

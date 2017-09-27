@@ -1,6 +1,25 @@
 "use strict";
 $(window).on('questionnaire', function(){
 	var isDirty = true;
+	var userXpIp = null;
+
+	function sendResults() {
+		//Doesn't send the datas if there was no AVAILABLE_RNG
+		if(AVAILABLE_RNG != null){
+			const data = [
+				{name: 'results', value: JSON.stringify(AVAILABLE_RNG.results)},
+				{name: 'rng_id', value: AVAILABLE_RNG.id}
+			];
+			$.post("/xp/send_results/" + getXpId(), data, function(data){
+				isDirty = false;
+				userXpIp = data;
+				$('#submit_results_button').removeClass('disabled');
+				$('#submit_results_button').text('Envoyer les résultats');
+			});
+		} else {
+			window.location.replace("/xp/end_xp_problem");
+		}
+	}
 
 	function manageSpecialInput(name) {
 		$('input[type=radio][name=' + name + '-radio]').change(function(e) {
@@ -18,24 +37,16 @@ $(window).on('questionnaire', function(){
 
 	$('#xp_container').removeClass('outer');
 	$("#results_form").submit(function(e){
+		var formData = $("#results_form").serializeArray();
+
 		e.preventDefault();
-		//Doesn't send the datas if there was no AVAILABLE_RNG
-		if(AVAILABLE_RNG != null){
-			var formData = $("#results_form").serializeArray();
-			formData.push({name: 'results', value: JSON.stringify(AVAILABLE_RNG.results)});
-			formData.push({name: 'rng_id', value: AVAILABLE_RNG.id});
+
+		if(userXpIp) {
 			$('#xp_container').html('<img src="/images/ajax-loader.gif"></img>Envoi des données en cours, merci de ne pas fermer la page.')
-			$.post("/xp/send_results/" + getXpId(), formData, function(data){
+			$.post('/xp/send_questionnaire_results/' + userXpIp, formData, function(data){
 				$.get('/xp/end_xp', function(html){
-					isDirty = false;
 					$("#xp_container").html(html);
 				});
-			});
-		}
-		else{
-			window.location.replace("/xp/end_xp_problem");
-			$.get("/xp/end_xp_problem", function(html){
-				$("#xp_container").html(html);
 			});
 		}
 	});
@@ -46,4 +57,8 @@ $(window).on('questionnaire', function(){
 			e.preventDefault();
 		}
 	}
+
+	// We send results right after the questionnaire is loaded
+	// This way answers to the questionnaire can wait or can even be skipped by the user
+	sendResults();
 });
