@@ -58,7 +58,6 @@ $(window).on('the_fountain', function(){
 
 		// Stop xp if no number are recieved at the end
 		if(xpStarted && totalTime > MAX_XP_DURATION * 1000) {
-			console.log('totalTime', totalTime, )
 			running = false;
 			$(window).trigger('rng-error');
 		}
@@ -113,18 +112,18 @@ $(window).on('the_fountain', function(){
 		ctx.fillText("VEUILLEZ PATIENTEZ...", width / 2, (height / 2) + 50);
 	}
 
-	function stopRngAndDisplayQuestionnaire() {
-		removeFromQueue(function () {
-			//Changing container content to display questionnaire which will send xp results
-			$.get("/xp/questionnaire", function(html){
-				$("#xp_container").removeClass("fountain-container");
-				exitFullscreen();
-				$("#xp_container").hide();
-				$("#xp_container").html(html);
-				$(window).trigger('questionnaire');
-				$("#xp_container").fadeToggle(2000);
-			});
-		})
+	function displayQuestionnaire() {
+		//We do not need to check if the user is leaving anymore
+		$(window).unbind('beforeunload');
+		//Changing container content to display questionnaire which will send xp results
+		$.get("/xp/questionnaire", function(html){
+			$("#xp_container").removeClass("fountain-container");
+			exitFullscreen();
+			$("#xp_container").hide();
+			$("#xp_container").html(html);
+			$(window).trigger('questionnaire');
+			$("#xp_container").fadeToggle(2000);
+		});
 	}
 
 	function onNumbers(trialRes) {
@@ -149,7 +148,7 @@ $(window).on('the_fountain', function(){
 		// We recieve the numbers each 100ms
 		if(trialCount === XP_TOTAL_TRIALS) {
 			console.log('End XP, total trials : ', trialCount, 'total bit recieved : ', AVAILABLE_RNG.totalOnes + AVAILABLE_RNG.totalZeros);
-			stopRngAndDisplayQuestionnaire();
+			displayQuestionnaire();
 		}
 	}
 

@@ -57,15 +57,31 @@ class Xps < Controller
       end
   end
 
+  # RNG send directly it's raw binary data for each xp done
+  def send_raw_data(user_xp_id)
+    ux = UserXp[user_xp_id]
+    if !user_xp_id.nil?
+      begin
+        ux.update(:raw_data=> ::Sequel::SQL::Blob.new(request.body.read()))
+      rescue Mysql2::Error => e
+        Ramaze::Log.error(e.message)
+      end
+    end
+  end
+
   def send_questionnaire_results(user_xp_id)
     ux = UserXp[user_xp_id]
     if !user_xp_id.nil?
-      ux.update_fields({
-          music: request.params["music"],
-          drug: request.params["drug"],
-          concentration_level: request.params["concentration_level"],
-          alone: request.params["alone"]
-        }, [:music, :drug, :concentration_level, :alone])
+      begin
+        ux.update_fields({
+            music: request.params["music"],
+            drug: request.params["drug"],
+            concentration_level: request.params["concentration_level"],
+            alone: request.params["alone"]
+          }, [:music, :drug, :concentration_level, :alone])
+      rescue Mysql2::Error => e
+        Ramaze::Log.error(e.message)
+      end
     end
   end
 

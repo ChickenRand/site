@@ -13,6 +13,12 @@ $(window).on('questionnaire', function(){
 			$.post("/xp/send_results/" + getXpId(), data, function(data){
 				isDirty = false;
 				userXpIp = data;
+				// We need to remove from queue only when the RNG close the connection
+				// And not before.
+				AVAILABLE_RNG.setCloseCb(function () {
+					removeFromQueue();
+				});
+				AVAILABLE_RNG.sendUserXpId(userXpIp);
 				$('#submit_results_button').removeClass('disabled');
 				$('#submit_results_button').text('Envoyer les résultats');
 			});

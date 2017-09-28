@@ -20,13 +20,14 @@
 				<td>#{res.user.email}</td>
 				<td>#{res.xp.name}</td>
 				<td>#{res.xp_time.strftime('%a %d %b %Y à %Hh%M')}</td>
-				<td><a class="see-result" href="#{AdminController.r(:get_result)}/#{res.id}.json">Résultats XP | </a> 
+				<td><a class="see-result" href="#{AdminController.r(:get_result)}/#{res.id}.json">Résultats XP (<a class="see-result" href="#{AdminController.r(:get_binary_data)}/#{res.id}">binaire</a>) | </a> 
 				<?r if not res.control_user_xp.nil? ?>
-				<a class="see-result" href="#{AdminController.r(:get_result)}/#{res.control_user_xp.id}.json">Résultats contrôle | </a> 
+				<a class="see-result" href="#{AdminController.r(:get_result)}/#{res.control_user_xp.id}.json">Résultats contrôle (<a class="see-result" href="#{AdminController.r(:get_binary_data)}/#{res.control_user_xp.id}">binaire</a>) | </a> 
 				<?r end ?>
 				<a href="#{AdminController.r(:delete_result)}/#{res.id}">Supprimer</a></td>
 			</tr>
 		<?r end ?>
 	</tbody>
 </table>
-<a id="delete_all_results" href="#{AdminController.r(:delete_all_results)}">SUPPRIMER TOUS LES RESULTATS</a>
+<a id="delete_all_results" href="#{AdminController.r(:delete_all_results)}">SUPPRIMER TOUS LES RESULTATS</a> | 
+<a id="get_all_binaries_data" href="#{AdminController.r(:get_all_binaries_data)}">RÉCUPERER TOUTES LES DONNÉES BINAIRES (TRÈS LONG)</a>

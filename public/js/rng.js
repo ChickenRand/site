@@ -1,27 +1,26 @@
 "use strict";
 $(function(){
 	var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-	function Rng(url, id, onNumbersCb, onErrorCb, onOpenCb) {
+	function Rng(url, id, onNumbersCb, onErrorCb, onOpenCb, onCloseCb) {
 		this.id = id;
 		this.onNumbers = __bind(this.onNumbers, this);
 		this.onError = __bind(this.onError, this);
 		this.onOpen = __bind(this.onOpen, this);
+		this.onClose = __bind(this.onClose, this);
 		this.url = url;
 		this.socket = new WebSocket("ws://" + this.url);
 		this.socket.binaryType = 'arraybuffer';
 		this.socket.onopen = this.onOpen;
-		if(onOpenCb) {
-			this.openCb = onOpenCb;
-		}
+		this.setOpenCb(onOpenCb);
+		this.socket.onclose = this.onClose;
+		this.setCloseCb(onCloseCb);
 		this.socket.onmessage = this.onNumbers;
 		this.numbersCbs = [];
 		if(onNumbersCb != null){
 			this.addNumbersCb(onNumbersCb);
 		}
 		this.socket.onerror = this.onError;
-		if(onErrorCb != null){
-			 this.setErrorCb(onErrorCb);	
-		}
+		this.setErrorCb(onErrorCb);
 		this.reset();
 	};
 
@@ -50,11 +49,28 @@ $(function(){
 		this.errorCb = callback;
 	};
 
+	Rng.prototype.setOpenCb = function(callback) {
+		this.openCb = callback;
+	}
+
+	Rng.prototype.setCloseCb = function(callback) {
+		console.log('Close cb', this.closeCb, this);
+		this.closeCb = callback;
+	}
+
 	Rng.prototype.onOpen = function() {
 		if(this.openCb) {
 			this.openCb(this);
 		}
 	}
+
+	Rng.prototype.onClose = function() {
+		console.log('connection closed', this);
+		if(this.closeCb) {
+			this.closeCb(this);
+		}
+	}
+
 
 	Rng.prototype.onNumbers = function(message) {
 		// TEMP : do not store numbers it takes too much space and cpu and we don't need them for now
@@ -95,6 +111,12 @@ $(function(){
 	Rng.prototype.sendStartMessage = function() {
 		if(this.isConnected) {
 			this.socket.send('start');
+		}
+	}
+
+	Rng.prototype.sendUserXpId = function(userXpId) {
+		if(this.isConnected) {
+			this.socket.send(JSON.stringify({userXpId: userXpId}));
 		}
 	}
 

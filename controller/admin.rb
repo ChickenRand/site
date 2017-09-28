@@ -3,7 +3,7 @@ require 'pony'
 class AdminController < Controller
   map '/admin'
   layout :default
-  set_layout nil => [ :set_rng_status ]
+  set_layout nil => [ :set_rng_status, :get_binary_data, :get_all_binaries_data ]
 
   before_all do
     #if nobody is admin, it means we need to create one
@@ -190,12 +190,44 @@ class AdminController < Controller
     @results = UserXp.exclude(Sequel.like(:results, '%rng_control%'))
   end
 
-  def get_result(id)
-    res = UserXp[id]
+  def get_result(user_xp_id)
+    # Select everything except raw_data
+    col = DB[:user_xp].columns
+    col.delete(:raw_data)
+    res = DB[:user_xp].select{col}.where(id: user_xp_id).first
     if res.nil?
-      {message: "Résultat id=#{id} inexistant"}
+      {message: "Résultat id=#{user_xp_id} inexistant"}
     else
-      res.values
+      res
+    end
+  end
+
+  def get_binary_data(user_xp_id)
+    res = DB[:user_xp].select(:raw_data).where(id: user_xp_id).first
+    if res.nil?
+      respond!("Résultat id=#{user_xp_id} inexistant", 404, 'Content-Type' => 'text/plain')
+    else
+      respond!(res[:raw_data], 200, {
+        'Content-Type' => 'application/octet-stream',
+        'Content-Disposition' => "inline; filename=binary_data_#{user_xp_id}"
+        })
+    end
+  end
+
+  def get_all_binaries_data()
+    res = DB[:user_xp].select(:raw_data).all
+    if !res.nil?
+      file_name = "all_xp_data_#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}"
+      file_path = "/tmp/#{file_name}"
+      File.open(file_path, 'wb') do |f|
+        res.each do |data|
+          f.write(data[:raw_data])
+        end
+      end
+      respond!(File.read(file_path), 200, {
+        'Content-Type' => 'application/octet-stream',
+        'Content-Disposition' => "inline; filename=#{file_name}"
+        })
     end
   end
 
@@ -204,7 +236,10 @@ class AdminController < Controller
     if xp.nil? and xp_name
       {message: "Xp inexistante"}
     else
-      results = UserXp.where(xp_id: xp.id).naked.all
+      # Select everything except raw_data
+      col = DB[:user_xp].columns
+      col.delete(:raw_data)
+      results = DB[:user_xp].select{col}.where(xp_id: xp.id).all
     end
   end
 
@@ -212,8 +247,8 @@ class AdminController < Controller
     get_raw_results("The Fountain")
   end
 
-  def delete_result(id)
-    res = UserXp[id]
+  def delete_result(user_xp_id)
+    res = UserXp[user_xp_id]
     if res.nil?
       flash[:warning] = "Impossible de supprimer les résultats  : id inexistant"
     else
