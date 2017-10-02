@@ -1,5 +1,6 @@
 "use strict";
 $(function(){
+	const BROWSER_SUPPORT_NOTIFICATION = "Notification" in window;
 	//WARNING GLOBAL
 	window.AVAILABLE_RNG = null;
 	var item_id = null;
@@ -30,6 +31,7 @@ $(function(){
 	});
 
 	$("#add_queue").click(function(e){
+		askForNotification();
 		if(item_id == null){
 			addToQueue(false);
 			$("#queue_message").removeClass('hide');
@@ -46,8 +48,35 @@ $(function(){
 		showStart();
 	});
 
-	function showQueue(estimated_time){
+	function askForNotification() {
+		if(BROWSER_SUPPORT_NOTIFICATION) {
+			if (Notification.permission !== 'denied' && Notification.permission !== 'granted') {
+				Notification.requestPermission();
+			}
+		}
+	}
+
+	function notifyUser() {
+		if (BROWSER_SUPPORT_NOTIFICATION && Notification.permission === 'granted' && (document.hidden || !document.hasFocus())) {
+			let notification = new Notification('Chickenrand', {
+				body: "Vous pouvez particper à l'expérience !",
+				lang: 'FR'
+			});
+			// if document is visible again then close it
+			$(document).on('visibilitychange blur', function(){
+				if(!document.hidden) {
+					notification.close();
+				}
+			});
+		}
+	}
+
+	function showQueue(estimated_time, showMessage){
 		inQueue = true;
+		if(showMessage) {
+			$("#queue_message").removeClass('hide');
+			$("#add_queue").html("Me retirer de la file d'attente");
+		}
 		$("#queue_container").removeClass("hide");
 		$("#before_container").addClass("hide");
 		$("#xp_container").addClass("hide");
@@ -55,20 +84,24 @@ $(function(){
 	}
 
 	function showStart(){
-		$('#xp_desc').fadeOut(1000, function () {
-			if(item_id == null){
-				addToQueue(true);
-			}
-			else{
-				showXp();
-			}
-		});
+		if(item_id == null){
+			addToQueue(true);
+		}
+		else{
+			showXp();
+		}
 	}
 
 	function showXp(){
-		$("#queue_container").addClass("hide");
-		$("#before_container").addClass("hide");
-		$("#xp_container").removeClass("hide");
+		// If we were waiting for the queue then notify user
+		if($('#before_container').hasClass('hide')) {
+			notifyUser();
+		}
+		$('#xp_desc').fadeOut(1000, function () {
+			$("#queue_container").addClass("hide");
+			$("#before_container").addClass("hide");
+			$("#xp_container").removeClass("hide");
+		});
 	}
 
 	function updateDisplayedTime(estimated_time){
@@ -95,7 +128,7 @@ $(function(){
 
 	function update(){
 		$.post("/queue/update/" + item_id + ".json", function(data){
-			if(data.item_on_top == item_id){
+			if(item_id && data.item_on_top == item_id){
 				if(inQueue){
 					inQueue = false;
 					showStart();	
@@ -131,7 +164,8 @@ $(function(){
 			if(start_directly){
 				//Someone can have started the experiment before the user clicked
 				if(data.state.length > 1){
-					showQueue(data.estimated_time);
+					askForNotification();
+					showQueue(data.estimated_time, true);
 				}
 				else{
 					showXp();
@@ -191,7 +225,7 @@ $(function(){
 										$(window).trigger('the_fountain');
 									})
 									.fail(function () {
-										console.log('Unable to load images');
+										console.error('Unable to load images');
 										onRngError();
 									});
 							});
