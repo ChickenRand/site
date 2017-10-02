@@ -72,7 +72,8 @@ $(function() {
 
 		const label = [];
 		let count = 0;
-		graphDataControl.forEach(function() {
+		const dataToUseForLabel = graphDataControl.length > graphDataActive.length ? graphDataControl : graphDataActive;
+		dataToUseForLabel.forEach(function() {
 			label.push(count++);
 		});
 
@@ -167,7 +168,7 @@ $(function() {
 		const chart = new Chart(ctx, config);
 	}
 
-	$('#diff_ones_fountain').before('<div id="loader"><img src="/images/ajax-loader.gif"></img>  Fetching results...</div>');
+	$('#diff_ones_fountain').before('<div id="loader"><img src="/images/ajax-loader.gif">  Fetching results...</div>');
 
 	$.get('/admin/get_raw_results_fountain.json', function(data) {
 		if(data.length > 0) {

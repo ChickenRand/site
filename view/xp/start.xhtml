@@ -1,41 +1,58 @@
 #{js('xp/start')}
-<div class="xp-desc">
-	#{@xp_desc}
-</div>
-<div id="before_container">
-	<div class="jumbotron text-center">
-		<p>Le générateur de nombres aléatoires est libre, vous pouvez dès à présent commencer l'expérience !</p>
-		<button id="start_xp" type="button" class="btn btn-primary btn-lg">Commencer l'expérience !</button>
+<div class="jumbotron text-center">
+	<div class="xp-desc" id="xp_desc">
+		#{@xp_desc}
 	</div>
-</div>
-<div id="queue_container" class="hide">
-	<div class="jumbotron text-center">
-		<p>Des personnes sont déjà en train d'effectuer l'expérience, le temps d'attente est estimé à :</p>
-		<h4 id="estimated_time"></h4>
-		<button id="add_queue" type="button" class="btn btn-primary btn-lg">Me mettre dans la file d'attente</button>
+	<div id="before_container">
+		<button id="start_xp" type="button" class="btn btn-primary btn-lg">J'ai compris, commençons !</button>
 	</div>
-</div>
-<div id="xp_container" class="hide">
-	<div id="xp_middle">
-		<div id="xp_text" class="jumbotron">
-			<h2 class="text-center">Attention </h2>
-
-			<p>Ceci est une expérience à caractère scientifique. Aussi, afin de récolter des résultats les plus pertinents possibles, nous vous demanderons de :
-			<ul>
-				<li>Rester concentré tout le long</li>
-				<li>Si possible, de vous mettre dans un endroit exempt de sollicitations extérieures (nuisances sonore, personnes etc.). Vous pouvez toutefois écouter de la musique si vous pensez que cela peut vous aider à vous concentrer.</li></p>
-			</ul>
-
-			<p>Afin de maximiser votre concentration, merci de bien vouloir mettre cette page en plein écran en cliquant sur le bouton ci-dessous et de le rester tout le long de l’expérience.</p>
-			<a id="no_full_screen" href="http://getfirefox.com" class="btn btn-primary btn-lg active hide" role="button">Impossible de mettre votre navigateur en mode plein écran</a>
-			<div class="text-center">
-				<button id="full_screen" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-fullscreen"></span> Mettre en plein écran</button>
+	<div id="queue_container" class="hide">
+		<div class="jumbotron text-center">
+			<div id="queue_message" class="hide">
+				<p>Des personnes sont déjà en train d'effectuer l'expérience, le temps d'attente est estimé à :</p>
+				<h4 id="estimated_time"></h4>
 			</div>
-			<div class="text-center">
-				<a id="load_xp" href="#" class="btn btn-primary btn-lg active hide" role="button">Démarrer l'expérience</a>
-			</div>
-			<div class="text-center">
-				<div id="connect_rng" class="btn btn-primary btn-lg active hide" role="button">Connexion au générateur de nombres aléatoires</div>
+			<button id="add_queue" type="button" class="btn btn-primary btn-lg">J'ai compris, commençons !</button>
+		</div>
+	</div>
+	<div id="xp_container" class="hide">
+		<div id="xp_middle">
+			<div id="xp_text" class="jumbotron">
+				<h2 class="text-center">Attention </h2>
+
+				<p>Ceci est une expérience à caractère scientifique, merci de :
+				<div class="row">
+					<div class="col-lg-4">
+						<img class="cat-concentrate img-responsive" src="/images/concentrate.jpg">
+					</div>
+					<div class="col-lg-4">
+						<img class="calm-women img-responsive" src="/images/Calm-Woman_small.png">
+					</div>
+					<div class="col-lg-4">
+						<img class="img-responsive" src="/images/fullscreen.png">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4">
+						<p><strong>Rester concentré</strong></p>
+					</div>
+					<div class="col-lg-4">
+						<p><strong>Vous mettre au calme</strong></p>
+					</div>
+					<div class="col-lg-4">
+						<p><strong>Rester en plein écran</strong></p>
+					</div>
+				</div>
+				<a id="no_full_screen" href="http://getfirefox.com" class="btn btn-primary btn-lg active hide" role="button">Impossible de mettre votre navigateur en mode plein écran</a>
+				<div class="text-center">
+					<button id="full_screen" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-fullscreen"></span> Mettre en plein écran</button>
+				</div>
+				<div class="text-center">
+					<a id="load_xp" href="#" class="btn btn-primary btn-lg active hide" role="button">Démarrer l'expérience</a>
+				</div>
+				<div class="text-center">
+					<div id="connect_rng" class="btn btn-primary btn-lg active hide" role="button">Connexion au générateur de nombres aléatoires</div>
+				</div>
 			</div>
 		</div>
 	</div>

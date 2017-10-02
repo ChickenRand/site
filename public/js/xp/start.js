@@ -32,6 +32,7 @@ $(function(){
 	$("#add_queue").click(function(e){
 		if(item_id == null){
 			addToQueue(false);
+			$("#queue_message").removeClass('hide');
 			$("#add_queue").html("Me retirer de la file d'attente");
 		}
 		else{
@@ -42,12 +43,7 @@ $(function(){
 	});
 
 	$("#start_xp").click(function(e){
-		if(item_id == null){
-			addToQueue(true);
-		}
-		else{
-			showXp();
-		}
+		showStart();
 	});
 
 	function showQueue(estimated_time){
@@ -59,10 +55,14 @@ $(function(){
 	}
 
 	function showStart(){
-		inQueue = false;
-		$("#queue_container").addClass("hide");
-		$("#before_container").removeClass("hide");
-		$("#xp_container").addClass("hide");		
+		$('#xp_desc').fadeOut(1000, function () {
+			if(item_id == null){
+				addToQueue(true);
+			}
+			else{
+				showXp();
+			}
+		});
 	}
 
 	function showXp(){
@@ -97,6 +97,7 @@ $(function(){
 		$.post("/queue/update/" + item_id + ".json", function(data){
 			if(data.item_on_top == item_id){
 				if(inQueue){
+					inQueue = false;
 					showStart();	
 				}
 			}
@@ -116,6 +117,12 @@ $(function(){
 	function addToQueue(start_directly){
 		var xp_id = getXpId();
 		$.post("/queue/add/" + xp_id + ".json", function(data){
+			if(data.message) {
+				console.error(data.message);
+				window.location.replace('/xp/already_in_queue');
+				return;
+			}
+
 			item_id = data.item.id;
 			//Call the update method each 3 seconds
 			update_interval = window.setInterval(update, 3000);

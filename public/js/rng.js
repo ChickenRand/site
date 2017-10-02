@@ -54,7 +54,6 @@ $(function(){
 	}
 
 	Rng.prototype.setCloseCb = function(callback) {
-		console.log('Close cb', this.closeCb, this);
 		this.closeCb = callback;
 	}
 
@@ -65,7 +64,6 @@ $(function(){
 	}
 
 	Rng.prototype.onClose = function() {
-		console.log('connection closed', this);
 		if(this.closeCb) {
 			this.closeCb(this);
 		}
