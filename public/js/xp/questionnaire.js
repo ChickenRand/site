@@ -66,6 +66,11 @@ $(window).on('questionnaire', function(){
 		}
 	}
 
+	// Fix a weird chrome bug
+	const form = $('#results_form').html();
+	$('#results_form').html('');
+	window.setTimeout(() => $('#results_form').html(form), 1);
+
 	// We send results right after the questionnaire is loaded
 	// This way answers to the questionnaire can wait or can even be skipped by the user
 	sendResults();

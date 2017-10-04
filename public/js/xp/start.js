@@ -267,7 +267,7 @@ $(function(){
 		}
 	}
 
-	$(document).on('fullscreenchange mozfullscreenchange fullscreenchange msfullscreenchange', onFullscreenChange);
+	$(document).on('webkitfullscreenchange mozfullscreenchange msfullscreenchange fullscreenchange', onFullscreenChange);
 	$(document).on('blur', function (){
 		if(!firstFullScreen) {
 			onLeaveDuringXp();

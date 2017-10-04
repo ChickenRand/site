@@ -8,6 +8,7 @@ footer {
 	margin-top: 50px;
 	width: 362px;
 	height: 600px;
+	background-color: black;
 }
 
 .fountain-gif {
@@ -89,12 +90,12 @@ footer {
 	display: table;
 	position: absolute;
 	height: 100%;
-	width: 100%;
 }
 
 .middle {
 	display: table-cell;
 	vertical-align: middle;
+	background-color: black;
 }
 
 .innner {
