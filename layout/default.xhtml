@@ -8,6 +8,12 @@
         #{css('bootstrap.min')}
         #{css('chickenrand')}
         #{js('jquery-1.11.1.min')}
+        <script type="text/javascript">
+          // TEMP : wrong way to give current user id to client
+          <?r if user and logged_in? ?>
+            window.CURRENT_USER_ID = "#{user['id']}";
+          <?r end ?>
+        </script>
     </head>
     <body>
         <div class="container">
@@ -41,6 +47,15 @@
                     <?r end ?>
                       <a href="#{Xps.r(:index)}">Expérience</a>
                     </li>
+                    <?r if user and logged_in? ?>
+                      <?r if @section == "results" ?>
+                        <li class="active">
+                      <?r else ?>
+                        <li>
+                      <?r end ?>
+                        <a href="#{Results.r(:index)}">Mes résultats</a>
+                      </li>
+                    <?r end ?>
                     <?r if user and logged_in? and user['admin'] ?>
                     <?r if @section == "admin" ?>
                       <li class="active">
@@ -102,7 +117,9 @@
         #{js('moment-with-locales.min')}
         #{js('imagesloaded.pkgd.min')}
         #{js('jstat.min')}
+        #{js("Chart.min")}
         #{js('util')}
+        #{js('graph-util')}
         #{js('rng')}
         #{js('xp/the_fountain')}
         #{js('xp/questionnaire')}
