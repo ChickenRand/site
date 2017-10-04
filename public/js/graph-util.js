@@ -157,7 +157,10 @@ $(function() {
 		// Return last p for active data
 		const nbSamples = (graphDataActive.length - 1) * NB_BITS_PER_TRIAL;
 		const lastCumul = graphDataActive[graphDataActive.length - 1];	
-		return calculateZScore(nbSamples, lastCumul, true);
+		return {
+			activeZScore: calculateZScore(nbSamples, lastCumul, true),
+			controlPending: graphDataActive.length > graphDataControl.length
+		}
 	}
 
 	// TEMP : GLOBAL
