@@ -34,7 +34,6 @@ $(function() {
 		const highMaxChance = [0];
 		const lowMaxChance = [0];
 
-		let totalSamples = 0;
 		let bitsPerTrial = 0;
 		resultData.forEach(function (data, i) {
 			const res = JSON.parse(data.results);
@@ -47,22 +46,19 @@ $(function() {
 				const diff = ((trial.nbOnes + trial.nbZeros) / 2) - trial.nbZeros;
 				const cumulativeDiff = currentData[currentData.length - 1] + diff
 				currentData.push(cumulativeDiff);
-				// We just need to generate high and low limit once
-				if(res.rng_control) {
-					totalSamples += trial.nbOnes + trial.nbZeros;
-					//const limitNbSample = findSpecificNumberForChiSquare(jStat.chisquare.inv(0.95, 1), totalSamples) - totalSamples / 2;
-					const limitNbSample = findXValueGivenZScore(LIMIT_Z_SCORE, totalSamples) - totalSamples / 2;
-					highMaxChance.push(limitNbSample);
-					lowMaxChance.push(-limitNbSample);
-				}
 			});
 		});
 
 		const label = [];
-		let count = 0;
 		const dataToUseForLabel = graphDataControl.length > graphDataActive.length ? graphDataControl : graphDataActive;
+		let count = 0;
 		dataToUseForLabel.forEach(function() {
 			label.push(count++);
+			// Also create limit line
+			const totalSamples = count * NB_BITS_PER_TRIAL;
+			const limitNbSample = findXValueGivenZScore(LIMIT_Z_SCORE, totalSamples) - totalSamples / 2;
+			highMaxChance.push(limitNbSample);
+			lowMaxChance.push(-limitNbSample);
 		});
 
 		const data = {
