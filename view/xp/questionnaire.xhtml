@@ -1,34 +1,29 @@
 <h1>Questionnaire</h1>
 
-<p>Afin de nous aider à mieux cerner la problématique, merci de prendre 5 secondes pour répondre à ces questions.</p>
-<p>Note : aucune question n'est obligatoire</p>
-<form id="results_form" method="post" role="form" >
+<p>Merci de prendre 5 secondes pour répondre à ces questions.</p>
+<form id="results_form" method="post" role="form" class="text-left">
   <div class="form-group">
-    <label for="music">Avez-vous écoutez de la musique pendant l'expérience ? Si oui, laquelle ?</label>
-    <div class="radio-inline">
-      <label>
+    <label for="music" class="control-label">Avez-vous écouté de la musique pendant l'expérience ? Si oui, laquelle ?</label>
+    <div class="controls">
+      <label class="radio-inline">
         <input type="radio" name="music-radio" value="true">
         Oui
       </label>
-    </div>
-    <div class="radio-inline">
-      <label>
+      <label class="radio-inline">
         <input type="radio" name="music-radio" value="false">
         Non
       </label>
+      <input type="text" class="form-control hide" name="music" placeholder="Nom du groupe, genre...">
     </div>
-    <input type="text" class="form-control hide" name="music" placeholder="Nom du groupe, genre...">
   </div>
   <div class="form-group">
-    <label for="drug">Avez-vous consommé du café, du thé, du tabac ou tout autre substance pouvant modifier votre concentration avant l'expérience ?</label>
-    <div class="radio-inline">
-      <label>
+    <label for="drug" class="control-label">Avez-vous consommé du café, du thé, du tabac ou tout autre substance pouvant modifier votre concentration avant l'expérience ?</label>
+    <div class="controls">
+      <label class="radio-inline">
         <input type="radio" name="drug-radio" value="true">
         Oui
       </label>
-    </div>
-    <div class="radio-inline">
-      <label>
+      <label class="radio-inline">
         <input type="radio" name="drug-radio" value="false">
         Non
       </label>
@@ -36,37 +31,37 @@
     <input type="text" class="form-control hide" name="drug" placeholder="Café, tabac, canabis, alcool, LSD, chocolat :)...">
   </div>
   <div class="form-group">
-  	<label for="alone">Etiez-vous seul dans la pièce ?</label>
-  	<div class="radio-inline">
-  	  <label>
-  	    <input type="radio" name="alone" value="true">
-  	    Oui
-  	  </label>
-  	</div>
-  	<div class="radio-inline">
-  	  <label>
-  	    <input type="radio" name="alone" value="false">
-  	    Non
-  	  </label>
-  	</div>
+    <label for="alone" class="control-label">Etiez-vous seul dans la pièce ?</label>
+    <div class="controls">
+      <label class="radio-inline">
+        <input type="radio" name="alone" value="true">
+        Oui
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="alone" value="false">
+        Non
+      </label>
+    </div>
   </div>
   <div class="form-group">
-    <label for="concentration_level">Quel était votre niveau de concentration (1 faible - 5 très concentré) ?</label>
-    <label class="radio-inline">
-      <input type="radio" name="concentration_level" id="inlineRadio1" value="1"> 1
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="concentration_level" id="inlineRadio2" value="2"> 2
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="concentration_level" id="inlineRadio3" value="3"> 3
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="concentration_level" id="inlineRadio4" value="4"> 4
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="concentration_level" id="inlineRadio5" value="5"> 5
-    </label>
+    <label for="concentration_level" class="control-label">Quel était votre niveau de concentration (1 faible - 5 très concentré) ?</label>
+    <div class="controls">
+      <label class="radio-inline">
+        <input type="radio" name="concentration_level" id="inlineRadio1" value="1"> 1
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="concentration_level" id="inlineRadio2" value="2"> 2
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="concentration_level" id="inlineRadio3" value="3"> 3
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="concentration_level" id="inlineRadio4" value="4"> 4
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="concentration_level" id="inlineRadio5" value="5"> 5
+      </label>
+    </div>
   </div>
   <button type="submit" id="submit_results_button" class="btn btn-default disabled"><img src="/images/ajax-loader.gif"> Veuillez patientez...</button>
 </form>

@@ -29,11 +29,13 @@ $(window).on('questionnaire', function(){
 
 	function manageSpecialInput(name) {
 		$('input[type=radio][name=' + name + '-radio]').change(function(e) {
+			const input = $('input[type=text][name=' + name + ']');
 			if(e.target.value === 'true') {
-				$('input[type=text][name=' + name + ']').val('nothing');
-				$('input[type=text][name=' + name + ']').removeClass('hide');
+				input.val('');
+				input.removeClass('hide');
 			} else {
-				$('input[type=text][name=' + name + ']').addClass('hide');
+				input.val('nothing');
+				input.addClass('hide');
 			}
 		});
 	}
