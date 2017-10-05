@@ -204,8 +204,8 @@ class AdminController < Controller
 
   def get_binary_data(user_xp_id)
     res = DB[:user_xp].select(:raw_data).where(id: user_xp_id).first
-    if res.nil?
-      respond!("Résultat id=#{user_xp_id} inexistant", 404, 'Content-Type' => 'text/plain')
+    if res.nil? or res[:raw_data].nil?
+      respond!("Resultat id=#{user_xp_id} inexistant", 404, 'Content-Type' => 'text/plain')
     else
       respond!(res[:raw_data], 200, {
         'Content-Type' => 'application/octet-stream',

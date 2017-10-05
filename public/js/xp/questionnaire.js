@@ -50,7 +50,7 @@ $(window).on('questionnaire', function(){
 		e.preventDefault();
 
 		if(userXpIp) {
-			$('#xp_container').html('<img src="/images/ajax-loader.gif">Envoi des données en cours, merci de ne pas fermer la page.')
+			$('#xp_container').html('<img src="/images/ajax-loader.gif"> Envoi des données en cours, merci de ne pas fermer la page.')
 			$.post('/xp/send_questionnaire_results/' + userXpIp, formData, function(data){
 				$.get('/xp/end_xp', function(html){
 					$("#xp_container").html(html);
