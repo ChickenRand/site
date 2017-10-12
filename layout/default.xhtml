@@ -47,6 +47,13 @@
                     <?r end ?>
                       <a href="#{Xps.r(:index)}">Expérience</a>
                     </li>
+                    <?r if @section == "about" ?>
+                      <li class="active">
+                    <?r else ?>
+                      <li>
+                    <?r end ?>
+                      <a href="#{About.r(:index)}">À propos</a>
+                    </li>
                     <?r if user and logged_in? ?>
                       <?r if @section == "results" ?>
                         <li class="active">
