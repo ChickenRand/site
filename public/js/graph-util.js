@@ -1,7 +1,7 @@
 "use strict";
 
 $(function() {
-	const LIMIT_Z_SCORE = 1.645; // Correspond to p=0.05
+	const LIMIT_Z_SCORE = 2.326348; // Correspond to p=0.01
 	const NB_BITS_PER_TRIAL = 32000;
 
 	function findXValueGivenZScore(z, nbSamples) {
@@ -78,13 +78,13 @@ $(function() {
 					pointRadius: 0,
 					lineTension: 0
 				}, {
-					label: "Cumul 'limite' supérieur (p < 0.5)",
+					label: "Cumul 'limite' supérieur (p < 0.1)",
 					data: highMaxChance,
 					backgroundColor: 'rgb(125, 125, 125)',
 					borderColor: 'rgb(125, 125, 125)',
 					pointRadius: 0
 				}, {
-					label: "Cumul 'limite' inférieur (p < 0.5)",
+					label: "Cumul 'limite' inférieur (p < 0.1)",
 					data: lowMaxChance,
 					backgroundColor: 'rgb(125, 125, 125)',
 					borderColor: 'rgb(125, 125, 125)',
