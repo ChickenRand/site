@@ -22,7 +22,7 @@ $(window).on('the_fountain', function(){
 	var heightToAdd = 30;
 
 	var previousTime = Date.now();
-	var previousScoreTime = Date.now();
+	var totalXpTime = 0;
 	var timeStart = null;
 
 	var trialCount = 0;
@@ -53,7 +53,6 @@ $(window).on('the_fountain', function(){
 	function update(){
 		var currentTime = Date.now();
 		var deltaTime = currentTime - previousTime;
-		var deltaScoreTime = currentTime - previousScoreTime;
 		var totalTime = currentTime - timeStart;
 
 		// Stop xp if no number are recieved at the end
@@ -91,9 +90,10 @@ $(window).on('the_fountain', function(){
 			previousTime = currentTime;	
 		}
 
-		if(deltaScoreTime >= AVERAGE_TIME_BETWEEN_TRAILS) {
-			previousScoreTime = currentTime;
-			xpScores.push({level: level, gameScore: fountainHeight});
+		// Store the score each tick, this way we can precisely interpolate with numbers
+		// from RNG
+		if(xpStarted) {
+			xpScores.push({level: level, gameScore: fountainHeight, time: totalTime});
 		}
 	};
 
@@ -129,6 +129,7 @@ $(window).on('the_fountain', function(){
 	function onNumbers(trialRes) {
 		if (trialCount === 0) {
 			endXp();
+			totalXpTime = Date.now() - timeStart;
 			// Stop XP if not enough number recieved
 			window.setTimeout(() => {
 				if (trialCount < XP_TOTAL_TRIALS) {
@@ -137,13 +138,18 @@ $(window).on('the_fountain', function(){
 			}, MAX_NUMBER_RECIEVE_DURATION);
 		}
 
-		const score = xpScores.shift();
+		trialCount++;
+		// Interpolate time when numbers where generated
+		const trialTime = (totalXpTime / XP_TOTAL_TRIALS) * trialCount;
+		// Find the corresponding score with the numbers
+		// It's not 100% accurate but I think it'll be enough
+		const score = xpScores.find((el) => el.time >= trialTime);
 		if(score) {
 			trialRes.gameScore = score.gameScore;
 			trialRes.level = score.level;
+			// Rewrite the time
+			trialRes.ms = score.time;
 		}
-
-		trialCount++;
 
 		// We recieve the numbers each 100ms
 		if(trialCount === XP_TOTAL_TRIALS) {
