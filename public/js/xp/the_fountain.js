@@ -1,8 +1,7 @@
 $(window).on('the_fountain', function(){
 	var XP_TOTAL_TRIALS = 100;
-	var MAX_XP_DURATION = 35; // In seconds (RNG may sometime be slower)
+	var MAX_XP_DURATION = 45; // In seconds (RNG may sometime be slower)
 	var MAX_NUMBER_RECIEVE_DURATION = 5000; // In ms
-	const AVERAGE_TIME_BETWEEN_TRAILS = (20 / 100) * 1000; // In ms (Xp duration is between 17~32s)
 	var running = true;
 	var xpStarted = false;
 
