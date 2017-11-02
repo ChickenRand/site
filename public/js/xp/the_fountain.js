@@ -1,6 +1,6 @@
 $(window).on('the_fountain', function(){
 	var XP_TOTAL_TRIALS = 100;
-	var MAX_XP_DURATION = 45; // In seconds (RNG may sometime be slower)
+	var MAX_XP_DURATION = 60; // In seconds (RNG may sometime be slower)
 	var MAX_NUMBER_RECIEVE_DURATION = 5000; // In ms
 	var running = true;
 	var xpStarted = false;
