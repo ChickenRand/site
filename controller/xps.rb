@@ -15,6 +15,10 @@ class Xps < Controller
         redirect Xps.r(:index)
       end
     end
+
+    if ENV['MAINTENANCE_MODE']
+      redirect Xps.r(:maintenance_mode)
+    end
     @section = "xp"
   end
 
