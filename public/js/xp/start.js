@@ -8,25 +8,25 @@ $(function(){
 	var inQueue = false;
 	var firstFullScreen = true;
 	//Set moment to french
-	moment.locale('fr'); 
+	moment.locale('fr');
 
 	if(document.fullscreenEnabled){
-		$("#no_full_screen").removeClass("hide");
-		$("#full_screen").addClass("hide");
+		$("#no_full_screen").removeClass("sr-only sr-only-focusable");
+		$("#full_screen").addClass("sr-only sr-only-focusable");
 	}
 
 	$("#full_screen").click(function(e){
 		requestFullscreen($("#xp_container").get(0));
-		$("#full_screen").addClass("hide");
-		$("#load_xp").removeClass("hide");
+		$("#full_screen").addClass("sr-only sr-only-focusable");
+		$("#load_xp").removeClass("sr-only sr-only-focusable");
 		$('#xp_container').addClass('outer');
 		$('#xp_middle').addClass('middle');
 		$('#xp_text').addClass('inner');
 	});
 
 	$("#load_xp").click(function(e){
-		$("#load_xp").addClass("hide");
-		$("#connect_rng").removeClass("hide");
+		$("#load_xp").addClass("sr-only sr-only-focusable");
+		$("#connect_rng").removeClass("sr-only sr-only-focusable");
 		startExperiment();
 	});
 
@@ -34,7 +34,7 @@ $(function(){
 		askForNotification();
 		if(item_id == null){
 			addToQueue(false);
-			$("#queue_message").removeClass('hide');
+			$("#queue_message").removeClass('sr-only sr-only-focusable');
 			$("#add_queue").html("Me retirer de la file d'attente");
 		}
 		else{
@@ -74,12 +74,12 @@ $(function(){
 	function showQueue(estimated_time, showMessage){
 		inQueue = true;
 		if(showMessage) {
-			$("#queue_message").removeClass('hide');
+			$("#queue_message").removeClass('sr-only sr-only-focusable');
 			$("#add_queue").html("Me retirer de la file d'attente");
 		}
-		$("#queue_container").removeClass("hide");
-		$("#before_container").addClass("hide");
-		$("#xp_container").addClass("hide");
+		$("#queue_container").removeClass("sr-only sr-only-focusable");
+		$("#before_container").addClass("sr-only sr-only-focusable");
+		$("#xp_container").addClass("sr-only sr-only-focusable");
 		updateDisplayedTime(estimated_time);
 	}
 
@@ -94,13 +94,13 @@ $(function(){
 
 	function showXp(){
 		// If we were waiting for the queue then notify user
-		if($('#before_container').hasClass('hide')) {
+		if($('#before_container').hasClass('sr-only sr-only-focusable')) {
 			notifyUser();
 		}
 		$('#xp_desc').fadeOut(1000, function () {
-			$("#queue_container").addClass("hide");
-			$("#before_container").addClass("hide");
-			$("#xp_container").removeClass("hide");
+			$("#queue_container").addClass("sr-only sr-only-focusable");
+			$("#before_container").addClass("sr-only sr-only-focusable");
+			$("#xp_container").removeClass("sr-only sr-only-focusable");
 		});
 	}
 
@@ -121,7 +121,7 @@ $(function(){
 			}
 			else if(data.state.length > 1 && data.state.item_on_top != item_id){
 				$("#add_queue").html("Me retirer de la file d'attente");
-				showQueue(data.state.estimated_time);	
+				showQueue(data.state.estimated_time);
 			}
 		});
 	}
@@ -131,11 +131,11 @@ $(function(){
 			if(item_id && data.item_on_top == item_id){
 				if(inQueue){
 					inQueue = false;
-					showStart();	
+					showStart();
 				}
 			}
 			else{
-				updateDisplayedTime(data.estimated_time);	
+				updateDisplayedTime(data.estimated_time);
 			}
 		});
 	}
@@ -146,7 +146,7 @@ $(function(){
 	}
 	//Expose this function to others
 	window.getXpId = getXpId;
-		
+
 	function addToQueue(start_directly){
 		var xp_id = getXpId();
 		$.post("/queue/add/" + xp_id + ".json", function(data){
@@ -194,7 +194,7 @@ $(function(){
 
 	function startExperiment(){
 		if(update_interval != null){
-			window.clearInterval(update_interval);	
+			window.clearInterval(update_interval);
 		}
 		$.post("/queue/start/" + item_id + ".json", function(data){
 			if(data.message != null){
@@ -221,7 +221,7 @@ $(function(){
 							$('#fountain_container').ready( function () {
 								$('#fountain_container').imagesLoaded()
 									.done(function () {
-										$('#load_img').addClass('hide');
+										$('#load_img').addClass('sr-only sr-only-focusable');
 										$(window).trigger('the_fountain');
 									})
 									.fail(function () {
