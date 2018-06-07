@@ -4,9 +4,10 @@
         <meta charset="utf-8" />
 
         <title>#{@title} - ChickenRand</title>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
         #{css('chickenrand')}
+
         <!-- Need to have jquery script before any other script because we include js in views -->
         <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript">
@@ -49,7 +50,7 @@
                       <a class="nav-link" href="#{Xps.r(:index)}">Expérience</a>
                     </li>
                     <?r if @section == "about" ?>
-                      <li class="active">
+                      <li class="active nav-item">
                     <?r else ?>
                       <li class="nav-item">
                     <?r end ?>
@@ -57,7 +58,7 @@
                     </li>
                     <?r if user and logged_in? ?>
                       <?r if @section == "results" ?>
-                        <li class="active">
+                        <li class="active nav-item">
                       <?r else ?>
                         <li class="nav-item">
                       <?r end ?>
@@ -66,7 +67,7 @@
                     <?r end ?>
                     <?r if user and logged_in? and user['admin'] ?>
                     <?r if @section == "admin" ?>
-                      <li class="active">
+                      <li class="active nav-item">
                     <?r else ?>
                       <li class="nav-item">
                     <?r end ?>
@@ -79,14 +80,14 @@
                         <li><a class="nav-link" href="#{Users.r(:logout)}">Déconnexion</a></li>
                     <?r else ?>
                         <?r if @section == "connexion" ?>
-                          <li class="active">
+                          <li class="active nav-item">
                         <?r else ?>
                           <li class="nav-item">
                         <?r end ?>
                             <a class="nav-link" href="#{Users.r(:login)}">Connexion</a>
                           </li>
                         <?r if @section == "inscription" ?>
-                          <li class="active">
+                          <li class="active nav-item">
                         <?r else ?>
                           <li class="nav-item">
                         <?r end ?>
