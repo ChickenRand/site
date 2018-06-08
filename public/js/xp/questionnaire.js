@@ -19,7 +19,7 @@ $(window).on('questionnaire', function(){
 					removeFromQueue();
 				});
 				AVAILABLE_RNG.sendUserXpId(userXpIp);
-				$('#submit_results_button').removeClass('disabled');
+				$('#submit_results_button').show();
 				$('#submit_results_button').text('Envoyer les résultats');
 			});
 		} else {
@@ -32,10 +32,10 @@ $(window).on('questionnaire', function(){
 			const input = $('input[type=text][name=' + name + ']');
 			if(e.target.value === 'true') {
 				input.val('');
-				input.removeClass('hide');
+				input.show();
 			} else {
 				input.val('nothing');
-				input.addClass('hide');
+				input.hide();
 			}
 		});
 	}

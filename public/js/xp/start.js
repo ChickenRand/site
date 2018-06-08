@@ -77,9 +77,9 @@ $(function(){
 			$("#queue_message").show();
 			$("#add_queue").html("Me retirer de la file d'attente");
 		}
-		$("#queue_container").removeClass("hide");
-		$("#before_container").addClass("hide");
-		$("#xp_container").addClass("hide");
+		$("#queue_container").show();
+		$("#before_container").hide();
+		$("#xp_container").hide();
 		updateDisplayedTime(estimated_time);
 	}
 
@@ -260,7 +260,7 @@ $(function(){
 				firstFullScreen = false;
 			}
 			else{
-				// onLeaveDuringXp();
+				onLeaveDuringXp();
 			}
 		}
 	}
