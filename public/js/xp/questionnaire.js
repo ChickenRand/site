@@ -19,7 +19,7 @@ $(window).on('questionnaire', function(){
 					removeFromQueue();
 				});
 				AVAILABLE_RNG.sendUserXpId(userXpIp);
-				$('#submit_results_button').show();
+				$('#submit_results_button').removeClass('disabled');
 				$('#submit_results_button').text('Envoyer les résultats');
 			});
 		} else {
