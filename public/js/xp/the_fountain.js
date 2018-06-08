@@ -86,7 +86,7 @@ $(window).on('the_fountain', function(){
 				fountainHeight -= decrease;
 				fountainHeight = Math.max(fountainHeight, 0);
 			}
-			previousTime = currentTime;	
+			previousTime = currentTime;
 		}
 
 		// Store the score each tick, this way we can precisely interpolate with numbers

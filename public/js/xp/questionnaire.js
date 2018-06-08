@@ -32,10 +32,10 @@ $(window).on('questionnaire', function(){
 			const input = $('input[type=text][name=' + name + ']');
 			if(e.target.value === 'true') {
 				input.val('');
-				input.removeClass('hide');
+				input.show();
 			} else {
 				input.val('nothing');
-				input.addClass('hide');
+				input.hide();
 			}
 		});
 	}

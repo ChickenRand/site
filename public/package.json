@@ -1,0 +1,29 @@
+{
+  "name": "chickenrand",
+  "version": "1.0.0",
+  "description": "ChickenRand dependancies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChickenRand/site.git"
+  },
+  "author": "Andréas Livet",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ChickenRand/site/issues"
+  },
+  "homepage": "https://github.com/ChickenRand/site#readme",
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "chart.js": "^2.7.2",
+    "font-awesome": "^4.7.0",
+    "imagesloaded": "^4.1.4",
+    "jquery": "^3.3.1",
+    "jstat": "^1.7.1",
+    "moment": "^2.22.2",
+    "popper.js": "^1.14.3"
+  }
+}

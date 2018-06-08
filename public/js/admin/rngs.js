@@ -72,7 +72,7 @@ $(function(){
 			if(rngTest != null){
 				rngTest.stop();
 			}
-			rngTest = new Rng(url, rngId, onTest);	
+			rngTest = new Rng(url, rngId, onTest);
 		}
 		else{
 			if(rngTest != null){
