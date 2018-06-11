@@ -1,24 +1,27 @@
 "use strict";
-$(window).on("questionnaire", function() {
-  var isDirty = true;
-  var userXpIp = null;
+$(window).on("questionnaire", () => {
+  let isDirty = true;
+  let userXpIp = null;
 
   function sendResults() {
     //Doesn't send the datas if there was no AVAILABLE_RNG
-    if (AVAILABLE_RNG != null) {
+    if (window.AVAILABLE_RNG !== null) {
       const data = [
-        { name: "results", value: JSON.stringify(AVAILABLE_RNG.results) },
-        { name: "rng_id", value: AVAILABLE_RNG.id }
+        {
+          name: "results",
+          value: JSON.stringify(window.AVAILABLE_RNG.results)
+        },
+        { name: "rng_id", value: window.AVAILABLE_RNG.id }
       ];
-      $.post("/xp/send_results/" + getXpId(), data, function(data) {
+      $.post(`/xp/send_results/${window.getXpId()}`, data, data => {
         isDirty = false;
         userXpIp = data;
         // We need to remove from queue only when the RNG close the connection
         // And not before.
-        AVAILABLE_RNG.setCloseCb(function() {
-          removeFromQueue();
+        window.AVAILABLE_RNG.setCloseCb(() => {
+          window.removeFromQueue();
         });
-        AVAILABLE_RNG.sendUserXpId(userXpIp);
+        window.AVAILABLE_RNG.sendUserXpId(userXpIp);
         $("#submit_results_button").removeClass("disabled");
         $("#submit_results_button").text("Envoyer les résultats");
       });
@@ -28,8 +31,8 @@ $(window).on("questionnaire", function() {
   }
 
   function manageSpecialInput(name) {
-    $("input[type=radio][name=" + name + "-radio]").change(function(e) {
-      const input = $("input[type=text][name=" + name + "]");
+    $(`input[type=radio][name=${name}-radio]`).change(e => {
+      const input = $(`input[type=text][name=${name}]`);
       if (e.target.value === "true") {
         input.val("");
         input.show();
@@ -44,8 +47,8 @@ $(window).on("questionnaire", function() {
   manageSpecialInput("music");
 
   $("#xp_container").removeClass("outer");
-  $("#results_form").submit(function(e) {
-    var formData = $("#results_form").serializeArray();
+  $("#results_form").submit(e => {
+    const formData = $("#results_form").serializeArray();
 
     e.preventDefault();
 
@@ -53,10 +56,8 @@ $(window).on("questionnaire", function() {
       $("#xp_container").html(
         '<img src="/images/ajax-loader.gif"> Envoi des données en cours, merci de ne pas fermer la page.'
       );
-      $.post("/xp/send_questionnaire_results/" + userXpIp, formData, function(
-        data
-      ) {
-        $.get("/xp/end_xp", function(html) {
+      $.post(`/xp/send_questionnaire_results/${userXpIp}`, formData, () => {
+        $.get("/xp/end_xp", html => {
           $("#xp_container").html(html);
         });
       });
@@ -73,7 +74,8 @@ $(window).on("questionnaire", function() {
   // Fix a weird chrome bug
   const form = $("#results_form").html();
   $("#results_form").html("");
-  window.setTimeout(() => $("#results_form").html(form), 1);
+  const MIN_TIMEOUT_MS = 1;
+  window.setTimeout(() => $("#results_form").html(form), MIN_TIMEOUT_MS);
 
   // We send results right after the questionnaire is loaded
   // This way answers to the questionnaire can wait or can even be skipped by the user
