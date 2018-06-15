@@ -167,9 +167,7 @@ $(() => {
 
     // Return last p for active data
     const nbSamples = (graphDataActive.length - 1) * NB_BITS_PER_TRIAL;
-    console.log(nbSamples);
     const lastCumul = graphDataActive[graphDataActive.length - 1];
-    console.log(lastCumul);
     return {
       activeZScore: calculateZScore(nbSamples, lastCumul, true),
       controlPending: graphDataActive.length > graphDataControl.length

@@ -202,7 +202,7 @@ $(() => {
     }
     $.post(`/queue/start/${item_id}.json`, data => {
       if (data.message !== undefined) {
-        // window.exitFullscreen();
+        window.exitFullscreen();
         window.displayAlert("danger", data.message);
       } else {
         $.get(`/xp/ajax_load/${getXpId()}`, html => {

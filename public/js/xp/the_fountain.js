@@ -79,7 +79,7 @@ $(window).on("the_fountain", () => {
 
     if (xpStarted) {
       ctx.fillText(`Niveau : ${level}`, 60, 50);
-      ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)} s`, 240, 50);
+      ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 240, 50);
     }
 
     if (deltaTime >= 50) {
