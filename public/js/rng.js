@@ -1,6 +1,6 @@
 "use strict";
-$(function() {
-  var __bind = function(fn, me) {
+$(() => {
+  const __bind = function(fn, me) {
     return function() {
       return fn.apply(me, arguments);
     };
@@ -12,7 +12,7 @@ $(function() {
     this.onOpen = __bind(this.onOpen, this);
     this.onClose = __bind(this.onClose, this);
     this.url = url;
-    this.socket = new WebSocket("ws://" + this.url);
+    this.socket = new WebSocket(`ws://${this.url}`);
     this.socket.binaryType = "arraybuffer";
     this.socket.onopen = this.onOpen;
     this.setOpenCb(onOpenCb);
@@ -20,7 +20,7 @@ $(function() {
     this.setCloseCb(onCloseCb);
     this.socket.onmessage = this.onNumbers;
     this.numbersCbs = [];
-    if (onNumbersCb != null) {
+    if (onNumbersCb !== undefined) {
       this.addNumbersCb(onNumbersCb);
     }
     this.socket.onerror = this.onError;
@@ -75,20 +75,25 @@ $(function() {
 
   Rng.prototype.onNumbers = function(message) {
     // TEMP : do not store numbers it takes too much space and cpu and we don't need them for now
-    var numbers = Array.from(new Uint8Array(message.data));
-    var trialRes = {
+    const numbers = Array.from(new Uint8Array(message.data));
+    const trialRes = {
       nbOnes: 0,
       nbZeros: 0,
       ms: Date.now() - this.results.date
     };
-    for (var i = 0; i < numbers.length; i++) {
-      for (var pos = 0; pos < 8; pos++) {
-        this.bitAt(numbers[i], pos) ? trialRes.nbOnes++ : trialRes.nbZeros++;
+    for (let i = 0; i < numbers.length; i++) {
+      for (let pos = 0; pos < 8; pos++) {
+        const isOne = this.bitAt(numbers[i], pos);
+        if (isOne) {
+          trialRes.nbOnes++;
+        } else {
+          trialRes.nbZeroes++;
+        }
       }
     }
     this.totalOnes += trialRes.nbOnes;
     this.totalZeros += trialRes.nbZeros;
-    for (var i = 0; i < this.numbersCbs.length; i++) {
+    for (let i = 0; i < this.numbersCbs.length; i++) {
       //We need the Rng object itself for the admin panel
       this.numbersCbs[i](trialRes, this);
     }
@@ -96,7 +101,7 @@ $(function() {
   };
 
   Rng.prototype.onError = function(message) {
-    if (this.errorCb != null) {
+    if (this.errorCb !== undefined) {
       this.errorCb(message, this);
     }
   };
@@ -117,7 +122,7 @@ $(function() {
 
   Rng.prototype.sendUserXpId = function(userXpId) {
     if (this.isConnected) {
-      this.socket.send(JSON.stringify({ userXpId: userXpId }));
+      this.socket.send(JSON.stringify({ userXpId }));
     }
   };
 

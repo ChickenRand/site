@@ -1,6 +1,6 @@
 "use strict";
 
-$(function() {
+$(() => {
   const LIMIT_Z_SCORE = 2.326348; // Correspond to p=0.01
   const NB_BITS_PER_TRIAL = 32000;
 
@@ -15,20 +15,13 @@ $(function() {
     return Math.round(f * 1000) / 1000;
   }
 
-  function calculateChiSquare(nbSamples, cumulativeDiff) {
-    const hypothesis = nbSamples / 2.0;
-    return (
-      Math.pow(cumulativeDiff, 2.0) / hypothesis +
-      Math.pow(-cumulativeDiff, 2.0) / hypothesis
-    );
-  }
-
   function calculateZScore(nbSamples, cumulativeDiff, proba) {
     const mean = nbSamples / 2;
     const sd = Math.sqrt(nbSamples / 4);
     const x = mean + cumulativeDiff;
-
-    return proba ? jStat.ztest(x, mean, sd, 1) : jStat.zscore(x, mean, sd);
+    return proba
+      ? window.jStat.ztest(x, mean, sd, 1)
+      : window.jStat.zscore(x, mean, sd);
   }
 
   function createCumulativeGraph(chartId, resultData) {
@@ -38,14 +31,14 @@ $(function() {
     const lowMaxChance = [0];
 
     let bitsPerTrial = 0;
-    resultData.forEach(function(data, i) {
+    resultData.forEach(data => {
       const res = JSON.parse(data.results);
       const currentData = res.rng_control ? graphDataControl : graphDataActive;
-
-      res.trials.forEach(function(trial) {
+      res.trials.forEach(trial => {
         if (bitsPerTrial === 0) {
           bitsPerTrial = trial.nbOnes + trial.nbZeros;
         }
+
         const diff = (trial.nbOnes + trial.nbZeros) / 2 - trial.nbZeros;
         const cumulativeDiff = currentData[currentData.length - 1] + diff;
         currentData.push(cumulativeDiff);
@@ -58,7 +51,7 @@ $(function() {
         ? graphDataControl
         : graphDataActive;
     let count = 0;
-    dataToUseForLabel.forEach(function() {
+    dataToUseForLabel.forEach(() => {
       label.push(count++);
       // Also create limit line
       const totalSamples = count * NB_BITS_PER_TRIAL;
@@ -106,7 +99,7 @@ $(function() {
     };
     const config = {
       type: "line",
-      data: data,
+      data,
       options: {
         title: {
           display: true,
@@ -126,14 +119,13 @@ $(function() {
           mode: "index",
           intersect: false,
           callbacks: {
-            title: (tooltipItems, data) => {
+            title: tooltipItems => {
               return `Lancé ${tooltipItems[0].index}`;
             },
             label: (tooltipItem, data) => {
               const cumulativeDiff =
                 data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
               const totalSamples = tooltipItem.index * NB_BITS_PER_TRIAL;
-              // const p = 1 - jStat.chisquare.cdf(calculateChiSquare(totalSamples, cumulativeDiff), 1 );
               const z = calculateZScore(totalSamples, cumulativeDiff);
               const pz = calculateZScore(totalSamples, cumulativeDiff, true);
               return `Nb. 1 cumulés : ${Math.round(
@@ -166,9 +158,7 @@ $(function() {
             }
           ]
         }
-      },
-
-      data: data
+      }
     };
     const ctx = $(chartId)
       .get(0)
@@ -177,7 +167,9 @@ $(function() {
 
     // Return last p for active data
     const nbSamples = (graphDataActive.length - 1) * NB_BITS_PER_TRIAL;
+    console.log(nbSamples);
     const lastCumul = graphDataActive[graphDataActive.length - 1];
+    console.log(lastCumul);
     return {
       activeZScore: calculateZScore(nbSamples, lastCumul, true),
       controlPending: graphDataActive.length > graphDataControl.length

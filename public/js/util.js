@@ -1,3 +1,6 @@
+window.requestFullscreen = requestFullscreen;
+window.exitFullscreen = exitFullscreen;
+window.displayAlert = displayAlert;
 function requestFullscreen(el) {
   if (el.requestFullscreen) {
     el.requestFullscreen();
@@ -27,21 +30,17 @@ function exitFullscreen() {
 }
 
 function displayAlert(type, message) {
-  typeMessages = {
+  window.typeMessages = {
     success: "Cool",
     danger: "Dommage",
     info: "Information",
     warning: "Attention"
   };
-  var html =
-    '<div class="alert alert-block alert-' + type + ' fade in" role="alert">';
+  let html = `<div class="alert alert-block alert-${type} fade in" role="alert">`;
   html += '<a class="close" data-dismiss="alert" href="#">×</a>';
-  html +=
-    "<p><strong>" +
-    typeMessages[type] +
-    " ! </strong>" +
-    message +
-    "</p></div>";
+  html += `<p><strong>${
+    window.typeMessages[type]
+  } ! </strong>${message}</p></div>`;
   $("#alert_placeholder").html(html);
 }
 
@@ -59,10 +58,10 @@ window.requestAnimFrame = (function() {
   );
 })();
 
-$(function() {
+$(() => {
   //Display a disclamer if we are not under a recent firefox or webkit browser
-  var body = document.getElementsByTagName("body")[0];
-  var hasFullScreenApi =
+  const [body] = document.getElementsByTagName("body");
+  const hasFullScreenApi =
     body.webkitRequestFullscreen ||
     body.mozRequestFullScreen ||
     body.msRequestFullscreen;
