@@ -1,44 +1,44 @@
-$(window).on("the_fountain", function() {
-  var XP_TOTAL_TRIALS = 100;
-  var MAX_XP_DURATION = 60; // In seconds (RNG may sometime be slower)
-  var MAX_NUMBER_RECIEVE_DURATION = 5000; // In ms
-  var running = true;
-  var xpStarted = false;
+$(window).on("the_fountain", () => {
+  const XP_TOTAL_TRIALS = 100;
+  const MAX_XP_DURATION = 60; // In seconds (RNG may sometime be slower)
+  const MAX_NUMBER_RECIEVE_DURATION = 5000; // In ms
+  let running = true;
+  let xpStarted = false;
 
   $("#xp_container").addClass("fountain-container");
-  var canvas = document.getElementById("canvas");
-  var ctx = canvas.getContext("2d");
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
 
-  var width = 362,
+  const width = 362,
     height = 600;
 
   canvas.width = width;
   canvas.height = height;
 
-  var fountainHeight = 0;
-  var level = 1;
-  var heightToAdd = 30;
+  let fountainHeight = 0;
+  let level = 1;
+  let heightToAdd = 30;
 
-  var previousTime = Date.now();
-  var totalXpTime = 0;
-  var timeStart = null;
+  let previousTime = Date.now();
+  let totalXpTime = 0;
+  let timeStart = null;
 
-  var trialCount = 0;
+  let trialCount = 0;
   const xpScores = [];
 
   //Adding keyboard controls
   document.onkeyup = function(e) {
     // Start counting numbers on the first keyup
     if (!xpStarted) {
-      AVAILABLE_RNG.reset();
+      window.AVAILABLE_RNG.reset();
       xpStarted = true;
       timeStart = Date.now();
-      AVAILABLE_RNG.sendStartMessage();
+      window.AVAILABLE_RNG.sendStartMessage();
     }
     //Incrémenter la taille de la fontaine
-    var key = e.keyCode;
+    const key = e.keyCode;
     //Key up or space
-    if (key == 38 || key == 32) {
+    if (key === 38 || key === 32) {
       fountainHeight += heightToAdd;
       if (fountainHeight >= 500) {
         fountainHeight = 0;
@@ -49,9 +49,9 @@ $(window).on("the_fountain", function() {
   };
 
   function update() {
-    var currentTime = Date.now();
-    var deltaTime = currentTime - previousTime;
-    var totalTime = currentTime - timeStart;
+    const currentTime = Date.now();
+    const deltaTime = currentTime - previousTime;
+    const totalTime = currentTime - timeStart;
 
     // Stop xp if no number are recieved at the end
     if (xpStarted && totalTime > MAX_XP_DURATION * 1000) {
@@ -78,12 +78,12 @@ $(window).on("the_fountain", function() {
     }
 
     if (xpStarted) {
-      ctx.fillText("Niveau : " + level, 60, 50);
-      ctx.fillText("Temps : " + parseInt(totalTime / 1000) + "s", 240, 50);
+      ctx.fillText(`Niveau : ${level}`, 60, 50);
+      ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 240, 50);
     }
 
     if (deltaTime >= 50) {
-      var decrease = Math.ceil(deltaTime / 10.0);
+      const decrease = Math.ceil(deltaTime / 10.0);
       if (fountainHeight > 0) {
         fountainHeight -= decrease;
         fountainHeight = Math.max(fountainHeight, 0);
@@ -95,7 +95,7 @@ $(window).on("the_fountain", function() {
     // from RNG
     if (xpStarted) {
       xpScores.push({
-        level: level,
+        level,
         gameScore: fountainHeight,
         time: totalTime
       });
@@ -105,13 +105,13 @@ $(window).on("the_fountain", function() {
   function animloop() {
     if (running) {
       update();
-      requestAnimId = requestAnimFrame(animloop);
+      window.requestAnimId = window.requestAnimFrame(animloop);
     }
   }
 
   function endXp() {
     running = false;
-    window.cancelAnimationFrame(requestAnimId);
+    window.cancelAnimationFrame(window.requestAnimId);
     document.onkeydown = null;
     ctx.fillText("FIN DE L'EXPERIENCE", width / 2, height / 2);
     ctx.fillText("VEUILLEZ PATIENTEZ...", width / 2, height / 2 + 50);
@@ -121,9 +121,9 @@ $(window).on("the_fountain", function() {
     //We do not need to check if the user is leaving anymore
     $(window).unbind("beforeunload");
     //Changing container content to display questionnaire which will send xp results
-    $.get("/xp/questionnaire", function(html) {
+    $.get("/xp/questionnaire", html => {
       $("#xp_container").removeClass("fountain-container");
-      exitFullscreen();
+      window.exitFullscreen();
       $("#xp_container").hide();
       $("#xp_container").html(html);
       $(window).trigger("questionnaire");
@@ -158,19 +158,13 @@ $(window).on("the_fountain", function() {
 
     // We recieve the numbers each 100ms
     if (trialCount === XP_TOTAL_TRIALS) {
-      console.log(
-        "End XP, total trials : ",
-        trialCount,
-        "total bit recieved : ",
-        AVAILABLE_RNG.totalOnes + AVAILABLE_RNG.totalZeros
-      );
       displayQuestionnaire();
     }
   }
 
   //Set up everything for the RNG and results collecting
-  if (AVAILABLE_RNG != null) {
-    AVAILABLE_RNG.addNumbersCb(onNumbers);
+  if (window.AVAILABLE_RNG !== undefined) {
+    window.AVAILABLE_RNG.addNumbersCb(onNumbers);
   }
 
   animloop();

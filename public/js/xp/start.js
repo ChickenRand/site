@@ -1,22 +1,22 @@
 "use strict";
-$(function() {
+$(() => {
   const BROWSER_SUPPORT_NOTIFICATION = "Notification" in window;
   //WARNING GLOBAL
   window.AVAILABLE_RNG = null;
-  var item_id = null;
-  var update_interval = null;
-  var inQueue = false;
-  var firstFullScreen = true;
+  let item_id = null;
+  let update_interval = null;
+  let inQueue = false;
+  let firstFullScreen = true;
   //Set moment to french
-  moment.locale("fr");
+  window.moment.locale("fr");
 
   if (document.fullscreenEnabled) {
     $("#no_full_screen").show();
     $("#full_screen").hide();
   }
 
-  $("#full_screen").click(function(e) {
-    requestFullscreen($("#xp_container").get(0));
+  $("#full_screen").click(() => {
+    window.requestFullscreen($("#xp_container").get(0));
     $("#full_screen").hide();
     $("#load_xp").show();
     $("#xp_container").addClass("outer");
@@ -24,15 +24,15 @@ $(function() {
     $("#xp_text").addClass("inner");
   });
 
-  $("#load_xp").click(function(e) {
+  $("#load_xp").click(() => {
     $("#load_xp").hide();
     $("#connect_rng").show();
     startExperiment();
   });
 
-  $("#add_queue").click(function(e) {
+  $("#add_queue").click(() => {
     askForNotification();
-    if (item_id == null) {
+    if (item_id === null) {
       addToQueue(false);
       $("#queue_message").show();
       $("#add_queue").html("Me retirer de la file d'attente");
@@ -43,7 +43,7 @@ $(function() {
     }
   });
 
-  $("#start_xp").click(function(e) {
+  $("#start_xp").click(() => {
     showStart();
   });
 
@@ -64,12 +64,12 @@ $(function() {
       Notification.permission === "granted" &&
       (document.hidden || !document.hasFocus())
     ) {
-      let notification = new Notification("Chickenrand", {
+      const notification = new Notification("Chickenrand", {
         body: "Vous pouvez particper à l'expérience !",
         lang: "FR"
       });
       // if document is visible again then close it
-      $(document).on("visibilitychange blur", function() {
+      $(document).on("visibilitychange blur", () => {
         if (!document.hidden) {
           notification.close();
         }
@@ -90,7 +90,7 @@ $(function() {
   }
 
   function showStart() {
-    if (item_id == null) {
+    if (item_id === null) {
       addToQueue(true);
     } else {
       showXp();
@@ -102,7 +102,7 @@ $(function() {
     if ($("#before_container").hasClass("hide")) {
       notifyUser();
     }
-    $("#xp_desc").fadeOut(1000, function() {
+    $("#xp_desc").fadeOut(1000, () => {
       $("#queue_container").hide();
       $("#before_container").hide();
       $("#xp_container").show();
@@ -116,16 +116,16 @@ $(function() {
   }
 
   function getState() {
-    $.get("/queue/state.json", function(data) {
+    $.get("/queue/state.json", data => {
       //We probably have hit F5
-      if (data.item != null) {
+      if (data.item !== null) {
         item_id = data.item.id;
         //Call the update method each 3 seconds
         update_interval = window.setInterval(update, 3000);
       }
-      if (item_id == null && data.state.length != 0) {
+      if (item_id === null && data.state.length !== 0) {
         showQueue(data.state.estimated_time);
-      } else if (data.state.length > 1 && data.state.item_on_top != item_id) {
+      } else if (data.state.length > 1 && data.state.item_on_top !== item_id) {
         $("#add_queue").html("Me retirer de la file d'attente");
         showQueue(data.state.estimated_time);
       }
@@ -133,8 +133,8 @@ $(function() {
   }
 
   function update() {
-    $.post("/queue/update/" + item_id + ".json", function(data) {
-      if (item_id && data.item_on_top == item_id) {
+    $.post(`/queue/update/${item_id}.json`, data => {
+      if (item_id && data.item_on_top === item_id) {
         if (inQueue) {
           inQueue = false;
           showStart();
@@ -146,15 +146,15 @@ $(function() {
   }
 
   function getXpId() {
-    var args = window.location.pathname.split("/");
+    const args = window.location.pathname.split("/");
     return args[args.length - 1];
   }
   //Expose this function to others
   window.getXpId = getXpId;
 
   function addToQueue(start_directly) {
-    var xp_id = getXpId();
-    $.post("/queue/add/" + xp_id + ".json", function(data) {
+    const xp_id = getXpId();
+    $.post(`/queue/add/${xp_id}.json`, data => {
       if (data.message) {
         console.error(data.message);
         window.location.replace("/xp/already_in_queue");
@@ -179,16 +179,16 @@ $(function() {
   }
 
   function removeFromQueue(callback) {
-    if (item_id != null) {
-      $.post("/queue/remove/" + item_id + ".json", function(data) {
+    if (item_id !== undefined) {
+      $.post(`/queue/remove/${item_id}.json`, () => {
         if (callback) {
           callback();
         }
       });
     }
     //Also stop the RNG if there was one
-    if (AVAILABLE_RNG != null) {
-      AVAILABLE_RNG.stop();
+    if (window.AVAILABLE_RNG !== undefined) {
+      window.AVAILABLE_RNG.stop();
     }
     //We do not need to check if the user is leaving anymore
     $(window).unbind("beforeunload");
@@ -197,37 +197,37 @@ $(function() {
   window.removeFromQueue = removeFromQueue;
 
   function startExperiment() {
-    if (update_interval != null) {
+    if (update_interval !== undefined) {
       window.clearInterval(update_interval);
     }
-    $.post("/queue/start/" + item_id + ".json", function(data) {
-      if (data.message != null) {
-        exitFullscreen();
-        displayAlert("danger", data.message);
+    $.post(`/queue/start/${item_id}.json`, data => {
+      if (data.message !== undefined) {
+        window.exitFullscreen();
+        window.displayAlert("danger", data.message);
       } else {
-        $.get("/xp/ajax_load/" + getXpId(), function(html) {
-          AVAILABLE_RNG = new Rng(data.url, data.id);
+        $.get(`/xp/ajax_load/${getXpId()}`, html => {
+          window.AVAILABLE_RNG = new window.Rng(data.url, data.id);
           //Add a check if the user is leaving the page in order to properly stop the RNG
-          $(window).on("beforeunload", function() {
+          $(window).on("beforeunload", () => {
             removeFromQueue();
             return "Stopping Rng";
           });
-          var timeoutId = window.setTimeout(function() {
-            if (!AVAILABLE_RNG.isConnected()) {
+          const timeoutId = window.setTimeout(() => {
+            if (!window.AVAILABLE_RNG.isConnected()) {
               console.error("RNG not connected");
               onRngError();
             } else {
               $(".xp-desc-text").hide();
               $("#xp_container").html(html);
               //TEMP : use hardcoded name
-              $("#fountain_container").ready(function() {
+              $("#fountain_container").ready(() => {
                 $("#fountain_container")
                   .imagesLoaded()
-                  .done(function() {
+                  .done(() => {
                     $("#load_img").hide();
                     $(window).trigger("the_fountain");
                   })
-                  .fail(function() {
+                  .fail(() => {
                     console.error("Unable to load images");
                     onRngError();
                   });
@@ -249,7 +249,7 @@ $(function() {
 
   function onRngError() {
     removeFromQueue(displayNoRng);
-    exitFullscreen();
+    window.exitFullscreen();
   }
 
   function onLeaveDuringXp() {
@@ -258,7 +258,7 @@ $(function() {
   //Add a check if user remove FullScreen
   //And re-ask for fullscreen
   function onFullscreenChange() {
-    if (document.fullscreenElement == null) {
+    if (document.fullscreenElement === null) {
       if (firstFullScreen) {
         firstFullScreen = false;
       } else {
@@ -271,13 +271,13 @@ $(function() {
     "webkitfullscreenchange mozfullscreenchange msfullscreenchange fullscreenchange",
     onFullscreenChange
   );
-  $(document).on("blur", function() {
+  $(document).on("blur", () => {
     if (!firstFullScreen) {
       onLeaveDuringXp();
     }
   });
 
-  $(window).on("rng-error", function() {
+  $(window).on("rng-error", () => {
     onRngError();
   });
   getState();

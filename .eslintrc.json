@@ -1,0 +1,155 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jquery": true
+  },
+
+  "globals":{
+   "moment": true,
+   "image": true,
+   "jet": true,
+   "Chart": true
+  },
+
+  "rules": {
+    //////// Possible errors //////////
+    "no-cond-assign": "error", // disallow assignment operators in conditional expressions (recommended)
+    "no-console": ["error", {
+       "allow": ["warn", "error"]
+    }], // disallow the use of 'console` (recommended)
+    "no-constant-condition": "error", // disallow constant expressions in conditions (recommended)
+    "no-control-regex": "error", // disallow control characters in regular expressions (recommended)
+    "no-debugger": "error", // disallow the use of 'debugger` (recommended)
+    "no-dupe-args": "error", // disallow duplicate arguments in 'function` definitions (recommended)
+    "no-dupe-keys": "error", // disallow duplicate keys in object literals (recommended)
+    "no-duplicate-case": "error", // disallow duplicate case labels (recommended)
+    "no-empty": "error", // disallow empty block statements (recommended)
+    "no-empty-character-class": "error", // disallow empty character classes in regular expressions (recommended)
+    "no-ex-assign": "error", // disallow reassigning exceptions in 'catch` clauses (recommended)
+    "no-extra-boolean-cast": "error", // disallow unnecessary boolean casts (recommended)
+    "no-extra-parens": 1, // disallow unnecessary parentheses
+    "no-extra-semi": "error", // disallow unnecessary semicolons (recommended) (fixable)
+    "no-func-assign": "error", // disallow reassigning 'function` declarations (recommended)
+    "no-inner-declarations": "error", // disallow 'function` or `var` declarations in nested blocks (recommended)
+    "no-invalid-regexp": "error", // disallow invalid regular expression strings in 'RegExp` constructors (recommended)
+    "no-irregular-whitespace": "error", // disallow irregular whitespace outside of strings and comments (recommended)
+    "no-negated-in-lhs": 1, // disallow negating the left operand in 'in` expressions (recommended)
+    "no-obj-calls": "error", // disallow calling global object properties as functions (recommended)
+    "no-prototype-builtins": 1, // Disallow use of 'Object.prototypes` builtins directly
+    "no-regex-spaces": "error", // disallow multiple spaces in regular expression literals (recommended)
+    "no-sparse-arrays": "error", // disallow sparse arrays (recommended)
+    "no-unexpected-multiline": "error", // disallow confusing multiline expressions (recommended)
+    "no-unreachable": "error", // disallow unreachable code after 'return`, `throw`, `continue`, and `break` statements (recommended)
+    "no-unsafe-finally": "error", // disallow control flow statements in 'finally` blocks (recommended)
+    "use-isnan": "error", // require calls to 'isNaN()` when checking for `NaN` (recommended)
+    "valid-typeof": "error", // enforce comparing 'typeof` expressions against valid strings (recommended)
+
+    /// Best Practices ////
+    "array-callback-return": 1, // enforce 'return` statements in callbacks of array methods
+    "block-scoped-var": 1, // enforce the use of variables within the scope they are defined
+    "complexity": 1, // enforce a maximum cyclomatic complexity allowed in a program
+    "consistent-return": 1, // require 'return` statements to either always or never specify values
+    "default-case": 1, // require 'default` cases in `switch` statements
+    "eqeqeq": 1, // require the use of '===` and `!==`
+    "no-alert": 1, // disallow the use of 'alert`, `confirm`, and `prompt`
+    "no-caller": 1, // disallow the use of 'arguments.caller` or `arguments.callee`
+    "no-case-declarations": "error", // disallow lexical declarations in case clauses (recommended)
+    "no-div-regex": 1, // disallow division operators explicitly at the beginning of regular expressions
+    "no-else-return": 1, // disallow 'else` blocks after `return` statements in `if` statements
+    "no-empty-function": 1, // disallow empty functions
+    "no-empty-pattern": "error", // disallow empty destructuring patterns (recommended)
+    "no-eq-null": 1, // disallow 'null` comparisons without type-checking operators
+    "no-eval": 1, // disallow the use of 'eval()`
+    "no-extend-native": 1, // disallow extending native types
+    "no-extra-bind": 1, // disallow unnecessary calls to '.bind()`
+    "no-extra-label": 1, // disallow unnecessary labels
+    "no-fallthrough": "error", // disallow fallthrough of 'case` statements (recommended)
+    "no-floating-decimal": 1, // disallow leading or trailing decimal points in numeric literals
+    "no-implied-eval": 1, // disallow the use of 'eval()`-like methods
+    "no-invalid-this": 1, // disallow 'this` keywords outside of classes or class-like objects
+    "no-iterator": 1, // disallow the use of the '__iterator__` property
+    "no-labels": 1, // disallow labeled statements
+    "no-lone-blocks": 1, // disallow unnecessary nested blocks
+    "no-loop-func": 1, // disallow 'function` declarations and expressions inside loop statements
+    "no-magic-numbers": [
+      0,
+      {
+        "ignore": [0]
+      }
+    ], // disallow magic numbers
+    "no-native-reassign": 1, // disallow assignments to native objects or read-only global variables (recommended)
+    "no-new": 1, // disallow 'new` operators outside of assignments or comparisons
+    "no-new-func": 1, // disallow 'new` operators with the `Function` object
+    "no-new-wrappers": 1, // disallow 'new` operators with the `String`, `Number`, and `Boolean` objects
+    "no-octal": "error", // disallow octal literals (recommended)
+    "no-octal-escape": 1, // disallow octal escape sequences in string literals
+    "no-param-reassign": 1, // disallow reassigning 'function` parameters
+    "no-proto": 1, // disallow the use of the '__proto__` property
+    "no-redeclare": "error", // disallow 'var` redeclaration (recommended)
+    "no-return-assign": 1, // disallow assignment operators in 'return` statements
+    "no-script-url": 1, // disallow 'javascript:` urls
+    "no-self-assign": "error", // disallow assignments where both sides are exactly the same (recommended)
+    "no-self-compare": 1, // disallow comparisons where both sides are exactly the same
+    "no-sequences": 1, // disallow comma operators
+    "no-throw-literal": 1, // disallow throwing literals as exceptions
+    "no-unmodified-loop-condition": 1, // disallow unmodified loop conditions
+    "no-unused-expressions": 1, // disallow unused expressions
+    "no-unused-labels": "error", // disallow unused labels (recommended)
+    "no-useless-call": 1, // disallow unnecessary calls to '.call()` and `.apply()`
+    "no-useless-concat": 1, // disallow unnecessary concatenation of literals or template literals
+    "no-useless-escape": "error", // disallow unnecessary escape characters
+    "no-void": 1, // disallow 'void` operators
+    "no-warning-comments": "off", // disallow specified warning terms in comments
+    "no-with": 1, // disallow 'with` statements
+    "radix": 1, // enforce the consistent use of the radix argument when using 'parseInt()`
+    "vars-on-top": 1, // require 'var` declarations be placed at the top of their containing scope
+    "wrap-iife": 1, // require parentheses around immediate 'function` invocations
+
+    //////// Variable declaration ////////
+    "init-declarations": 1, // require or disallow initialization in 'var` declarations
+    "no-delete-var": "error", // disallow deleting variables (recommended)
+    "no-label-var": 1, // disallow labels that share a name with a variable
+    "no-restricted-globals": 1, // disallow specified global variables
+    "no-shadow-restricted-names": 1, // disallow identifiers from shadowing restricted names
+    "no-undef": "error", // disallow the use of undeclared variables unless mentioned in '/*global */` comments (recommended)
+    "no-undef-init": 1, // disallow initializing variables to 'undefined`
+    "no-undefined": 0, // disallow the use of 'undefined` as an identifier
+    "no-unused-vars": "error", // disallow unused variables (recommended)
+    "no-use-before-define": ["error", {
+       "functions": false,
+       "classes": false,
+       "variables": false
+    }],
+
+    //////// ECMAScript 6 ////////
+    "constructor-super": 1, // require super() calls in constructors
+    "generator-star-spacing": 1, // enforce consistent spacing around * operators in generator functions
+    "no-class-assign": 1, // disallow reassigning class members
+    "no-confusing-arrow": 1, // disallow arrow functions where they could be confused with comparisons
+    "no-const-assign": 1, // disallow reassigning const variables
+    "no-dupe-class-members": 1, // disallow duplicate class members
+    "no-duplicate-imports": 1, // disallow duplicate module imports
+    "no-new-symbol": 1, // disallow new operators with the Symbol object
+    "no-restricted-imports": 1, // disallow specified modules when loaded by import
+    "no-this-before-super": 1, // disallow this/super before calling super() in constructors
+    "no-useless-computed-key": 1, // disallow unnecessary computed property keys in object literals
+    "no-useless-constructor": 1, // disallow unnecessary constructors
+    "no-useless-rename": 1, // disallow renaming import, export, and destructured assignments to the same name
+    "no-var": 1, // require let or const instead of var
+    "object-shorthand": 1, // require or disallow method and property shorthand syntax for object literals
+    "prefer-arrow-callback": 1, // require using arrow functions for callbacks
+    "prefer-const": 1, // require const declarations for variables that are never reassigned after declared
+    "prefer-destructuring": 1, // require destructuring from arrays and/or objects
+    "prefer-numeric-literals": 1, // disallow parseInt() and Number.parseInt() in favor of binary, octal, and hexadecimal literals
+    "prefer-rest-params": 1, // require rest parameters instead of arguments
+    "prefer-spread": 1, // require spread operators instead of .apply()
+    "prefer-template": 1, // require template literals instead of string concatenation
+    "require-yield": 1, // require generator functions to contain yield
+    "rest-spread-spacing": 1, // enforce spacing between rest and spread operators and their expressions
+    "sort-imports": 1, // enforce sorted import declarations within modules
+    "symbol-description": 1, // require symbol descriptions
+    "template-curly-spacing": 1, // require or disallow spacing around embedded expressions of template strings
+    "yield-star-spacing": 1 // require or disallow spacing around the * in yield* expressions
+  }
+}
