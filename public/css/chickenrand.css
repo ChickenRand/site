@@ -15,13 +15,21 @@ footer {
 	margin-top: 11px;
 }
 
-.calm-women {
+.Bouddha {
 	margin-top: 24px;
+	max-width: 100%;
 }
 
 .cat-concentrate {
-	margin-top: 45px;
+	margin-top: 24px;
+	max-width: 100%
 }
+
+.full-screen{
+	margin-top: 24px;
+	max-width: 83%;
+}
+
 
 .alert-container {
 	margin-top: 10px;
