@@ -35,40 +35,61 @@ $(window).on("the_fountain", () => {
       timeStart = Date.now();
       window.AVAILABLE_RNG.sendStartMessage();
     }
+
     //Incrémenter la taille de la fontaine
     const key = e.keyCode;
+    const arrowUp = 38;
+    const Space = 32;
     //Key up or space
-    if (key === 38 || key === 32) {
+    if (key === arrowUp || key === Space) {
       fountainHeight += heightToAdd;
       if (fountainHeight >= 500) {
         fountainHeight = 0;
         level++;
+        animateDecor = true;
         heightToAdd -= 2;
+        totalYAnimation = 0;
       }
     }
   };
-
+  let imageX = 0;
+  let imageY = -600;
+  let animateDecor;
+  let totalYAnimation;
+/////////////////////
   function update() {
     const currentTime = Date.now();
-    const deltaTime = currentTime - previousTime;
+    const delta = currentTime - previousTime;
+     previousTime = currentTime;
     const totalTime = currentTime - timeStart;
-
+    let animationHeight = 1.5 * delta;
+    if (animateDecor){
+      imageY = imageY + animationHeight;
+      totalYAnimation = totalYAnimation + animationHeight;
+    }if(totalYAnimation > 600) {
+    animateDecor = false;
+    }
     // Stop xp if no number are recieved at the end
     if (xpStarted && totalTime > MAX_XP_DURATION * 1000) {
       running = false;
       $(window).trigger("rng-error");
     }
-
+//////////////////////
     ctx.clearRect(0, 0, width, height);
     ctx.font = "16pt Arial Black, Gadget, sans-serif";
     ctx.textAlign = "center";
-
-    image = document.getElementById("the_fountain");
-    ctx.drawImage(image, 0, 0);
+    image = document.getElementById("the_fountain_4");
+    ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
+    // if (level >1){
+    //   image = document.getElementById("the_fountain_2");
+    //   ctx.drawImage(image, 0, 0);
+    //   ctx.drawImage(jet, 80, 500 - fountainHeight);
+    // }
 
     if (!xpStarted) {
+      ctx.font = "11pt fippsregular";
       ctx.fillText("Appuyez sur haut ou espace", width / 2, height / 2);
       ctx.fillText(
         "pour faire grandir la fontaine",
@@ -78,18 +99,13 @@ $(window).on("the_fountain", () => {
     }
 
     if (xpStarted) {
+      ctx.font = "11pt fippsregular";
       ctx.fillText(`Niveau : ${level}`, 60, 50);
-      ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 240, 50);
+      ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
+      ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
+      console.log(totalYAnimation);
     }
 
-    if (deltaTime >= 50) {
-      const decrease = Math.ceil(deltaTime / 10.0);
-      if (fountainHeight > 0) {
-        fountainHeight -= decrease;
-        fountainHeight = Math.max(fountainHeight, 0);
-      }
-      previousTime = currentTime;
-    }
 
     // Store the score each tick, this way we can precisely interpolate with numbers
     // from RNG

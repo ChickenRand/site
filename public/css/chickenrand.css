@@ -1,3 +1,19 @@
+@font-face {
+    font-family: 'fippsregular';
+    src: url('fipps-regular-webfont.woff2') format('woff2'),
+         url('fipps-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'pixeledregular';
+    src: url('pixeled-webfont.woff2') format('woff2'),
+         url('pixeled-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 footer {
 	border-top: 1px solid #E5E5E5;
 	padding-top: 20px;
@@ -15,7 +31,7 @@ footer {
 	margin-top: 11px;
 }
 
-.Bouddha {
+.bouddha {
 	margin-top: 24px;
 	max-width: 100%;
 }
@@ -29,7 +45,6 @@ footer {
 	margin-top: 24px;
 	max-width: 83%;
 }
-
 
 .alert-container {
 	margin-top: 10px;
