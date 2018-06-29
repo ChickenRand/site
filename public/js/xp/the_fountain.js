@@ -53,32 +53,33 @@ $(window).on("the_fountain", () => {
     }
   };
   let imageX = 0;
-  let imageY = -600;
+  let imageY = -4120;
   let animateDecor;
   let totalYAnimation;
-/////////////////////
+  /////////////////////
   function update() {
     const currentTime = Date.now();
     const delta = currentTime - previousTime;
-     previousTime = currentTime;
+    previousTime = currentTime;
     const totalTime = currentTime - timeStart;
     let animationHeight = 1.5 * delta;
-    if (animateDecor){
+    if (animateDecor) {
       imageY = imageY + animationHeight;
       totalYAnimation = totalYAnimation + animationHeight;
-    }if(totalYAnimation > 600) {
-    animateDecor = false;
+    }
+    if (totalYAnimation > 600) {
+      animateDecor = false;
     }
     // Stop xp if no number are recieved at the end
     if (xpStarted && totalTime > MAX_XP_DURATION * 1000) {
       running = false;
       $(window).trigger("rng-error");
     }
-//////////////////////
+    //////////////////////
     ctx.clearRect(0, 0, width, height);
     ctx.font = "16pt Arial Black, Gadget, sans-serif";
     ctx.textAlign = "center";
-    image = document.getElementById("the_fountain_4");
+    image = document.getElementById("the_final_fountain");
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
@@ -89,7 +90,7 @@ $(window).on("the_fountain", () => {
     // }
 
     if (!xpStarted) {
-      ctx.font = "11pt fippsregular";
+      ctx.font = "11pt press_start_2pregular";
       ctx.fillText("Appuyez sur haut ou espace", width / 2, height / 2);
       ctx.fillText(
         "pour faire grandir la fontaine",
@@ -99,13 +100,15 @@ $(window).on("the_fountain", () => {
     }
 
     if (xpStarted) {
-      ctx.font = "11pt fippsregular";
+      ctx.font = "11pt press_start_2pregular";
       ctx.fillText(`Niveau : ${level}`, 60, 50);
       ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
       ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
-      console.log(totalYAnimation);
     }
-
+    if (fountainHeight >= 0) {
+      const decrease = 0.125 * delta;
+      fountainHeight = fountainHeight - decrease;
+    }
 
     // Store the score each tick, this way we can precisely interpolate with numbers
     // from RNG
