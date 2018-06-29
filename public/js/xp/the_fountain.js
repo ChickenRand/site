@@ -56,7 +56,6 @@ $(window).on("the_fountain", () => {
   let imageY = -4120;
   let animateDecor;
   let totalYAnimation;
-  /////////////////////
   function update() {
     const currentTime = Date.now();
     const delta = currentTime - previousTime;
@@ -75,7 +74,6 @@ $(window).on("the_fountain", () => {
       running = false;
       $(window).trigger("rng-error");
     }
-    //////////////////////
     ctx.clearRect(0, 0, width, height);
     ctx.font = "16pt Arial Black, Gadget, sans-serif";
     ctx.textAlign = "center";
@@ -83,11 +81,6 @@ $(window).on("the_fountain", () => {
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
-    // if (level >1){
-    //   image = document.getElementById("the_fountain_2");
-    //   ctx.drawImage(image, 0, 0);
-    //   ctx.drawImage(jet, 80, 500 - fountainHeight);
-    // }
 
     if (!xpStarted) {
       ctx.font = "11pt press_start_2pregular";
