@@ -38,10 +38,10 @@ $(window).on("the_fountain", () => {
 
     //Incrémenter la taille de la fontaine
     const key = e.keyCode;
-    const arrowUp = 38;
-    const Space = 32;
+    const ARROW_UP = 38;
+    const SPACE = 32;
     //Key up or space
-    if (key === arrowUp || key === Space) {
+    if (key === ARROW_UP || key === SPACE) {
       fountainHeight += heightToAdd;
       if (fountainHeight >= 500) {
         fountainHeight = 0;
@@ -52,21 +52,28 @@ $(window).on("the_fountain", () => {
       }
     }
   };
+  // const NUMBER_IMAGE = 7;
+  const NUMBER_IMAGE = 7;
+  const SPEED_DECOR = 1.5;
+  const IMAGE_SIZE = 600;
   let imageX = 0;
-  let imageY = -4120;
+  let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
   let animateDecor;
   let totalYAnimation;
+
   function update() {
     const currentTime = Date.now();
     const delta = currentTime - previousTime;
     previousTime = currentTime;
     const totalTime = currentTime - timeStart;
-    let animationHeight = 1.5 * delta;
+    const ANIMATION_HEIGHT = SPEED_DECOR * delta;
+    const HEIGHT_TO_REMOVED = 0.125;
+    const decrease = HEIGHT_TO_REMOVED * delta;
     if (animateDecor) {
-      imageY = imageY + animationHeight;
-      totalYAnimation = totalYAnimation + animationHeight;
+      imageY = imageY + ANIMATION_HEIGHT;
+      totalYAnimation = totalYAnimation + ANIMATION_HEIGHT;
     }
-    if (totalYAnimation > 600) {
+    if (totalYAnimation > IMAGE_SIZE) {
       animateDecor = false;
     }
     // Stop xp if no number are recieved at the end
@@ -98,8 +105,7 @@ $(window).on("the_fountain", () => {
       ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
       ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
     }
-    if (fountainHeight >= 0) {
-      const decrease = 0.125 * delta;
+    if (fountainHeight >= decrease) {
       fountainHeight = fountainHeight - decrease;
     }
 
