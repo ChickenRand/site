@@ -52,7 +52,6 @@ $(window).on("the_fountain", () => {
       }
     }
   };
-  // const NUMBER_IMAGE = 7;
   const NUMBER_IMAGE = 7;
   const SPEED_DECOR = 1.5;
   const IMAGE_SIZE = 600;
@@ -66,12 +65,12 @@ $(window).on("the_fountain", () => {
     const delta = currentTime - previousTime;
     previousTime = currentTime;
     const totalTime = currentTime - timeStart;
-    const ANIMATION_HEIGHT = SPEED_DECOR * delta;
+    const animationHeight = SPEED_DECOR * delta;
     const HEIGHT_TO_REMOVED = 0.125;
     const decrease = HEIGHT_TO_REMOVED * delta;
     if (animateDecor) {
-      imageY = imageY + ANIMATION_HEIGHT;
-      totalYAnimation = totalYAnimation + ANIMATION_HEIGHT;
+      imageY = imageY + animationHeight;
+      totalYAnimation = totalYAnimation + animationHeight;
     }
     if (totalYAnimation > IMAGE_SIZE) {
       animateDecor = false;
