@@ -1,7 +1,6 @@
 $(window).on("the_fountain", () => {
   const XP_TOTAL_TRIALS = 100;
   const MAX_XP_DURATION = 60; // In seconds (RNG may sometime be slower)
-  const MAX_NUMBER_RECIEVE_DURATION = 5000; // In ms
   let running = true;
   let xpStarted = false;
 
@@ -21,7 +20,6 @@ $(window).on("the_fountain", () => {
   let score = 0;
 
   let previousTime = Date.now();
-  let totalXpTime = 0;
   let timeStart = null;
 
   let trialCount = 0;
@@ -33,13 +31,10 @@ $(window).on("the_fountain", () => {
   const imageX = 0;
   let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
   let animateDecor = false;
-  const background = false;
   let totalYAnimation = 0;
   let diffOne = 0;
   const VALUE_MAX = 40;
   const VALUE_MIN = -40;
-  const bonusAdd = Math.min(Math.max(diffOne, VALUE_MIN), VALUE_MAX);
-  const scoreBonus = heightToAdd + bonusAdd * 0.1;
 
   //Adding keyboard controls
   document.onkeyup = function(e) {
@@ -55,10 +50,12 @@ $(window).on("the_fountain", () => {
     const key = e.keyCode;
     const ARROW_UP = 38;
     const SPACE = 32;
+    const bonusAdd = Math.min(Math.max(diffOne, VALUE_MIN), VALUE_MAX);
+    const scoreBonus = heightToAdd + bonusAdd * 0.1;
     //Key up or space
     if (key === ARROW_UP || key === SPACE) {
       fountainHeight += heightToAdd + bonusAdd * 0.1;
-      score += heightToAdd;
+      score += (heightToAdd + scoreBonus) * level;
       if (fountainHeight >= 500) {
         fountainHeight = 0;
         level++;
@@ -91,31 +88,31 @@ $(window).on("the_fountain", () => {
     ctx.clearRect(0, 0, width, height);
     ctx.font = "16pt Arial Black, Gadget, sans-serif";
     ctx.textAlign = "center";
-    image = document.getElementById("the_final_fountain");
+    const image = document.getElementById("the_final_fountain");
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
-    negativ_influence_background = document.getElementById(
-      "negativ_influence_background"
+    const negative_influence_background = document.getElementById(
+      "negative_influence_background"
     );
-    positiv_influence_background = document.getElementById(
-      "positiv_influence_background"
+    const positive_influence_background = document.getElementById(
+      "positive_influence_background"
     );
 
     if (diffOne > 0) {
       ctx.globalAlpha = 0.4;
-      ctx.drawImage(negativ_influence_background, imageX, imageY);
+      ctx.drawImage(negative_influence_background, imageX, imageY);
       ctx.globalAlpha = 0.2;
-      ctx.drawImage(positiv_influence_background, imageX, imageY);
+      ctx.drawImage(positive_influence_background, imageX, imageY);
       ctx.globalAlpha = 0.7;
       ctx.drawImage(image, imageX, imageY);
       ctx.globalAlpha = 1;
       ctx.drawImage(jet, 80, 500 - fountainHeight);
     } else {
       ctx.globalAlpha = 0.4;
-      ctx.drawImage(positiv_influence_background, imageX, imageY);
+      ctx.drawImage(positive_influence_background, imageX, imageY);
       ctx.globalAlpha = 0.2;
-      ctx.drawImage(negativ_influence_background, imageX, imageY);
+      ctx.drawImage(negative_influence_background, imageX, imageY);
       ctx.globalAlpha = 0.7;
       ctx.drawImage(image, imageX, imageY);
       ctx.globalAlpha = 1;
@@ -136,7 +133,7 @@ $(window).on("the_fountain", () => {
       ctx.font = "11pt press_start_2pregular";
       ctx.fillText(`Niveau : ${level}`, 60, 50);
       ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
-      ctx.fillText(`Score : ${parseInt(level * score + scoreBonus)}`, 65, 20);
+      ctx.fillText(`Score : ${parseInt(score)}`, 65, 20);
       ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
     }
     if (fountainHeight >= decrease) {
@@ -184,18 +181,12 @@ $(window).on("the_fountain", () => {
   }
 
   function onNumbers(trialRes) {
-    if (trialCount === 0) {
-      totalXpTime = Date.now() - timeStart;
-    }
-
     trialCount++;
     diffOne = trialRes.nbOnes - trialRes.nbZeros;
     // It's not 100% accurate but I think it'll be enough
     trialRes.gameScore = fountainHeight;
     trialRes.level = level;
-    // Rewrite the time
 
-    // We recieve the numbers each 100ms
     if (trialCount === XP_TOTAL_TRIALS) {
       endXp();
       displayQuestionnaire();

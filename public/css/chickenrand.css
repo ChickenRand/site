@@ -1,13 +1,13 @@
 @font-face {
-    font-family: 'press_start_2pregular';
-    src: url('pressstart2p-regular-webfont.woff2') format('woff2'),
-         url('pressstart2p-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: "press_start_2pregular";
+	src: url("pressstart2p-regular-webfont.woff2") format("woff2"),
+		url("pressstart2p-regular-webfont.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
 }
 
 footer {
-	border-top: 1px solid #E5E5E5;
+	border-top: 1px solid #e5e5e5;
 	padding-top: 20px;
 	margin-top: 10px;
 }
@@ -23,17 +23,17 @@ footer {
 	margin-top: 11px;
 }
 
-.bouddha {
+.tranquility {
 	margin-top: 24px;
 	max-width: 100%;
 }
 
 .cat-concentrate {
 	margin-top: 24px;
-	max-width: 100%
+	max-width: 100%;
 }
 
-.full-screen{
+.full-screen {
 	margin-top: 24px;
 	max-width: 83%;
 }
@@ -87,7 +87,7 @@ footer {
 	max-width: 70% !important;
 	margin-left: auto;
 	margin-right: auto;
-};
+}
 
 :-webkit-full-screen div {
 	max-width: 70% !important;
