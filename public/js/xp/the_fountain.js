@@ -18,6 +18,7 @@ $(window).on("the_fountain", () => {
   let fountainHeight = 0;
   let level = 1;
   let heightToAdd = 30;
+  let score = 0;
 
   let previousTime = Date.now();
   let totalXpTime = 0;
@@ -25,6 +26,16 @@ $(window).on("the_fountain", () => {
 
   let trialCount = 0;
   const xpScores = [];
+
+  const NUMBER_IMAGE = 7;
+  const SPEED_DECOR = 1.5;
+  const IMAGE_SIZE = 600;
+  let imageX = 0;
+  let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
+  let animateDecor = false;
+  let background = false;
+  let totalYAnimation = 0;
+  let diffOne = 0;
 
   //Adding keyboard controls
   document.onkeyup = function(e) {
@@ -42,7 +53,9 @@ $(window).on("the_fountain", () => {
     const SPACE = 32;
     //Key up or space
     if (key === ARROW_UP || key === SPACE) {
-      fountainHeight += heightToAdd;
+      let BonusAdd = Math.min(Math.max(diffOne, -40), 40);
+      fountainHeight += heightToAdd + BonusAdd * 0.1;
+      score += heightToAdd;
       if (fountainHeight >= 500) {
         fountainHeight = 0;
         level++;
@@ -52,14 +65,6 @@ $(window).on("the_fountain", () => {
       }
     }
   };
-  const NUMBER_IMAGE = 7;
-  const SPEED_DECOR = 1.5;
-  const IMAGE_SIZE = 600;
-  let imageX = 0;
-  let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
-  let animateDecor;
-  let totalYAnimation;
-
   function update() {
     const currentTime = Date.now();
     const delta = currentTime - previousTime;
@@ -87,6 +92,34 @@ $(window).on("the_fountain", () => {
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
+    fond_rouge = document.getElementById("fond_rouge");
+    ctx.globalAlpha = 0;
+    ctx.drawImage(fond_rouge, imageX, imageY);
+    ctx.globalAlpha = 1;
+    fond_vert = document.getElementById("fond_vert");
+    ctx.globalAlpha = 0;
+    ctx.drawImage(fond_vert, imageX, imageY);
+    ctx.globalAlpha = 1;
+
+    if (diffOne > 0) {
+      ctx.globalAlpha = 0.4;
+      ctx.drawImage(fond_rouge, imageX, imageY);
+      ctx.globalAlpha = 0.2;
+      ctx.drawImage(fond_vert, imageX, imageY);
+      ctx.globalAlpha = 0.7;
+      ctx.drawImage(image, imageX, imageY);
+      ctx.globalAlpha = 1;
+      ctx.drawImage(jet, 80, 500 - fountainHeight);
+    } else {
+      ctx.globalAlpha = 0.4;
+      ctx.drawImage(fond_vert, imageX, imageY);
+      ctx.globalAlpha = 0.2;
+      ctx.drawImage(fond_rouge, imageX, imageY);
+      ctx.globalAlpha = 0.7;
+      ctx.drawImage(image, imageX, imageY);
+      ctx.globalAlpha = 1;
+      ctx.drawImage(jet, 80, 500 - fountainHeight);
+    }
 
     if (!xpStarted) {
       ctx.font = "11pt press_start_2pregular";
@@ -102,6 +135,7 @@ $(window).on("the_fountain", () => {
       ctx.font = "11pt press_start_2pregular";
       ctx.fillText(`Niveau : ${level}`, 60, 50);
       ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
+      ctx.fillText(`Score : ${parseInt(level * score)}`, 65, 20);
       ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
     }
     if (fountainHeight >= decrease) {
@@ -150,31 +184,23 @@ $(window).on("the_fountain", () => {
 
   function onNumbers(trialRes) {
     if (trialCount === 0) {
-      endXp();
       totalXpTime = Date.now() - timeStart;
-      // Stop XP if not enough number recieved
-      window.setTimeout(() => {
-        if (trialCount < XP_TOTAL_TRIALS) {
-          $(window).trigger("rng-error");
-        }
-      }, MAX_NUMBER_RECIEVE_DURATION);
     }
 
     trialCount++;
-    // Interpolate time when numbers where generated
-    const trialTime = totalXpTime / XP_TOTAL_TRIALS * trialCount;
+    diffOne = trialRes.nbOnes - trialRes.nbZeros;
+    if (trialRes.nbOnes > trialRes.nbZeros) {
+    } else {
+    }
     // Find the corresponding score with the numbers
     // It's not 100% accurate but I think it'll be enough
-    const score = xpScores.find(el => el.time >= trialTime);
-    if (score) {
-      trialRes.gameScore = score.gameScore;
-      trialRes.level = score.level;
-      // Rewrite the time
-      trialRes.ms = score.time;
-    }
+    trialRes.gameScore = fountainHeight;
+    trialRes.level = level;
+    // Rewrite the time
 
     // We recieve the numbers each 100ms
     if (trialCount === XP_TOTAL_TRIALS) {
+      endXp();
       displayQuestionnaire();
     }
   }

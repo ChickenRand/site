@@ -87,7 +87,7 @@ $(() => {
         if (isOne) {
           trialRes.nbOnes++;
         } else {
-          trialRes.nbZeroes++;
+          trialRes.nbZeros++;
         }
       }
     }
