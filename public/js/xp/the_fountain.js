@@ -65,6 +65,7 @@ $(window).on("the_fountain", () => {
       }
     }
   };
+
   function update() {
     const currentTime = Date.now();
     const delta = currentTime - previousTime;
@@ -88,7 +89,9 @@ $(window).on("the_fountain", () => {
     ctx.clearRect(0, 0, width, height);
     ctx.font = "16pt Arial Black, Gadget, sans-serif";
     ctx.textAlign = "center";
+
     const image = document.getElementById("the_final_fountain");
+
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
