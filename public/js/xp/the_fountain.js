@@ -184,7 +184,7 @@ $(window).on("the_fountain", () => {
     trialCount++;
     diffOne = trialRes.nbOnes - trialRes.nbZeros;
     // It's not 100% accurate but I think it'll be enough
-    trialRes.gameScore = fountainHeight;
+    trialRes.gameScore = score;
     trialRes.level = level;
 
     if (trialCount === XP_TOTAL_TRIALS) {
