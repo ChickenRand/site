@@ -1,7 +1,6 @@
 $(window).on("the_fountain", () => {
   const XP_TOTAL_TRIALS = 100;
   const MAX_XP_DURATION = 60; // In seconds (RNG may sometime be slower)
-  const MAX_NUMBER_RECIEVE_DURATION = 5000; // In ms
   let running = true;
   let xpStarted = false;
 
@@ -18,13 +17,24 @@ $(window).on("the_fountain", () => {
   let fountainHeight = 0;
   let level = 1;
   let heightToAdd = 30;
+  let score = 0;
 
   let previousTime = Date.now();
-  let totalXpTime = 0;
   let timeStart = null;
 
   let trialCount = 0;
   const xpScores = [];
+
+  const NUMBER_IMAGE = 7;
+  const SPEED_DECOR = 1.5;
+  const IMAGE_SIZE = 600;
+  const imageX = 0;
+  let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
+  let animateDecor = false;
+  let totalYAnimation = 0;
+  let diffOne = 0;
+  const VALUE_MAX = 40;
+  const VALUE_MIN = -40;
 
   //Adding keyboard controls
   document.onkeyup = function(e) {
@@ -40,9 +50,12 @@ $(window).on("the_fountain", () => {
     const key = e.keyCode;
     const ARROW_UP = 38;
     const SPACE = 32;
+    const bonusAdd = Math.min(Math.max(diffOne, VALUE_MIN), VALUE_MAX);
+    const scoreBonus = heightToAdd + bonusAdd * 0.1;
     //Key up or space
     if (key === ARROW_UP || key === SPACE) {
-      fountainHeight += heightToAdd;
+      fountainHeight += heightToAdd + bonusAdd * 0.1;
+      score += (heightToAdd + scoreBonus) * level;
       if (fountainHeight >= 500) {
         fountainHeight = 0;
         level++;
@@ -52,13 +65,6 @@ $(window).on("the_fountain", () => {
       }
     }
   };
-  const NUMBER_IMAGE = 7;
-  const SPEED_DECOR = 1.5;
-  const IMAGE_SIZE = 600;
-  let imageX = 0;
-  let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
-  let animateDecor;
-  let totalYAnimation;
 
   function update() {
     const currentTime = Date.now();
@@ -83,10 +89,38 @@ $(window).on("the_fountain", () => {
     ctx.clearRect(0, 0, width, height);
     ctx.font = "16pt Arial Black, Gadget, sans-serif";
     ctx.textAlign = "center";
-    image = document.getElementById("the_final_fountain");
+
+    const image = document.getElementById("the_final_fountain");
+
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
+    const negative_influence_background = document.getElementById(
+      "negative_influence_background"
+    );
+    const positive_influence_background = document.getElementById(
+      "positive_influence_background"
+    );
+
+    if (diffOne > 0) {
+      ctx.globalAlpha = 0.4;
+      ctx.drawImage(negative_influence_background, imageX, imageY);
+      ctx.globalAlpha = 0.2;
+      ctx.drawImage(positive_influence_background, imageX, imageY);
+      ctx.globalAlpha = 0.7;
+      ctx.drawImage(image, imageX, imageY);
+      ctx.globalAlpha = 1;
+      ctx.drawImage(jet, 80, 500 - fountainHeight);
+    } else {
+      ctx.globalAlpha = 0.4;
+      ctx.drawImage(positive_influence_background, imageX, imageY);
+      ctx.globalAlpha = 0.2;
+      ctx.drawImage(negative_influence_background, imageX, imageY);
+      ctx.globalAlpha = 0.7;
+      ctx.drawImage(image, imageX, imageY);
+      ctx.globalAlpha = 1;
+      ctx.drawImage(jet, 80, 500 - fountainHeight);
+    }
 
     if (!xpStarted) {
       ctx.font = "11pt press_start_2pregular";
@@ -102,6 +136,7 @@ $(window).on("the_fountain", () => {
       ctx.font = "11pt press_start_2pregular";
       ctx.fillText(`Niveau : ${level}`, 60, 50);
       ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
+      ctx.fillText(`Score : ${parseInt(score)}`, 65, 20);
       ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
     }
     if (fountainHeight >= decrease) {
@@ -149,32 +184,14 @@ $(window).on("the_fountain", () => {
   }
 
   function onNumbers(trialRes) {
-    if (trialCount === 0) {
-      endXp();
-      totalXpTime = Date.now() - timeStart;
-      // Stop XP if not enough number recieved
-      window.setTimeout(() => {
-        if (trialCount < XP_TOTAL_TRIALS) {
-          $(window).trigger("rng-error");
-        }
-      }, MAX_NUMBER_RECIEVE_DURATION);
-    }
-
     trialCount++;
-    // Interpolate time when numbers where generated
-    const trialTime = totalXpTime / XP_TOTAL_TRIALS * trialCount;
-    // Find the corresponding score with the numbers
+    diffOne = trialRes.nbOnes - trialRes.nbZeros;
     // It's not 100% accurate but I think it'll be enough
-    const score = xpScores.find(el => el.time >= trialTime);
-    if (score) {
-      trialRes.gameScore = score.gameScore;
-      trialRes.level = score.level;
-      // Rewrite the time
-      trialRes.ms = score.time;
-    }
+    trialRes.gameScore = score;
+    trialRes.level = level;
 
-    // We recieve the numbers each 100ms
     if (trialCount === XP_TOTAL_TRIALS) {
+      endXp();
       displayQuestionnaire();
     }
   }
