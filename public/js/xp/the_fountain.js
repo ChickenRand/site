@@ -20,8 +20,8 @@ $(window).on("the_fountain", () => {
   let score = 0;
 
   let previousTime = Date.now();
+  let cumulTime = null;
   let timeStart = null;
-
   let trialCount = 0;
   const xpScores = [];
 
@@ -32,7 +32,10 @@ $(window).on("the_fountain", () => {
   let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
   let animateDecor = false;
   let totalYAnimation = 0;
+  let totalAlphaAnimation = 0.2;
   let diffOne = 0;
+  let animateInfluenceTransition = false;
+  let positiveInfluence;
   const VALUE_MAX = 40;
   const VALUE_MIN = -40;
 
@@ -43,6 +46,7 @@ $(window).on("the_fountain", () => {
       window.AVAILABLE_RNG.reset();
       xpStarted = true;
       timeStart = Date.now();
+      cumulTime = Date.now();
       window.AVAILABLE_RNG.sendStartMessage();
     }
 
@@ -89,9 +93,8 @@ $(window).on("the_fountain", () => {
     ctx.clearRect(0, 0, width, height);
     ctx.font = "16pt Arial Black, Gadget, sans-serif";
     ctx.textAlign = "center";
-
     const image = document.getElementById("the_final_fountain");
-
+    ctx.globalAlpha = 1;
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
@@ -102,24 +105,29 @@ $(window).on("the_fountain", () => {
       "positive_influence_background"
     );
 
-    if (diffOne > 0) {
-      ctx.globalAlpha = 0.4;
-      ctx.drawImage(negative_influence_background, imageX, imageY);
-      ctx.globalAlpha = 0.2;
-      ctx.drawImage(positive_influence_background, imageX, imageY);
-      ctx.globalAlpha = 0.7;
-      ctx.drawImage(image, imageX, imageY);
-      ctx.globalAlpha = 1;
-      ctx.drawImage(jet, 80, 500 - fountainHeight);
-    } else {
-      ctx.globalAlpha = 0.4;
-      ctx.drawImage(positive_influence_background, imageX, imageY);
-      ctx.globalAlpha = 0.2;
-      ctx.drawImage(negative_influence_background, imageX, imageY);
-      ctx.globalAlpha = 0.7;
-      ctx.drawImage(image, imageX, imageY);
-      ctx.globalAlpha = 1;
-      ctx.drawImage(jet, 80, 500 - fountainHeight);
+    //Background transition Positive and Negative influence
+    //if Positive influence Background green
+    if (animateInfluenceTransition) {
+      if (positiveInfluence) {
+        totalAlphaAnimation = totalAlphaAnimation + 0.003 * delta;
+        ctx.globalAlpha = totalAlphaAnimation;
+        ctx.drawImage(positive_influence_background, imageX, imageY);
+
+        if (totalAlphaAnimation > 0.6) {
+          totalAlphaAnimation = 0;
+          animateInfluenceTransition = false;
+        }
+      }
+      // if Negative influence Background Red
+      if (positiveInfluence === false) {
+        totalAlphaAnimation = totalAlphaAnimation + 0.003 * delta;
+        ctx.globalAlpha = totalAlphaAnimation;
+        ctx.drawImage(negative_influence_background, imageX, imageY);
+        if (totalAlphaAnimation > 0.8) {
+          totalAlphaAnimation = 0;
+          animateInfluenceTransition = false;
+        }
+      }
     }
 
     if (!xpStarted) {
@@ -184,6 +192,21 @@ $(window).on("the_fountain", () => {
   }
 
   function onNumbers(trialRes) {
+    //Calcul time for transition Background
+    let cumulDiffOne = 0;
+    cumulDiffOne += diffOne;
+    if (Date.now() - cumulTime >= 1000) {
+      animateInfluenceTransition = true;
+      if (cumulDiffOne > 0) {
+        positiveInfluence = true;
+        cumulDiffOne = 0;
+      }
+      if (cumulDiffOne < 0) {
+        positiveInfluence = false;
+        cumulDiffOne = 0;
+      }
+    }
+
     trialCount++;
     diffOne = trialRes.nbOnes - trialRes.nbZeros;
     // It's not 100% accurate but I think it'll be enough
