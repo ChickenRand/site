@@ -32,10 +32,10 @@ $(window).on("the_fountain", () => {
   let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
   let animateDecor = false;
   let totalYAnimation = 0;
-  let totalAlphaAnimation = 0.2;
+  let totalAlphaAnimation = 0;
   let diffOne = 0;
   let animateInfluenceTransition = false;
-  let positiveInfluence;
+  let positiveInfluence = false;
   const VALUE_MAX = 40;
   const VALUE_MIN = -40;
 
@@ -104,30 +104,21 @@ $(window).on("the_fountain", () => {
     const positive_influence_background = document.getElementById(
       "positive_influence_background"
     );
-
+    function animateAlphaTransition(positiveInfluence) {
+      const img = positiveInfluence
+        ? positive_influence_background
+        : negative_influence_background;
+      totalAlphaAnimation = totalAlphaAnimation + 0.003 * delta;
+      ctx.globalAlpha = totalAlphaAnimation;
+      if (totalAlphaAnimation > 0.8) {
+        totalAlphaAnimation = 0;
+        animateInfluenceTransition = false;
+      }
+      ctx.drawImage(img, imageX, imageY);
+    }
     //Background transition Positive and Negative influence
-    //if Positive influence Background green
-    if (animateInfluenceTransition) {
-      if (positiveInfluence) {
-        totalAlphaAnimation = totalAlphaAnimation + 0.003 * delta;
-        ctx.globalAlpha = totalAlphaAnimation;
-        ctx.drawImage(positive_influence_background, imageX, imageY);
-
-        if (totalAlphaAnimation > 0.6) {
-          totalAlphaAnimation = 0;
-          animateInfluenceTransition = false;
-        }
-      }
-      // if Negative influence Background Red
-      if (positiveInfluence === false) {
-        totalAlphaAnimation = totalAlphaAnimation + 0.003 * delta;
-        ctx.globalAlpha = totalAlphaAnimation;
-        ctx.drawImage(negative_influence_background, imageX, imageY);
-        if (totalAlphaAnimation > 0.8) {
-          totalAlphaAnimation = 0;
-          animateInfluenceTransition = false;
-        }
-      }
+    if (animateInfluenceTransition || xpStarted) {
+      animateAlphaTransition(positiveInfluence);
     }
 
     if (!xpStarted) {
@@ -200,8 +191,7 @@ $(window).on("the_fountain", () => {
       if (cumulDiffOne > 0) {
         positiveInfluence = true;
         cumulDiffOne = 0;
-      }
-      if (cumulDiffOne < 0) {
+      } else {
         positiveInfluence = false;
         cumulDiffOne = 0;
       }
