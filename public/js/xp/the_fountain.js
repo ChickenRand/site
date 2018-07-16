@@ -70,6 +70,19 @@ $(window).on("the_fountain", () => {
     }
   };
 
+  function animateAlphaTransition(positiveInfluence, delta) {
+    const img = positiveInfluence
+      ? positive_influence_background
+      : negative_influence_background;
+    totalAlphaAnimation = totalAlphaAnimation + 0.003 * delta;
+    ctx.globalAlpha = totalAlphaAnimation;
+    if (totalAlphaAnimation > 0.8) {
+      totalAlphaAnimation = 0;
+      animateInfluenceTransition = false;
+    }
+    ctx.drawImage(img, imageX, imageY);
+  }
+
   function update() {
     const currentTime = Date.now();
     const delta = currentTime - previousTime;
@@ -104,21 +117,9 @@ $(window).on("the_fountain", () => {
     const positive_influence_background = document.getElementById(
       "positive_influence_background"
     );
-    function animateAlphaTransition(positiveInfluence) {
-      const img = positiveInfluence
-        ? positive_influence_background
-        : negative_influence_background;
-      totalAlphaAnimation = totalAlphaAnimation + 0.003 * delta;
-      ctx.globalAlpha = totalAlphaAnimation;
-      if (totalAlphaAnimation > 0.8) {
-        totalAlphaAnimation = 0;
-        animateInfluenceTransition = false;
-      }
-      ctx.drawImage(img, imageX, imageY);
-    }
     //Background transition Positive and Negative influence
-    if (animateInfluenceTransition || xpStarted) {
-      animateAlphaTransition(positiveInfluence);
+    if (animateInfluenceTransition) {
+      animateAlphaTransition(positiveInfluence, delta);
     }
 
     if (!xpStarted) {
@@ -186,15 +187,11 @@ $(window).on("the_fountain", () => {
     //Calcul time for transition Background
     let cumulDiffOne = 0;
     cumulDiffOne += diffOne;
-    if (Date.now() - cumulTime >= 1000) {
+    if (xpStarted && Date.now() - cumulTime >= 1000) {
       animateInfluenceTransition = true;
-      if (cumulDiffOne > 0) {
-        positiveInfluence = true;
-        cumulDiffOne = 0;
-      } else {
-        positiveInfluence = false;
-        cumulDiffOne = 0;
-      }
+      positiveInfluence = cumulDiffOne > 0;
+      cumulDiffOne = 0;
+      cumulTime = Date.now();
     }
 
     trialCount++;
