@@ -20,15 +20,15 @@
     <label for="drug" class="control-label">Avez-vous consommé du café, du thé, du tabac ou tout autre substance pouvant modifier votre concentration avant l'expérience ?</label>
     <div class="controls">
       <label class="radio-inline">
-        <input type="radio" name="drug-radio" value="true">
+        <input id="oui" type="radio" name="drug-radio" value="true">
         Oui
       </label>
       <label class="radio-inline">
-        <input type="radio" name="drug-radio" value="false">
+        <input id="non" type="radio" name="drug-radio" value="false">
         Non
       </label>
     </div>
-    <input type="text" class="form-control" name="drug" placeholder="Café, tabac, canabis, alcool, LSD, chocolat :)..." style="display: none">
+    <input id="drug" type="text" class="form-control" name="drug" placeholder="Café, tabac, canabis, alcool, LSD, chocolat :)...">
   </div>
   <div class="form-group">
     <label for="alone" class="control-label">Etiez-vous seul dans la pièce ?</label>

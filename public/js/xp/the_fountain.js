@@ -25,7 +25,7 @@ $(window).on("the_fountain", () => {
   let trialCount = 0;
   const xpScores = [];
 
-  const NUMBER_IMAGE = 7;
+  const NUMBER_IMAGE = 14;
   const SPEED_DECOR = 1.5;
   const IMAGE_SIZE = 600;
   const imageX = 0;
@@ -58,11 +58,13 @@ $(window).on("the_fountain", () => {
     const scoreBonus = heightToAdd + bonusAdd * 0.1;
     //Key up or space
     if (key === ARROW_UP || key === SPACE) {
+      document.getElementById("musicGame").play();
       fountainHeight += heightToAdd + bonusAdd * 0.1;
       score += (heightToAdd + scoreBonus) * level;
       if (fountainHeight >= 500) {
         fountainHeight = 0;
         level++;
+        document.getElementById("upLevel").play();
         animateDecor = true;
         heightToAdd -= 2;
         totalYAnimation = 0;
