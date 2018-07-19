@@ -73,9 +73,10 @@ $(window).on("the_fountain", () => {
   };
 
   function animateAlphaTransition(positiveInfluence, delta) {
-    const img = positiveInfluence
-      ? positive_influence_background
-      : negative_influence_background;
+    const imgName = positiveInfluence
+      ? "positive_influence_background"
+      : "negative_influence_background";
+    const img = document.getElementById(imgName);
     const SPEED_TRANSITION = 0.003;
     const MAX_ALPHA = 0.8;
     totalAlphaAnimation = totalAlphaAnimation + SPEED_TRANSITION * delta;
@@ -115,12 +116,6 @@ $(window).on("the_fountain", () => {
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
-    const negative_influence_background = document.getElementById(
-      "negative_influence_background"
-    );
-    const positive_influence_background = document.getElementById(
-      "positive_influence_background"
-    );
     //Background transition Positive and Negative influence
     if (animateInfluenceTransition) {
       animateAlphaTransition(positiveInfluence, delta);
