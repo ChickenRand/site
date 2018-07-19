@@ -20,19 +20,22 @@ $(window).on("the_fountain", () => {
   let score = 0;
 
   let previousTime = Date.now();
+  let cumulTime = null;
   let timeStart = null;
-
   let trialCount = 0;
   const xpScores = [];
 
-  const NUMBER_IMAGE = 7;
+  const NUMBER_IMAGE = 14;
   const SPEED_DECOR = 1.5;
   const IMAGE_SIZE = 600;
   const imageX = 0;
   let imageY = NUMBER_IMAGE * -IMAGE_SIZE;
   let animateDecor = false;
   let totalYAnimation = 0;
+  let totalAlphaAnimation = 0;
   let diffOne = 0;
+  let animateInfluenceTransition = false;
+  let positiveInfluence = false;
   const VALUE_MAX = 40;
   const VALUE_MIN = -40;
 
@@ -43,7 +46,9 @@ $(window).on("the_fountain", () => {
       window.AVAILABLE_RNG.reset();
       xpStarted = true;
       timeStart = Date.now();
+      cumulTime = Date.now();
       window.AVAILABLE_RNG.sendStartMessage();
+      document.getElementById("musicGame").play();
     }
 
     //Incrémenter la taille de la fontaine
@@ -59,12 +64,29 @@ $(window).on("the_fountain", () => {
       if (fountainHeight >= 500) {
         fountainHeight = 0;
         level++;
+        document.getElementById("upLevel").play();
         animateDecor = true;
         heightToAdd -= 2;
         totalYAnimation = 0;
       }
     }
   };
+
+  function animateAlphaTransition(positiveInfluence, delta) {
+    const imgName = positiveInfluence
+      ? "positive_influence_background"
+      : "negative_influence_background";
+    const img = document.getElementById(imgName);
+    const SPEED_TRANSITION = 0.003;
+    const MAX_ALPHA = 0.8;
+    totalAlphaAnimation = totalAlphaAnimation + SPEED_TRANSITION * delta;
+    ctx.globalAlpha = totalAlphaAnimation;
+    if (totalAlphaAnimation > MAX_ALPHA) {
+      totalAlphaAnimation = 0;
+      animateInfluenceTransition = false;
+    }
+    ctx.drawImage(img, imageX, imageY);
+  }
 
   function update() {
     const currentTime = Date.now();
@@ -89,37 +111,14 @@ $(window).on("the_fountain", () => {
     ctx.clearRect(0, 0, width, height);
     ctx.font = "16pt Arial Black, Gadget, sans-serif";
     ctx.textAlign = "center";
-
     const image = document.getElementById("the_final_fountain");
-
+    ctx.globalAlpha = 1;
     ctx.drawImage(image, imageX, imageY);
     jet = document.getElementById("jet");
     ctx.drawImage(jet, 80, 500 - fountainHeight);
-    const negative_influence_background = document.getElementById(
-      "negative_influence_background"
-    );
-    const positive_influence_background = document.getElementById(
-      "positive_influence_background"
-    );
-
-    if (diffOne > 0) {
-      ctx.globalAlpha = 0.4;
-      ctx.drawImage(negative_influence_background, imageX, imageY);
-      ctx.globalAlpha = 0.2;
-      ctx.drawImage(positive_influence_background, imageX, imageY);
-      ctx.globalAlpha = 0.7;
-      ctx.drawImage(image, imageX, imageY);
-      ctx.globalAlpha = 1;
-      ctx.drawImage(jet, 80, 500 - fountainHeight);
-    } else {
-      ctx.globalAlpha = 0.4;
-      ctx.drawImage(positive_influence_background, imageX, imageY);
-      ctx.globalAlpha = 0.2;
-      ctx.drawImage(negative_influence_background, imageX, imageY);
-      ctx.globalAlpha = 0.7;
-      ctx.drawImage(image, imageX, imageY);
-      ctx.globalAlpha = 1;
-      ctx.drawImage(jet, 80, 500 - fountainHeight);
+    //Background transition Positive and Negative influence
+    if (animateInfluenceTransition) {
+      animateAlphaTransition(positiveInfluence, delta);
     }
 
     if (!xpStarted) {
@@ -183,9 +182,23 @@ $(window).on("the_fountain", () => {
     });
   }
 
+  let cumulDiffOne = 0;
   function onNumbers(trialRes) {
-    trialCount++;
+    //Calcul time for transition Background
     diffOne = trialRes.nbOnes - trialRes.nbZeros;
+    cumulDiffOne += diffOne;
+    if (xpStarted && Date.now() - cumulTime >= 1000) {
+      let previousInfluence = positiveInfluence;
+      animateInfluenceTransition = true;
+      positiveInfluence = cumulDiffOne > 0;
+      cumulDiffOne = 0;
+      cumulTime = Date.now();
+    }
+    if (positiveInfluence === previousInfluence) {
+      animateInfluenceTransition = false;
+    }
+
+    trialCount++;
     // It's not 100% accurate but I think it'll be enough
     trialRes.gameScore = score;
     trialRes.level = level;
