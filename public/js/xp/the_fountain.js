@@ -48,6 +48,7 @@ $(window).on("the_fountain", () => {
       timeStart = Date.now();
       cumulTime = Date.now();
       window.AVAILABLE_RNG.sendStartMessage();
+      document.getElementById("musicGame").play();
     }
 
     //Incrémenter la taille de la fontaine
@@ -58,7 +59,6 @@ $(window).on("the_fountain", () => {
     const scoreBonus = heightToAdd + bonusAdd * 0.1;
     //Key up or space
     if (key === ARROW_UP || key === SPACE) {
-      document.getElementById("musicGame").play();
       fountainHeight += heightToAdd + bonusAdd * 0.1;
       score += (heightToAdd + scoreBonus) * level;
       if (fountainHeight >= 500) {
@@ -76,9 +76,11 @@ $(window).on("the_fountain", () => {
     const img = positiveInfluence
       ? positive_influence_background
       : negative_influence_background;
-    totalAlphaAnimation = totalAlphaAnimation + 0.003 * delta;
+    const SPEED_TRANSITION = 0.003;
+    const MAX_ALPHA = 0.8;
+    totalAlphaAnimation = totalAlphaAnimation + SPEED_TRANSITION * delta;
     ctx.globalAlpha = totalAlphaAnimation;
-    if (totalAlphaAnimation > 0.8) {
+    if (totalAlphaAnimation > MAX_ALPHA) {
       totalAlphaAnimation = 0;
       animateInfluenceTransition = false;
     }
@@ -185,19 +187,23 @@ $(window).on("the_fountain", () => {
     });
   }
 
+  let cumulDiffOne = 0;
   function onNumbers(trialRes) {
     //Calcul time for transition Background
-    let cumulDiffOne = 0;
+    diffOne = trialRes.nbOnes - trialRes.nbZeros;
     cumulDiffOne += diffOne;
     if (xpStarted && Date.now() - cumulTime >= 1000) {
+      let previousInfluence = positiveInfluence;
       animateInfluenceTransition = true;
       positiveInfluence = cumulDiffOne > 0;
       cumulDiffOne = 0;
       cumulTime = Date.now();
     }
+    if (positiveInfluence === previousInfluence) {
+      animateInfluenceTransition = false;
+    }
 
     trialCount++;
-    diffOne = trialRes.nbOnes - trialRes.nbZeros;
     // It's not 100% accurate but I think it'll be enough
     trialRes.gameScore = score;
     trialRes.level = level;
