@@ -58,5 +58,3 @@ Troubleshooting
 
 Si vous avez des erreurs lié à l'impossibilité de créer des process, ceci est dut à une option activée sur les serveurs o2switch pour limité le shell bombing et il faut contacter le support technique pour la désactiver sur votre serveur.
 
-INSTALATION DE DÉPENDANCE
-~/rubyvenv/site/2.1/bin/bundle install : on installe les dépendance du projet
