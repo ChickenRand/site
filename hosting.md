@@ -1,6 +1,3 @@
---user : on indique à l'utilisateur d'intervenir
--v : on spécifie la version alternative à utilisé
-
 ## CRÉATION DE LA WEBAPP
 
 On spécifie l'interpreteur, sa version, l'utilisateur, et on créer la webapp (remplacer ce qui est entre '<>' avec vos valeurs :
@@ -24,17 +21,19 @@ Mettez vous en ssh à la racine de votre serveur (sur o2switch il faut demander 
 ## Ajouter le gems bundle à votre projet o2switch :
 
 `selectorctl --interpreter=ruby --enable-user-extensions=bundle <projectname>`
-Configuration de bundler
+
+## Configuration de bundler
 
 Plusieurs interpréteur Ruby étant installés sur les serveurs o2switch, il faut utiliser celui de notre projet avec l'interpreteur Ruby de notre projet.
 
 ### 2 solutions :
 
-    Soit préciser l'interpreteur à utiliser de cette manière :
-    `~/rubyvenv/<projectname>/2.1/bin/ruby ~/rubyvenv/<projectname>/2.1/bin/bundle install`
-    Soit modifier le fichier bundle pour mettre le bon path dans shebang :
+* Soit préciser l'interpreteur à utiliser de cette manière :
+    * `~/rubyvenv/<projectname>/2.1/bin/ruby ~/rubyvenv/<projectname>/2.1/bin/bundle install`
 
-`nano ~/rubyvenv/<projectname>/2.1/bin/bundle`
+- Soit modifier le fichier bundle pour mettre le bon path dans shebang :
+
+    * `nano ~/rubyvenv/<projectname>/2.1/bin/bundle`
 
 ```bash
  # Changer la première ligne du fichier et mettre le bon binaire ruby de cette manière :
