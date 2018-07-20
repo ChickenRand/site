@@ -1,9 +1,5 @@
 --user : on indique à l'utilisateur d'intervenir
 -v : on spécifie la version alternative à utilisé
-nano : editeur de texte
-LVE manager est un plugin pour les panneaux de controle les plus populaire, Il permet de contrôler et de surveiller les limites, et de fixer des limites par base de paquet.
-
-`selectorctl --interpreter=ruby --user=$USER -v 2.4` : va nous donner la liste de toutes les versions d'interpréteur ruby disponibles dans le fichier
 
 ## CRÉATION DE LA WEBAPP
 
@@ -12,8 +8,6 @@ On spécifie l'interpreteur, sa version, l'utilisateur, et on créer la webapp (
 ( warning not – but -)
 
 `selectorctl -i ruby --set-user-current=2.1` : définit la version spécifiée comme celle à utiliser pour cet utilisateur final.
-
-`nano ~/rubyvenv/site/2.1/bin/bundle` : on rentre dans le fichier afin de le modifier
 
 # Installation de l'application
 
@@ -42,9 +36,10 @@ Plusieurs interpréteur Ruby étant installés sur les serveurs o2switch, il fau
 
 `nano ~/rubyvenv/<projectname>/2.1/bin/bundle`
 
-# Changer la première ligne du fichier et mettre le bon binaire ruby de cette manière :
-
-# !/home/<username>/rubyvenv/<projectname>/2.1/bin/ruby
+```bash
+ # Changer la première ligne du fichier et mettre le bon binaire ruby de cette manière :
+#!/home/<username>/rubyvenv/<projectname>/2.1/bin/ruby
+```
 
 ## Installation des dépendances
 
