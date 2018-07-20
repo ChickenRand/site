@@ -184,11 +184,11 @@ $(window).on("the_fountain", () => {
 
   let cumulDiffOne = 0;
   function onNumbers(trialRes) {
+    const previousInfluence = positiveInfluence;
     //Calcul time for transition Background
     diffOne = trialRes.nbOnes - trialRes.nbZeros;
     cumulDiffOne += diffOne;
     if (xpStarted && Date.now() - cumulTime >= 1000) {
-      let previousInfluence = positiveInfluence;
       animateInfluenceTransition = true;
       positiveInfluence = cumulDiffOne > 0;
       cumulDiffOne = 0;
