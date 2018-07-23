@@ -207,6 +207,8 @@ $(() => {
       } else {
         $.get(`/xp/ajax_load/${getXpId()}`, html => {
           window.AVAILABLE_RNG = new window.Rng(data.url, data.id);
+          window.AVAILABLE_RNG.setOpenCb(() => window.AVAILABLE_RNG.sendStartMessage());
+          window.AVAILABLE_RNG.addNumbersCb(onNumbers);
           //Add a check if the user is leaving the page in order to properly stop the RNG
           $(window).on("beforeunload", () => {
             removeFromQueue();
@@ -216,6 +218,9 @@ $(() => {
             if (!window.AVAILABLE_RNG.isConnected()) {
               console.error("RNG not connected");
               onRngError();
+            }
+            else if (numberCounter < 10) {
+              onRngError(displayRngBitrate);
             } else {
               $(".xp-desc-text").hide();
               $("#xp_container").html(html);
@@ -239,16 +244,26 @@ $(() => {
       }
     });
   }
+
+  let numberCounter = 0;
+  function onNumbers() {
+    numberCounter++;
+  }
+
   function displayNoRng() {
     window.location.replace("/xp/no_rng");
+  }
+
+  function displayRngBitrate(){
+    window.location.replace("/xp/rng_bitrate")
   }
 
   function displayNoFullscreen() {
     window.location.replace("/xp/no_fullscreen");
   }
 
-  function onRngError() {
-    removeFromQueue(displayNoRng);
+  function onRngError(callback = displayNoRng) {
+    removeFromQueue(callback);
     window.exitFullscreen();
   }
 

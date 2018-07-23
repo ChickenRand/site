@@ -1,5 +1,5 @@
 $(window).on("the_fountain", () => {
-  const XP_TOTAL_TRIALS = 100;
+  const XP_TOTAL_TRIALS = 300;
   const MAX_XP_DURATION = 60; // In seconds (RNG may sometime be slower)
   let running = true;
   let xpStarted = false;
@@ -44,10 +44,11 @@ $(window).on("the_fountain", () => {
     // Start counting numbers on the first keyup
     if (!xpStarted) {
       window.AVAILABLE_RNG.reset();
+      window.AVAILABLE_RNG.addNumbersCb(onNumbers);
       xpStarted = true;
       timeStart = Date.now();
       cumulTime = Date.now();
-      window.AVAILABLE_RNG.sendStartMessage();
+
       document.getElementById("musicGame").play();
     }
 
@@ -71,21 +72,15 @@ $(window).on("the_fountain", () => {
       }
     }
   };
-
+  const MAX_INFLUENCE_ALPHA = 0.5;
   function animateAlphaTransition(positiveInfluence, delta) {
-    const imgName = positiveInfluence
-      ? "positive_influence_background"
-      : "negative_influence_background";
-    const img = document.getElementById(imgName);
     const SPEED_TRANSITION = 0.003;
-    const MAX_ALPHA = 0.8;
     totalAlphaAnimation = totalAlphaAnimation + SPEED_TRANSITION * delta;
     ctx.globalAlpha = totalAlphaAnimation;
-    if (totalAlphaAnimation > MAX_ALPHA) {
+    if (totalAlphaAnimation > MAX_INFLUENCE_ALPHA) {
       totalAlphaAnimation = 0;
       animateInfluenceTransition = false;
     }
-    ctx.drawImage(img, imageX, imageY);
   }
 
   function update() {
@@ -119,7 +114,14 @@ $(window).on("the_fountain", () => {
     //Background transition Positive and Negative influence
     if (animateInfluenceTransition) {
       animateAlphaTransition(positiveInfluence, delta);
+    } else {
+      ctx.globalAlpha = MAX_INFLUENCE_ALPHA;
     }
+    const imgName = positiveInfluence
+      ? "positive_influence_background"
+      : "negative_influence_background";
+    const img = document.getElementById(imgName);
+    ctx.drawImage(img, imageX, imageY);
 
     if (!xpStarted) {
       ctx.font = "11pt press_start_2pregular";
@@ -184,18 +186,18 @@ $(window).on("the_fountain", () => {
 
   let cumulDiffOne = 0;
   function onNumbers(trialRes) {
-    const previousInfluence = positiveInfluence;
     //Calcul time for transition Background
     diffOne = trialRes.nbOnes - trialRes.nbZeros;
     cumulDiffOne += diffOne;
     if (xpStarted && Date.now() - cumulTime >= 1000) {
+      const previousInfluence = positiveInfluence;
       animateInfluenceTransition = true;
       positiveInfluence = cumulDiffOne > 0;
       cumulDiffOne = 0;
       cumulTime = Date.now();
-    }
-    if (positiveInfluence === previousInfluence) {
-      animateInfluenceTransition = false;
+      if (positiveInfluence === previousInfluence) {
+        animateInfluenceTransition = false;
+      }
     }
 
     trialCount++;
@@ -207,11 +209,6 @@ $(window).on("the_fountain", () => {
       endXp();
       displayQuestionnaire();
     }
-  }
-
-  //Set up everything for the RNG and results collecting
-  if (window.AVAILABLE_RNG !== undefined) {
-    window.AVAILABLE_RNG.addNumbersCb(onNumbers);
   }
 
   animloop();
