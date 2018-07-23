@@ -1,5 +1,5 @@
 $(window).on("the_fountain", () => {
-  const XP_TOTAL_TRIALS = 300;
+  const XP_TOTAL_TRIALS = 100;
   const MAX_XP_DURATION = 60; // In seconds (RNG may sometime be slower)
   let running = true;
   let xpStarted = false;
@@ -121,7 +121,7 @@ $(window).on("the_fountain", () => {
       ? "positive_influence_background"
       : "negative_influence_background";
     const img = document.getElementById(imgName);
-    ctx.drawImage(img, imageX, imageY);
+    ctx.drawImage(img, imageX, 0);
 
     if (!xpStarted) {
       ctx.font = "11pt press_start_2pregular";
