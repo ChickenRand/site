@@ -62,7 +62,8 @@ window.requestAnimFrame = (function() {
   const hasFullScreenApi =
     body.webkitRequestFullscreen ||
     body.mozRequestFullScreen ||
-    body.msRequestFullscreen;
+    body.msRequestFullscreen ||
+    body.requestFullscreen;  
   if (!hasFullScreenApi) {
     $("#disclamer_modal").modal({ show: true });
   }
