@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     bcrypt (3.1.12)
+    bigdecimal (1.3.5)
     bindata (2.4.3)
     daemons (1.2.6)
     eventmachine (1.2.7)
@@ -29,6 +30,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  bigdecimal
   bindata
   mysql2
   pony
@@ -38,7 +40,7 @@ DEPENDENCIES
   thin
 
 RUBY VERSION
-   ruby 2.4.0p0
+   ruby 2.1.10p492
 
 BUNDLED WITH
    1.16.2
