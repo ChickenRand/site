@@ -5,3 +5,4 @@ tmp/
 beta_testers.txt
 mail_beta.txt
 mail_invit.txt
+Gemfile.lock
