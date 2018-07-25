@@ -220,7 +220,7 @@ $(() => {
             if (!window.AVAILABLE_RNG.isConnected()) {
               console.error("RNG not connected");
               onRngError();
-            } else if (numberCounter < 10) {
+            } else if (numberCounter < TRESHOLD_NUMBER) {
               onRngError(displayRngBitrate);
             } else {
               $(".xp-desc-text").hide();
@@ -247,6 +247,7 @@ $(() => {
   }
 
   let numberCounter = 0;
+  const TRESHOLD_NUMBER = 10;
   function onNumbers() {
     numberCounter++;
   }
