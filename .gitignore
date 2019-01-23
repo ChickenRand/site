@@ -1,8 +1,13 @@
 log/
 tmp/
+videos/
+public/node_modules
+public/yarn.lock
 .bundle
 .trash
+chickenrand_db.sql
 beta_testers.txt
 mail_beta.txt
 mail_invit.txt
+o2switch.txt
 Gemfile.lock
