@@ -42,9 +42,16 @@ $(window).on("questionnaire", () => {
       }
     });
   }
-  // Manage text input display
-  manageSpecialInput("drug");
-  manageSpecialInput("music");
+
+  // @hack, don't understand why I need the timeout
+  // Try to trigger the questionnaire event after
+  // To wait for the ready event, but the change event on radio
+  // button was never trigger
+  // The timeout does the tricks...
+  window.setTimeout(() => {
+    manageSpecialInput("drug");
+    manageSpecialInput("music");
+  }, 100);
 
   $("#xp_container").removeClass("outer");
   $("#results_form").submit(e => {
