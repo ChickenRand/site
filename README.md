@@ -16,6 +16,11 @@ If there is a problem during EventMachine compilation, edit Gemfile.lock and use
     $ sequel -m db/migrations/ mysql2://user:password@server_addr/psi_rng
     $ rake server:start
 
+_Note : If you encounter error when building bcrypt, just install ruby-dev package_
+
+```bash
+	sudo apt-get install ruby`ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]'`-dev
+```
 Then you need to manually add an admin. I recommand using sequel repl since it use Model and password hash method :
 
 	$ cd site_dir
