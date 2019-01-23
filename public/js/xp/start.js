@@ -11,8 +11,8 @@ $(() => {
   window.moment.locale("fr");
 
   if (document.fullscreenEnabled) {
-    $("#no_full_screen").show();
-    $("#full_screen").hide();
+    $("#no_full_screen").hide();
+    $("#full_screen").show();
   }
 
   $("#full_screen").click(() => {
