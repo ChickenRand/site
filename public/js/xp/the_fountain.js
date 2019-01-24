@@ -164,6 +164,7 @@ $(window).on("the_fountain", () => {
 
   function endXp() {
     running = false;
+    window.removeFromQueue();
     window.cancelAnimationFrame(window.requestAnimId);
     document.onkeydown = null;
     ctx.fillText("FIN DE L'EXPERIENCE", width / 2, height / 2);
@@ -201,7 +202,7 @@ $(window).on("the_fountain", () => {
     }
 
     trialCount++;
-    // It's not 100% accurate but I think it'll be enough
+
     trialRes.gameScore = score;
     trialRes.level = level;
 

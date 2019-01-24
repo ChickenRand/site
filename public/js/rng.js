@@ -73,14 +73,24 @@ $(() => {
     }
   };
 
+  Rng.prototype.ui8ArrayToBase64 = function(array) {
+    // Taken from https://stackoverflow.com/a/11562550
+    // Is this method safe ?
+    // @todo further testing cause Javascript String are UTF-16
+    // https://stackoverflow.com/a/36378903
+    return window.btoa(String.fromCharCode(...array));
+  };
+
   Rng.prototype.onNumbers = function(message) {
-    // TEMP : do not store numbers it takes too much space and cpu and we don't need them for now
-    const numbers = Array.from(new Uint8Array(message.data));
+    const u8aNumbers = new Uint8Array(message.data);
+    const numbers = Array.from(u8aNumbers);
     const trialRes = {
       nbOnes: 0,
       nbZeros: 0,
-      ms: Date.now() - this.results.date
+      ms: Date.now() - this.results.date,
+      rawDataBase64: this.ui8ArrayToBase64(u8aNumbers)
     };
+
     for (let i = 0; i < numbers.length; i++) {
       for (let pos = 0; pos < 8; pos++) {
         const isOne = this.bitAt(numbers[i], pos);
@@ -91,6 +101,7 @@ $(() => {
         }
       }
     }
+
     this.totalOnes += trialRes.nbOnes;
     this.totalZeros += trialRes.nbZeros;
     for (let i = 0; i < this.numbersCbs.length; i++) {
@@ -117,12 +128,6 @@ $(() => {
   Rng.prototype.sendStartMessage = function() {
     if (this.isConnected) {
       this.socket.send("start");
-    }
-  };
-
-  Rng.prototype.sendUserXpId = function(userXpId) {
-    if (this.isConnected) {
-      this.socket.send(JSON.stringify({ userXpId }));
     }
   };
 
