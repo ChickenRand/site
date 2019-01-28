@@ -53,11 +53,14 @@ class Xps < Controller
 
   def generate_control_xp(user_id, xp_id)
       rng_control_url = ENV['RNG_CONTROL_URL'].nil? ? 'localhost:1337' : ENV['RNG_CONTROL_URL']
-      uri = URI("http://#{rng_control_url}/rng-control?user_id=#{user_id}&xp_id=#{xp_id}")
+      uri = URI("http://#{rng_control_url}/rng-control")
+      params = {user_id: user_id, xp_id: xp_id}
+      headers = { 'Content-Type' =>'application/json' }
       begin
-        response = Net::HTTP.get(uri)
+        http = Net::HTTP.new(uri.host, uri.port)
+        response = http.post(uri.path, params.to_json, headers)
       rescue StandardError => e
-        Ramaze::Log.error("Problem calling rng-control")
+        Ramaze::Log.error("Problem calling rng-control", e.message)
       end
   end
 
