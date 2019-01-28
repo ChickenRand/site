@@ -18,12 +18,14 @@ $(window).on("the_fountain", () => {
   let level = 1;
   let heightToAdd = 30;
   let score = 0;
+  // We want to count the number of time player hit space or up in a trial
+  let upHitCount = 0;
+  let spaceHitCount = 0;
 
   let previousTime = Date.now();
   let cumulTime = null;
   let timeStart = null;
   let trialCount = 0;
-  const xpScores = [];
 
   const NUMBER_IMAGE = 14;
   const SPEED_DECOR = 1.5;
@@ -60,6 +62,9 @@ $(window).on("the_fountain", () => {
     const scoreBonus = heightToAdd + bonusAdd * 0.1;
     //Key up or space
     if (key === ARROW_UP || key === SPACE) {
+      // Implicite bool to int transformation
+      upHitCount = upHitCount + (key === ARROW_UP);
+      spaceHitCount = spaceHitCount + (key === SPACE);
       fountainHeight += heightToAdd + bonusAdd * 0.1;
       score += (heightToAdd + scoreBonus) * level;
       if (fountainHeight >= 500) {
@@ -143,16 +148,6 @@ $(window).on("the_fountain", () => {
     if (fountainHeight >= decrease) {
       fountainHeight = fountainHeight - decrease;
     }
-
-    // Store the score each tick, this way we can precisely interpolate with numbers
-    // from RNG
-    if (xpStarted) {
-      xpScores.push({
-        level,
-        gameScore: fountainHeight,
-        time: totalTime
-      });
-    }
   }
 
   function animloop() {
@@ -205,6 +200,11 @@ $(window).on("the_fountain", () => {
 
     trialRes.gameScore = score;
     trialRes.level = level;
+    trialRes.upHitCount = upHitCount;
+    trialRes.spaceHitCount = spaceHitCount;
+
+    upHitCount = 0;
+    spaceHitCount = 0;
 
     if (trialCount === XP_TOTAL_TRIALS) {
       endXp();
