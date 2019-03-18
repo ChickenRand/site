@@ -41,6 +41,7 @@ $(window).on("the_fountain", () => {
   let diffOne = 0;
   let animateInfluenceTransition = false;
   let positiveInfluence = false;
+  let displayInfluence = false;
   const VALUE_MAX = 40;
   const VALUE_MIN = -40;
 
@@ -129,11 +130,6 @@ $(window).on("the_fountain", () => {
     } else {
       ctx.globalAlpha = MAX_INFLUENCE_ALPHA;
     }
-    const imgName = positiveInfluence
-      ? "positive_influence_background"
-      : "negative_influence_background";
-    const img = document.getElementById(imgName);
-    ctx.drawImage(img, imageX, 0);
 
     const font = "press_start_2pregular";
     if (!gameStarted) {
@@ -152,6 +148,14 @@ $(window).on("the_fountain", () => {
     }
 
     if (gameStarted) {
+      if(displayInfluence) {
+        const imgName = positiveInfluence
+          ? "positive_influence_background"
+          : "negative_influence_background";
+        const img = document.getElementById(imgName);
+        ctx.drawImage(img, imageX, 0);
+      }
+
       ctx.font = `11pt ${font}`;
       ctx.fillText(`NIVEAU : ${level}`, 80, 50);
       ctx.fillText(`TEMPS : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
@@ -206,6 +210,7 @@ $(window).on("the_fountain", () => {
     diffOne = trialRes.nbOnes - trialRes.nbZeros;
     cumulDiffOne += diffOne;
     if (gameStarted && Date.now() - cumulTime >= 1000) {
+      displayInfluence = true;
       const previousInfluence = positiveInfluence;
       animateInfluenceTransition = true;
       positiveInfluence = cumulDiffOne > 0;
