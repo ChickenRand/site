@@ -56,15 +56,6 @@
                     <?r end ?>
                       <a class="nav-link" href="#{About.r(:index)}">À propos</a>
                     </li>
-                    <?r if user and logged_in? ?>
-                      <?r if @section == "results" ?>
-                        <li class="active nav-item">
-                      <?r else ?>
-                        <li class="nav-item">
-                      <?r end ?>
-                        <a class="nav-link" href="#{Results.r(:index)}">Mes résultats</a>
-                      </li>
-                    <?r end ?>
                     <?r if user and logged_in? and user['admin'] ?>
                     <?r if @section == "admin" ?>
                       <li class="active nav-item">
