@@ -19,7 +19,7 @@ $(window).on("the_fountain", () => {
 
   let fountainHeight = 0;
   let level = 1;
-  let heightToAdd = 30;
+  let heightToAdd = 50;
   let score = 0;
   // We want to count the number of time player hit space or up in a trial
   let upHitCount = 0;
@@ -73,7 +73,9 @@ $(window).on("the_fountain", () => {
         fountainHeight = 0;
         level++;
         document.getElementById("upLevel").play();
-        animateDecor = true;
+        if(level < NUMBER_IMAGE) {
+          animateDecor = true;
+        }
         heightToAdd -= 2;
         totalYAnimation = 0;
       }
@@ -104,13 +106,16 @@ $(window).on("the_fountain", () => {
     const animationHeight = SPEED_DECOR * delta;
     const HEIGHT_TO_REMOVED = 0.125;
     const decrease = HEIGHT_TO_REMOVED * delta;
+
     if (animateDecor) {
       imageY = imageY + animationHeight;
-      totalYAnimation = totalYAnimation + animationHeight;
+      totalYAnimation = Math.min(totalYAnimation + animationHeight, IMAGE_SIZE);
+
+      if (totalYAnimation === IMAGE_SIZE) {
+        animateDecor = false;
+      }
     }
-    if (totalYAnimation > IMAGE_SIZE) {
-      animateDecor = false;
-    }
+
     // Stop xp if no number are recieved at the end
     if (gameStarted && totalTime > MAX_XP_DURATION * 1000) {
       running = false;
@@ -159,7 +164,8 @@ $(window).on("the_fountain", () => {
       ctx.font = `11pt ${font}`;
       ctx.fillText(`NIVEAU : ${level}`, 80, 50);
       ctx.fillText(`TEMPS : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
-      ctx.fillText(`SCORE : ${parseInt(score)}`, 80, 20);
+      ctx.fillText("SCORE :", 60, 20);
+      ctx.fillText(`${parseInt(score)}`, 150, 20);
       // ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
 
       // We wait a bit before aquiring numbers because user need à little time to understand
