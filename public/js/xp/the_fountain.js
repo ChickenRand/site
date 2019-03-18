@@ -181,7 +181,7 @@ $(window).on("the_fountain", () => {
     running = false;
     window.removeFromQueue();
     window.cancelAnimationFrame(window.requestAnimId);
-    document.onkeydown = null;
+    document.onkeyup = null;
     ctx.fillText("FIN DE L'EXPERIENCE", width / 2, height / 2);
     ctx.fillText("VEUILLEZ PATIENTEZ...", width / 2, height / 2 + 50);
   }
