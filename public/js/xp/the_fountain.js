@@ -1,7 +1,10 @@
 $(window).on("the_fountain", () => {
   const XP_TOTAL_TRIALS = 100;
   const MAX_XP_DURATION = 60; // In seconds (RNG may sometime be slower)
+  const TIME_BEFORE_START_XP = 2; // In seconds
+
   let running = true;
+  let gameStarted = false;
   let xpStarted = false;
 
   $("#xp_container").addClass("fountain-container");
@@ -44,10 +47,8 @@ $(window).on("the_fountain", () => {
   //Adding keyboard controls
   document.onkeyup = function(e) {
     // Start counting numbers on the first keyup
-    if (!xpStarted) {
-      window.AVAILABLE_RNG.reset();
-      window.AVAILABLE_RNG.addNumbersCb(onNumbers);
-      xpStarted = true;
+    if (!gameStarted) {
+      gameStarted = true;
       timeStart = Date.now();
       cumulTime = Date.now();
 
@@ -88,6 +89,12 @@ $(window).on("the_fountain", () => {
     }
   }
 
+  function startAquiringNumbers() {
+    xpStarted = true;
+    window.AVAILABLE_RNG.reset();
+    window.AVAILABLE_RNG.addNumbersCb(onNumbers);
+  }
+
   function update() {
     const currentTime = Date.now();
     const delta = currentTime - previousTime;
@@ -104,7 +111,7 @@ $(window).on("the_fountain", () => {
       animateDecor = false;
     }
     // Stop xp if no number are recieved at the end
-    if (xpStarted && totalTime > MAX_XP_DURATION * 1000) {
+    if (gameStarted && totalTime > MAX_XP_DURATION * 1000) {
       running = false;
       $(window).trigger("rng-error");
     }
@@ -128,23 +135,36 @@ $(window).on("the_fountain", () => {
     const img = document.getElementById(imgName);
     ctx.drawImage(img, imageX, 0);
 
-    if (!xpStarted) {
-      ctx.font = "11pt press_start_2pregular";
-      ctx.fillText("Appuyez sur haut ou espace", width / 2, height / 2);
+    const font = "press_start_2pregular";
+    if (!gameStarted) {
+      ctx.font = `14pt ${font}`;
+      ctx.fillText("APPUYEZ SUR", width / 2, (height / 2) - 50);
+      ctx.font = `24pt ${font}`;
+      ctx.fillText("🠩", (width / 2) - 100, height / 2);
+      ctx.font = `14pt ${font}`;
+      ctx.fillText("OU ESPACE", (width / 2) + 20, height / 2);
+      ctx.font = `16pt ${font}`;
       ctx.fillText(
-        "pour faire grandir la fontaine",
+        "FRENETIQUEMENT !",
         width / 2,
         height / 2 + 50
       );
     }
 
-    if (xpStarted) {
-      ctx.font = "11pt press_start_2pregular";
-      ctx.fillText(`Niveau : ${level}`, 60, 50);
-      ctx.fillText(`Temps : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
-      ctx.fillText(`Score : ${parseInt(score)}`, 65, 20);
-      ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
+    if (gameStarted) {
+      ctx.font = `11pt ${font}`;
+      ctx.fillText(`NIVEAU : ${level}`, 80, 50);
+      ctx.fillText(`TEMPS : ${parseInt(totalTime / 1000, 10)}s`, 280, 50);
+      ctx.fillText(`SCORE : ${parseInt(score)}`, 80, 20);
+      // ctx.fillText(`FPS : ${parseInt(1000 / delta)}`, 280, 20);
+
+      // We wait a bit before aquiring numbers because user need à little time to understand
+      // how the game works and what to do. Therefore, the first seconds she is not entirely focused.
+      if(!xpStarted && totalTime > TIME_BEFORE_START_XP * 1000) {
+        startAquiringNumbers();
+      }
     }
+
     if (fountainHeight >= decrease) {
       fountainHeight = fountainHeight - decrease;
     }
@@ -185,7 +205,7 @@ $(window).on("the_fountain", () => {
     //Calcul time for transition Background
     diffOne = trialRes.nbOnes - trialRes.nbZeros;
     cumulDiffOne += diffOne;
-    if (xpStarted && Date.now() - cumulTime >= 1000) {
+    if (gameStarted && Date.now() - cumulTime >= 1000) {
       const previousInfluence = positiveInfluence;
       animateInfluenceTransition = true;
       positiveInfluence = cumulDiffOne > 0;
