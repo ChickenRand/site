@@ -275,19 +275,19 @@ $(() => {
   //Add a check if user remove FullScreen
   //And re-ask for fullscreen
   function onFullscreenChange() {
-    if (document.fullscreenElement === null) {
-      if (firstFullScreen) {
-        firstFullScreen = false;
-      } else {
-        onLeaveDuringXp();
-      }
+    if (firstFullScreen) {
+      firstFullScreen = false;
+    } else {
+      onLeaveDuringXp();
     }
   }
 
   $(document).on(
-    "webkitfullscreenchange mozfullscreenchange msfullscreenchange fullscreenchange",
-    onFullscreenChange
+    "webkitfullscreenchange mozfullscreenchange msfullscreenchange fullscreenchange", () => {
+      onFullscreenChange();
+    }
   );
+
   $(document).on("blur", () => {
     if (!firstFullScreen) {
       onLeaveDuringXp();
