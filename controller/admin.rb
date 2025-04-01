@@ -1,5 +1,3 @@
-require 'pony'
-
 class AdminController < Controller
   map '/admin'
   layout :default

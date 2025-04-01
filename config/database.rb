@@ -3,11 +3,7 @@ require 'logger'
 if(ENV['DATABASE_URL'])
   DB = Sequel.connect(ENV['DATABASE_URL'])
 else
-  DB = Sequel.mysql2(
-    'psi_rng',
-    :user=>'root',
-    :password=>'root',
-    :charset=>'utf8')
+  DB = Sequel.sqlite('sqlite://../db/chickenrand.sqlite')
 
 end
 
